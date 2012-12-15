@@ -80,6 +80,10 @@ Application.inherit(cc.Layer, {
         this.game.mouseDragged(event);
     },
     
+    mouseWheel: function() {
+        this.game.mouseWheel(event);
+    },
+    
     // store inputs for realtime requests
     keyDown: function(event) {
         Input.instance.keysDown[event.keyCode] = true;
@@ -166,7 +170,8 @@ Application.inherit(cc.Layer, {
 $(function() {
 
     var director = cc.Director.sharedDirector
-    director.backgroundColor = "rgb(200,200,200)"
+    //director.backgroundColor = "rgb(200,200,200)"
+    director.backgroundColor = "#FFF"
     director.attachInView(document.getElementById('cocos2d-demo'))
     director.displayFPS = true
     
@@ -238,6 +243,12 @@ $(function() {
         scene.addChild(app)
         app.createExampleGame();
         app.scheduleUpdate();
+        
+        $('canvas').bind('mousewheel', function(event, delta) {
+            event.preventDefault();
+            app.mouseWheel(event);
+            return false;
+        });
 
         director.replaceScene(scene)
     });

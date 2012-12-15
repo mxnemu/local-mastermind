@@ -41,16 +41,12 @@ Game.inherit(Object, {
     
         this.map = map;
         this.map.restCamera();
-        this.root.addChild(this.map);  
+        this.root.addChild(this.map);
     },
     
     update: function(dt) {
         this.map.update(dt);
         this.camera.update(dt);
-    },
-    
-    selectEntity: function(entity) {
-        
     },
     
     mouseDragged: function(event) {
@@ -61,9 +57,14 @@ Game.inherit(Object, {
 
     },
     
+    mouseWheel: function(event) {
+        this.camera.scaleByDelta(event.wheelDelta, event);
+    },
+    
     mouseUp: function(event) {
-        var actor = this.map.getEntityOnPosition(event.locationInCanvas, "actor");
-        var building = this.map.getEntityOnPosition(event.locationInCanvas, "building");
+        var point = mouseToCamera(event.locationInCanvas);
+        var actor = this.map.getEntityOnPosition(point, "actor");
+        var building = this.map.getEntityOnPosition(point, "building");
     
     
         if (event.which == 3) {

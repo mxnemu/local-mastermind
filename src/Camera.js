@@ -44,8 +44,24 @@ Camera.inherit(Object, {
             this.game.map.position.y += this.scrollSpeed;
             this.trackedActor = null;
         }
-        
-        
+    },
+    
+    scaleByDelta: function(delta, event) {
+        console.log("scroll"+delta);
+        var scaleDelta = delta * 0.0005;
+        var newScale = this.game.map.scale + scaleDelta;
+        if (newScale > 0) {
+            this.game.map.scale = newScale;
+            if (!this.trackedActor) {
+                var mousePoint = mouseToCamera(new cc.Point(event.pageX, event.pageY));
+                this.centerAt(mousePoint);
+            }
+        }
+    },
+    
+    mouseToCamera: function(point) {
+        return new cc.Point(point.x - this.game.map.position.x,
+                            point.y - this.game.map.position.y)
     }
 });
 

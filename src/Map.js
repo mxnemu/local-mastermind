@@ -87,10 +87,6 @@ Map.inherit(cc.Layer, {
             entities = this.nodes;
         }
         
-        point.x -= this.position.x;
-        point.y -= this.position.y;
-        
-    
         var entity = null;
         $.each(entities, function() {
             var xDistance = Math.abs(point.x - this.position.x);

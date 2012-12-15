@@ -22,6 +22,8 @@ G.defaultTownSettings = {
     buildings: [
         {
             label: "Park",
+            buildingType: "park",
+            groups: ["public"],
             sprite: "images/park.png",
             min: 1,
             max: 1,
@@ -31,12 +33,16 @@ G.defaultTownSettings = {
         },
         {
             label: "Town Hall",
+            buildingType: "townhall",
+            groups: ["townhall"],
             sprite: "images/townhall.png",
             min: 1,
             max: 1,
         },
         {
             label: "Library",
+            buildingType: "library",
+            groups: ["library", "workplace", "public"],
             sprite: "images/library.png",
             min: 1,
             max: 1,
@@ -49,6 +55,8 @@ G.defaultTownSettings = {
         },
         {
             label: "Middle Class House",
+            buildingType: "middleClassHouse",
+            groups: ["home"],
             sprite: "images/middleClassHouse.png",
             min: 1,
             max: 7,
@@ -59,6 +67,8 @@ G.defaultTownSettings = {
         },
         {
             label: "Lower Class House",
+            buildingType: "lowerClassHouse",
+            groups: ["home"],
             sprite: "images/lowerClassHouse.png",
             min: 1,
             max: 10,
@@ -69,6 +79,8 @@ G.defaultTownSettings = {
         },
         {
             label: "Upper Class House",
+            buildingType: "upperClassHouse",
+            groups: ["workplace", "home"],
             sprite: "images/upperClassHouse.png",
             min: 1,
             max: 3,
@@ -81,6 +93,8 @@ G.defaultTownSettings = {
         },
         {
             label: "Small Store",
+            buildingType: "smallStore",
+            groups: ["workplace", "store"],
             sprite: "images/smallStore.png",
             min: 1,
             max: 7,
@@ -93,6 +107,8 @@ G.defaultTownSettings = {
         },
         {
             label: "Office",
+            buildingType: "office",
+            groups: ["workplace"],
             sprite: "images/office.png",
             min: 1,
             max: 2,
@@ -105,6 +121,8 @@ G.defaultTownSettings = {
         },
         {
             label: "Factory",
+            buildingType: "factory",
+            groups: ["workplace"],
             sprite: "images/factory.png",
             min: 1,
             max: 3,

@@ -8,8 +8,11 @@ function Building(spriteName, map, node) {
     this.middleClassJobs = 0;
     this.upperClassJobs = 0;
     
-    spriteName = spriteName || "images/house.png";
-    this.sprite = new cc.Sprite({file: spriteName});
+    if (spriteName) {
+        this.sprite = new cc.Sprite({file: spriteName});
+        this.contentSize = new cc.Size(this.sprite.contentSize.width,
+                                   this.sprite.contentSize.height);
+   }
 }
 
 Building.inherit(cc.Node, {
@@ -19,6 +22,8 @@ Building.inherit(cc.Node, {
         this.buildingType = data.buildingType;
         this.sprite = new cc.Sprite({file: data.sprite});
         this.addChild(this.sprite);
+        this.contentSize = new cc.Size(this.sprite.contentSize.width,
+                                       this.sprite.contentSize.height);
         
         this.lowerClassJobs = data.lowerClassJobs;
         this.middleClassJobs = data.middleClassJobs;
