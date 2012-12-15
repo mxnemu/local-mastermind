@@ -24,6 +24,11 @@ Map.inherit(cc.Layer, {
         this.addChild(actor);
     },
     
+    addBuilding: function(building) {
+        this.buildings.push(building);
+        this.addChild(building);
+    },
+    
     update: function() {
         for (var i=0; i < this.actors.length; ++i) {
             this.actors[i].update();

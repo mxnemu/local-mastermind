@@ -4,6 +4,7 @@ function Game(root) {
     this.ui = new Ui();
     
     // test game
+    /*
     this.map = new Map();
     var nodes = new Array();
     nodes.push(new Node( 100, 100));
@@ -25,11 +26,23 @@ function Game(root) {
     
     this.map.restCamera();
     root.addChild(this.map);
+    */
+    this.setMap(new TownGenerator().create());
     this.camera = new Camera(cc.Director.sharedDirector.winSize, this);
     //this.camera.trackedActor = actor;
 }
 
 Game.inherit(Object, {
+    
+    setMap: function(map) {
+        if (this.map) {
+            this.root.removeChild(this.map);
+        }
+    
+        this.map = map;
+        this.map.restCamera();
+        this.root.addChild(this.map);  
+    },
     
     update: function(dt) {
         this.map.update(dt);
