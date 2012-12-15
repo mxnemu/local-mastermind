@@ -8,7 +8,7 @@
         <script src="lib/cocos2d-beta2.js"></script>
         <script src="lib/box2d.js" defer></script>
         
-        <!-- Ui -->
+        <!-- Utils -->
         <script src="src/Utils.js" defer></script>
         
         <!-- Game -->
@@ -19,7 +19,19 @@
         <script src="src/PhysicsNode.js" defer></script>
         <script src="src/Itembar.js" defer></script>
         <script src="src/FloatingScore.js" defer></script>
+
+        <script src="src/Node.js" defer></script>
+        <script src="src/Actor.js" defer></script>
+        <script src="src/Map.js" defer></script>
         
+        <!-- Ui -->
+        <script src="src/ui/ActionBoxBuilding.js" defer></script>
+        <script src="src/ui/ActionBoxCivilian.js" defer></script>
+        <script src="src/ui/ActionBoxHenchman.js" defer></script>
+        <script src="src/ui/Ui.js" defer></script>
+        
+        <script src="src/Camera.js" defer></script>
+        <script src="src/Game.js" defer></script>
         <script src="src/Application.js" defer></script>
         
         <style>
@@ -40,23 +52,85 @@
             #cocos2d-demo {
                 position:relative;
                 width: 800px; 
-                height: 480px;
+                height: 600px;
             }
+            
+            .villianPortrait {
+                position:absolute;
+                top:492px;
+                left:0px;
+                background-color: #333;
+                width: 100px;
+                height: 100px;
+                border-top: 5px solid #AAA;
+                border-right: 5px solid #AAA;
+                border-top-right-radius:15px;
+                padding-top:3px;
+                padding-right:3px;
+                opacity: 0.9;
+            }
+            
+            .villianPortrait img {
+                max-width: 100px;
+                max-height: 100px;
+            }
+            
+            .statisticsBar {
+                position:absolute;
+                top:539px;
+                left:108px;
+                width: 500px;
+                height: 50px;
+                background-color: #333;
+                border-top: 5px solid #AAA;
+                padding: 3px;
+                opacity: 0.9;
+            }
+            
+            .actionBox {
+                position:absolute;
+                top:492px;
+                left:612px;
+                width: 181px;
+                height: 100px;
+                background-color: #333;
+                border-top: 5px solid #AAA;
+                border-left: 5px solid #AAA;
+                border-top-left-radius:15px;
+                padding-top:3px;
+                padding-left:3px;
+                opacity: 0.9;
+            }
+            
+            .moneyBox {
+                color:green;
+            }
+            
+            
         </style>
     </head>
 
     <body>
         <!--<img src="img/header.png" style="display:block"/> -->
         <div id="cocos2d-demo">
+        
+        </div>
+        
+        <div class="villianPortrait uiOverlay">
+            <img src=""/>
+        </div>
+        <div class="statisticsBar uiOverlay">
+            <span class="moneyBox">
+            <span>$</span><span class="moneyDisplay">0</dpan>
+            </span>
+            <div class="henchmanBox">
+            </div>            
+        </div>
+        <div class="actionBox uiOverlay">
         </div>
         
         <div class="instructions">
         </div>
-        
-        <hr>
-        This application is open source under the zlib license.<br/>
-        It provides a simple base for <a href="http://cocos2d-javascript.org/" target="_blank">cocos2d-javascript</a> games.<br/>
-        Feel free to fork it from <a href="https://github.com/Nehmulos/cocos2d-base-application">github.com/Nehmulos/cocos2d-base-application</a>
         
     </body>
 </html>

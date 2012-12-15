@@ -28,7 +28,10 @@ function Application () {
     this.isMouseEnabled = true;
 
     var s = cc.Director.sharedDirector.winSize
+    console.log(s.width)
+    console.log(s.height)
     
+    /*
     var debugCanvas = document.createElement("canvas");
     $("#cocos2d-demo").append(debugCanvas);
     $(debugCanvas).addClass("debugcanvas")
@@ -39,12 +42,12 @@ function Application () {
     this.world = new b2World(new b2Vec2(0, -10), true);
     this.world.SetContactListener(new CollisionHandler());
     
-    /*
+    
     this.worldborder = new PhysicsNode();
     this.worldborder.type = "worldborder";
     this.worldborder.position = new cc.Point(s.width/2, s.height);
     this.worldborder.createPhysics(this.world, {boundingBox: new cc.Size(s.width+100, s.height*2), isSensor:true, isStatic:true})
-    */
+    
     
     //setup debug draw
     var debugDraw = new b2DebugDraw()
@@ -54,6 +57,7 @@ function Application () {
         debugDraw.SetLineThickness(1.0)
         debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit)
     this.world.SetDebugDraw(debugDraw);
+    */
 }
 
 Application.inherit(cc.Layer, {
@@ -63,6 +67,18 @@ Application.inherit(cc.Layer, {
     timePassedWithoutUpdate: 0,
     frameSecondTimer: 0,
     frameUpdateCounter: 0,
+    
+    mouseDown: function(event) {
+        this.game.mouseDown(event);
+    },
+    
+    mouseUp: function(event) {
+        this.game.mouseUp(event);
+    },
+    
+    mouseDragged: function(event) {
+        this.game.mouseDragged(event);
+    },
     
     // store inputs for realtime requests
     keyDown: function(event) {
@@ -75,43 +91,8 @@ Application.inherit(cc.Layer, {
 
     // Example setup replace it with your own
     createExampleGame: function() {
-        var box = new PhysicsNode();
-        box.type = "box"; // used in CollisionHandler
-        box.position = new cc.Point(400, 400);
-        box.rotation = 25;
-        box.createPhysics(this.world, {boundingBox: new cc.Size(50, 50)});
-        this.addChild(box);
-        
-        var ground = new PhysicsNode();
-        ground.type = "ground";
-        ground.position = new cc.Point(400, 200);
-        ground.createPhysics(this.world, {boundingBox: new cc.Size(400, 10)});
-        
-        var jointDef = new b2RevoluteJointDef();
-        jointDef.Initialize(ground.body, this.world.GetGroundBody(), ground.body.GetPosition());
-        jointDef.MaximalForce = 4000;
-        
-        ground.joint = this.world.CreateJoint(jointDef);
-        
-        // set image. It must be listed in the preloader before.
-        ground.addChild(new cc.Sprite({
-            file: "images/ground.png"
-        }));
-        this.addChild(ground);
-        
-        // called in update loop
-        ground.update = function() {
-            PhysicsNode.prototype.update.call(this);
-            
-            if (Input.instance.keysDown[37]) { // left arrow   
-                this.body.ApplyTorque(200);
-            }
-            if (Input.instance.keysDown[39]) { // right arrow
-                this.body.ApplyTorque(-200);
-            }
-        }
-        
-        $(".instructions").append("use left / right arrow keys to rotate the ground");
+        this.game = new Game(this);
+        Game.instance = this.game;
     },
     
     // Here's the application's mainloop    
@@ -145,13 +126,14 @@ Application.inherit(cc.Layer, {
         }
         */
         
-        this.world.DrawDebugData();
+        //this.world.DrawDebugData();
     },
     
     fixedUpdate: function(dt) {
-        this.world.Step(dt,3, 3);
-        this.world.ClearForces();
+        //this.world.Step(dt,3, 3);
+        //this.world.ClearForces();
         
+        /*
         var body = this.world.GetBodyList();
         while(body) {
         
@@ -168,11 +150,15 @@ Application.inherit(cc.Layer, {
             }
             body = body.GetNext();
         }
-
+        */
+        
+        this.game.update(dt);
+        
         for (var key in this.onPhysicsUpdatedCallbacks) {
             this.onPhysicsUpdatedCallbacks[key]();
             this.onPhysicsUpdatedCallbacks.splice(0, 1);
         }
+        
     }
 })
 
@@ -189,6 +175,18 @@ $(function() {
         e.preventDefault();
     });
     
+    $("canvas").bind('dragstart', function(){
+        return false; 
+    });
+    
+    $(".uiOverlay").bind("contextmenu", function(e) {
+        e.preventDefault();
+    });
+    
+    $(".uiOverlay").bind('dragstart', function(){
+        return false; 
+    });
+    
     preventArrowKeyScrolling();
     
     // I modified lib/cocos2d-beta2.js to make this work
@@ -201,7 +199,8 @@ $(function() {
     
     // list your images here
     // they will be loaded with the loadingscreen before your game starts
-    registerResource("images/ground.png", "image/png");
+    registerResource("images/house.png", "image/png");
+    registerResource("images/person.png", "image/png");
     
     
     function registerAudio(name) {
@@ -214,7 +213,7 @@ $(function() {
     }
     // preload audio files
     // TODO integrate audio loading into the preloader
-    registerAudio("blub");
+    //registerAudio("blub");
     //registerAudio("music");
     //Audiomanager.instance.playMusic("music");
     
