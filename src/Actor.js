@@ -14,6 +14,8 @@ function Actor(node, spriteName, household) {
 
     this.path = [];
     this.speed = 1;
+    this.action = null;
+    this.actionHistory = [];
     
     this.isMouseEnabled = true;
 
@@ -29,12 +31,30 @@ function Actor(node, spriteName, household) {
 }
 
 Actor.inherit(cc.Node, {
+    maxActionHistoryLength: 15,
 
-    update: function() {
-        if (this.path.length > 0) {
-            var node = this.path[0].node;
+    update: function(dt) {
+        
+        if (this.action) {
+            this.action.duration -= dt;
             
-            if (node) {
+            if (this.action.update) {
+                this.action.update(dt);
+            }
+            
+            if (this.action.duration <= 0) {
+                this.addActionToHistory(this.action);
+                console.log("finished" + this.action.name);
+                this.action = this.action.next || null;
+            }
+        } else if (this.path.length > 0) {
+            var node = this.path[0].node;
+            var action = this.path[0].action;
+            
+            if (action) {
+                this.action = action
+                this.path[0].action = null;
+            } else if (node) {
                 var xDistance = Math.abs(node.position.x - this.position.x);
                 var yDistance = Math.abs(node.position.y - this.position.y);
                 
@@ -54,10 +74,7 @@ Actor.inherit(cc.Node, {
                 if (xDistance < this.speed*2 &&
                     yDistance < this.speed*2) {
                     
-                    this.position.x = node.position.x;
-                    this.position.y = node.position.y;
-                    
-                    this.lastNode = node;
+                    this.setAtNode(node);
                     this.path.splice(0,1);
                     
                     if (this.path.length == 0) {
@@ -76,6 +93,15 @@ Actor.inherit(cc.Node, {
                         this.position.y -= deltaY;
                     }
                 }
+            } else {
+                this.path.splice(0,1);
+            } 
+        } else {
+        
+            // search a new goal
+            if (this.job) {
+                this.findPath(this.job.node);
+                this.addActionToPath({name:"work", duration:this.job.worktime});
             }
         }
     },
@@ -84,9 +110,26 @@ Actor.inherit(cc.Node, {
     
     },
     
+    addActionToHistory: function(action) {
+        if (this.actionHistory.length > this.maxActionHistoryLength) {
+            this.actionHistory.splice(0,1);
+        }
+        this.actionHistory.push(action);
+    },
+    
     setAtNode: function(node) {
         this.position = new cc.Point(node.position.x, node.position.y);
         this.node = node;
+    },
+    
+    findPath: function(node) {
+        if (node != this.node) {
+            this.path = this.node.findPath(node);
+        }
+    },
+    
+    addActionToPath: function(action) {
+        this.path.push({node:null, action:action});
     },
     
     addNodeToPath: function(node) {

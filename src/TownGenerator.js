@@ -223,12 +223,15 @@ TownGenerator.inherit(Object, {
                 var actor = this;
                 if (this.role == "worker") {
                     $.each(_this.buildings, function() {
-                        if (this.hire(actor)) {
+                        if (!actor.job && this.hire(actor)) {
                             return;
                         }
                     });
+                    if (!actor.job) {
+                        console.log("could not hire"+ actor.socialClass);
+                    }
                 }
-                this.path = this.node.findPath(randomElementInArray(map.nodes));
+                //this.path = this.node.findPath(randomElementInArray(map.nodes));
                 map.addActor(this);
             });
         });
@@ -251,15 +254,15 @@ TownGenerator.inherit(Object, {
         
         var numberOfThugs = randomInRangearray(data.thug);
         for (var i=0; i < numberOfThugs; ++i) {
-            household.addActor(this.createThug(household));
+            household.addActor(this.createThug(household, data));
         }
         var numberOfWorkers = randomInRangearray(data.worker);
         for (var i=0; i < numberOfWorkers; ++i) {
-            household.addActor(this.createWorker(household))
+            household.addActor(this.createWorker(household, data))
         }
         var numberOfNeets = randomInRangearray(data.neet);
         for (var i=0; i < numberOfNeets; ++i) {
-            household.addActor(this.createNeet(household))
+            household.addActor(this.createNeet(household, data))
         }
         
         this.nameHouseholdMembers(household, data);
@@ -267,21 +270,24 @@ TownGenerator.inherit(Object, {
         return household;
     },
     
-    createThug: function(household) {
+    createThug: function(household, data) {
         var actor = new Actor(household.home.node, "images/thug.png", household);
         actor.role = "thug";
+        actor.socialClass = data.socialClass;
         return actor;
     },
     
-    createWorker: function(household) {
+    createWorker: function(household, data) {
         var actor = new Actor(household.home.node, "images/person.png", household);
         actor.role = "worker";
+        actor.socialClass = data.socialClass;
         return actor;
     },
     
-    createNeet: function(household) {
+    createNeet: function(household, data) {
         var actor = new Actor(household.home.node, "images/person.png", household);
         actor.role = "neet";
+        actor.socialClass = data.socialClass;
         return actor;
     },
     

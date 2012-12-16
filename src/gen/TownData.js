@@ -1,5 +1,6 @@
 G.defaultTownSettings = {
     lowerClassData: {
+        socialClass:"lower",
         //maxSize: 7,
         thug: [1,3],
         worker:[1,4],
@@ -10,7 +11,7 @@ G.defaultTownSettings = {
             "Bart", "Londen", "Bobby", "Charls", "Marilyn", "Ashley"
         ],
         familyNames:[
-            "Baker", "Brewer", "Butcher", "Carter", "Chandler", "Clark",
+            "Baker", "Brewer", "Butcher", "Carter", "Chandler",
             "Collier", "Cooper", "Cook", "Carpenter", "Dyer", "Farmer",
             "Faulkner", "Fisher", "Fletcher", "Fowler", "Fuller", "Glover",
             "Hayward", "Manson"
@@ -18,6 +19,7 @@ G.defaultTownSettings = {
     },
     middleClassData: {
         //maxSize: 5,
+        socialClass:"middle",
         thug: [-1,2],
         worker:[2,3],
         neet:[1,1],
@@ -29,11 +31,12 @@ G.defaultTownSettings = {
         familyNames:[
             "Archer", "Bailey", "Hawkins", "Cutcher", "Meyer", "Hochwart",
             "Mausmann", "Obland", "Dawkins", "Monroe", "Roseveld", "Eisenhauer",
-            "Power"
+            "Power", "Clark"
         ]
     },
     upperClassData: {
         //maxSize: 10,
+        socialClass:"upper",
         thug: [-3,1],
         worker:[1,4],
         neet:[2,5],
@@ -128,6 +131,7 @@ G.defaultTownSettings = {
             nodes: [
                 {x: 0, y: 100, openTo:["left","south","north"]},
             ],
+            worktime: 7,
             upperClassHome: 10,
             middleClassHome: 2,
             middleClassJobs: 2
@@ -142,6 +146,7 @@ G.defaultTownSettings = {
             nodes: [
                 {x: 0, y: 100, openTo:["left","south","north"]},
             ],
+            worktime: 17,
             lowerClassJobs: 3,
             middleClassJobs: 1,
             upperClassJobs: 0
@@ -156,9 +161,10 @@ G.defaultTownSettings = {
             nodes: [
                 {x: 0, y: 100, openTo:["left","south","north"]},
             ],
-            lowerClassJobs: 5,
-            middleClassJobs: 10,
-            upperClassJobs: 3
+            worktime: 14,
+            lowerClassJobs: 2,
+            middleClassJobs: 5,
+            upperClassJobs: 2
         },
         {
             label: "Factory",
@@ -170,6 +176,7 @@ G.defaultTownSettings = {
             nodes: [
                 {x: 0, y: 100, openTo:["left","south","north"]},
             ],
+            worktime: 24,
             lowerClassJobs: 15,
             middleClassJobs: 5,
             upperClassJobs: 1

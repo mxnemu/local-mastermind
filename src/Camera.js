@@ -3,22 +3,22 @@ function Camera(size, game) {
     this.size = size;
     this.game = game;
     this.scrollSpeed = 5;
-    this.trackedActor = null;
+    this.trackedEntity = null;
     this.trackOffset = null;
 }
 
 Camera.inherit(Object, {
     update: function() {
-        if (this.trackedActor) {
-            if (this.trackedActor.destroyed) {
-                this.trackedActor = null;
+        if (this.trackedEntity) {
+            if (this.trackedEntity.destroyed) {
+                this.trackedEntity = null;
             } 
             
-            if (this.trackedActor.map && this.trackedActor.map != this.game.map) {
-                this.game.setMap(this.trackedActor.map);
+            if (this.trackedEntity.map && this.trackedEntity.map != this.game.map) {
+                this.game.setMap(this.trackedEntity.map);
             }
             
-            this.centerAt(this.trackedActor.position);
+            this.centerAt(this.trackedEntity.position);
         }
         
         
@@ -26,22 +26,22 @@ Camera.inherit(Object, {
         // left
         if (Input.instance.keysDown[37] || Input.instance.keysDown[65]) {
             this.game.map.position.x += this.scrollSpeed;
-            this.trackedActor = null;
+            this.trackedEntity = null;
         }
         // right
         if (Input.instance.keysDown[39] || Input.instance.keysDown[68]) {
             this.game.map.position.x -= this.scrollSpeed;
-            this.trackedActor = null;
+            this.trackedEntity = null;
         }
         // up 38
         if (Input.instance.keysDown[38] || Input.instance.keysDown[87]) {
             this.game.map.position.y -= this.scrollSpeed;
-            this.trackedActor = null;
+            this.trackedEntity = null;
         }
         // down 40     
         if (Input.instance.keysDown[40] || Input.instance.keysDown[83]) {
             this.game.map.position.y += this.scrollSpeed;
-            this.trackedActor = null;
+            this.trackedEntity = null;
         }
         
         // + or , to zoom in 107
@@ -57,7 +57,7 @@ Camera.inherit(Object, {
         if (Input.instance.keysDown[67]) {
             this.game.map.position.x = 0;
             this.game.map.position.y = 0;
-            this.trackedActor = null;
+            this.trackedEntity = null;
         }
     },
     
@@ -68,7 +68,7 @@ Camera.inherit(Object, {
         if (newScale > 0 && newScale < 3) {
             var center = this.mouseToCamera(new cc.Point(this.size.width/2, this.size.height/2));
             this.game.map.scale = newScale;
-            if (!this.trackedActor) {
+            if (!this.trackedEntity) {
                 this.centerAt(center); // scale at center is fuggan amazing
             }
         }

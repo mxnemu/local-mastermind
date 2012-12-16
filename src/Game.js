@@ -26,7 +26,8 @@ function Game(root) {
 
     this.setMap(new TownGenerator().create());
     this.camera = new Camera(cc.Director.sharedDirector.winSize, this);
-    //this.camera.trackedActor = actor;
+    this.player = new Player();
+    //this.camera.trackedEntity = actor;
 }
 
 Game.inherit(Object, {
@@ -66,11 +67,9 @@ Game.inherit(Object, {
     
         if (event.which == 3) {
             if (actor) {
-                this.camera.trackedActor = actor;
-                /*
-                this.camera.trackOffset = new cc.Point(actorToTrack.position.x - this.map.position.x,
-                    actorToTrack.position.y - this.map.position.y)
-                */
+                this.camera.trackedEntity = actor;
+            } else  if (building) {
+                this.camera.trackedEntity = building;
             }
         } else if (event.which == 1) {
             if (actor) {

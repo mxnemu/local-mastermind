@@ -29,12 +29,12 @@ Map.inherit(cc.Layer, {
         this.addChild(building);
     },
     
-    update: function() {
+    update: function(dt) {
         for (var i=0; i < this.actors.length; ++i) {
-            this.actors[i].update();
+            this.actors[i].update(dt);
         }
         for (var i=0; i < this.buildings.length; ++i) {
-            this.buildings[i].update();
+            this.buildings[i].update(dt);
         }
     },
     
@@ -101,8 +101,8 @@ Map.inherit(cc.Layer, {
                     firstMatch = this;
                 }
 
-                if (foundCurrent) {
-                    entity = this;     
+                if (foundCurrent && !entity) {
+                    entity = this;
                     return;
                 } else if (this == current) {
                     foundCurrent = true;
