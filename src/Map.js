@@ -75,8 +75,9 @@ Map.inherit(cc.Layer, {
     },
     
     
-    
-    getEntityOnPosition: function(point, entityType) {
+    // if current is given, loop through all matching entities to find the one after
+    // after the currently selected
+    getEntityOnPosition: function(point, entityType, current) {
         entityType = entityType || "actor";
         var entities;
         if (entityType == "actor") {
@@ -87,18 +88,29 @@ Map.inherit(cc.Layer, {
             entities = this.nodes;
         }
         
+        var firstMatch = null;
         var entity = null;
+        var foundCurrent = false;
         $.each(entities, function() {
             var xDistance = Math.abs(point.x - this.position.x);
             var yDistance = Math.abs(point.y - this.position.y);
             if (xDistance < this.contentSize.width/2 &&
                 yDistance < this.contentSize.height/2) {
                 
-                entity = this;
-                return;
+                if (!firstMatch) {
+                    firstMatch = this;
+                }
+
+                if (foundCurrent) {
+                    entity = this;     
+                    return;
+                } else if (this == current) {
+                    foundCurrent = true;
+                }
             }
         });
-        return entity;
+        
+        return entity || firstMatch;
     },
     
     

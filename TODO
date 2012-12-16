@@ -1,7 +1,6 @@
 TODO
-1. write town generator
+
 2. generate thugs and police man
-3. generate normal people
 4. generate daily routine
 4.1 goto place at time, stay there 'til time, goto next place
 5. henchman list
@@ -12,3 +11,8 @@ TODO
 8. hire / threaten nerds to do research for you
 8.1 secure cellphones (the police will not find you on your henchmen cell phones);
 8.2 Smokebombs - they are just cool
+
+
+DONE
+1. write town generator
+3. generate normal people

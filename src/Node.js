@@ -31,8 +31,89 @@ Node.inherit(cc.Node, {
     addConnection: function(connection) {
         if (-1 == $.inArray(connection, this.connections)) {
             this.connections.push(connection);
+            connection.connections.push(this);
         }
-    }
+    },
+    
+    getConnectionsRecursive: function(nodes) {
+        nodes = nodes || [this];
+        for (var i=0; i < this.connections.length; ++i) {
+            if (this.connections[i]) {
+                if (-1 == $.inArray(this.connections[i], nodes)) {
+                    nodes.push(this.connections[i]);
+                    this.connections[i].getConnectionsRecursive(nodes);
+                }
+            }
+        }
+        return nodes;
+    },
+    
+    hasConnectionTo: function(node) {
+        return -1 != $.inArray(node, this.connections);
+    },
+    
+    absoluteDistance: function(node) {
+        return new cc.Point(Math.abs(this.position.x-node.position.x),
+                            Math.abs(this.position.y-node.position.y));
+    },
+    
+    // I just implemented freakin A* from memory that shit'z easy
+    findPath: function(node) {
+        var path = [];
+        var aNodes = [];
+        var closedNodes = [];
+        var addAnode = function(aNode){
+            var found;
+            for (var ii=0; ii < aNodes.length; ++ii) {
+                if (aNodes[ii].node == aNode.node) {
+                    found = true;
+                }
+            }
+            
+            for (var ii=0; ii < closedNodes.length; ++ii) {
+                if (closedNodes[ii].node == aNode.node) {
+                    found = true;
+                }
+            }
+            
+            if (!found) {
+                aNodes.push(aNode);
+            }
+        }
+        
+        
+        aNodes.push({node: this,
+                     heuristic: this.absoluteDistance(node),
+                     last: null});
+                     
+        var j = 0;
+        while (aNodes.length > 0) {
+            var current = aNodes[0];
+            if (current.node != node) {
+                for (var i=0; i < current.node.connections.length; ++i) {
+                    addAnode({node: current.node.connections[i],
+                              heuristic: current.node.connections[i].absoluteDistance(node),
+                              last: current});
+                }
+                closedNodes.push(current);
+                aNodes.splice(j,1);
+                --j;
+                aNodes.sort(function(a,b) { return a.heuristic < b.heuristic});
+            } else {
+                // found that bastard!
+                path.push(current);
+                var l = current.last;
+                while (l) {
+                    path.push({node: l.node});
+                    l = l.last;
+                }
+                path.reverse();
+                return path;
+            }
+            ++j;
+        }
+        return path;
+    },
 });
 
 function ConnectionLine(nodeA, nodeB) {

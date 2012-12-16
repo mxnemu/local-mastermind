@@ -43,19 +43,34 @@ Camera.inherit(Object, {
             this.game.map.position.y += this.scrollSpeed;
             this.trackedActor = null;
         }
+        
+        // + or , to zoom in 107
+        if (Input.instance.keysDown[107] || Input.instance.keysDown[188]) {
+            this.scaleByDelta(40);
+        }
+        // - or . to zoom out 189 also on numpad
+        if (Input.instance.keysDown[189] || Input.instance.keysDown[190] || Input.instance.keysDown[190]) {
+            this.scaleByDelta(-40);
+        }
+        
+        // c reset camera position
+        if (Input.instance.keysDown[67]) {
+            this.game.map.position.x = 0;
+            this.game.map.position.y = 0;
+            this.trackedActor = null;
+        }
     },
     
     scaleByDelta: function(delta, event) {
         
         var scaleDelta = delta * 0.0005;
         var newScale = this.game.map.scale + scaleDelta;
-        if (newScale > 0) {
+        if (newScale > 0 && newScale < 3) {
+            var center = this.mouseToCamera(new cc.Point(this.size.width/2, this.size.height/2));
             this.game.map.scale = newScale;
             if (!this.trackedActor) {
-                var mousePoint = this.mouseToCamera(new cc.Point(event.pageX, event.pageY));
-                //this.centerAt(mousePoint);
+                this.centerAt(center); // scale at center is fuggan amazing
             }
-            console.log(this.game.map.scale)
         }
     },
     

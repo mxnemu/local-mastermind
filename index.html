@@ -21,6 +21,7 @@
         <script src="src/FloatingScore.js" defer></script>
 
         <script src="src/Node.js" defer></script>
+        <script src="src/Household.js" defer></script>
         <script src="src/Actor.js" defer></script>
         <script src="src/Building.js" defer></script>
         <script src="src/Map.js" defer></script>
@@ -46,6 +47,8 @@
                 margin:0;
                 padding:0;
                 background-color: #222;
+                color: #AAA;
+                font-family: Sans, Verdana, Arial;
             }
         
             .debugcanvas {
@@ -112,8 +115,18 @@
                 color:green;
             }
             
+            .uiOverlay {
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            
             
         </style>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     </head>
 
     <body>
@@ -136,6 +149,10 @@
         </div>
         
         <div class="instructions">
+            controls:<br/>
+            wasd / arrow keys:  move camera<br/>
+            +- / ,. : zoom in or out<br/>
+            c : reset camera position
         </div>
         
     </body>

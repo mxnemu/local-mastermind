@@ -10,5 +10,13 @@ Ui.inherit(Object, {
         this.actionBox.createUi();
         $(".villianPortrait img").attr("src", actor.portrait);
         console.log("gothim");
-    }
+    },
+    
+    setSelectedActor: function(actor) {
+        this.entity = actor;
+        this.actionBox = new ActionBoxCivilian(actor);
+        this.actionBox.createUi();
+        $(".villianPortrait img").attr("src", actor.portrait);
+        console.log("gothim");
+    },
 });

@@ -1,22 +1,63 @@
 G.defaultTownSettings = {
-    // stupid hard coded classes
     lowerClassData: {
-        maxSize: 7,
-        thug: [1,5],
-        worker:[1,3],
-        neet:[0,2]
+        //maxSize: 7,
+        thug: [1,3],
+        worker:[1,4],
+        neet:[0,2],
+        
+        firstNames:[
+            "Kevin", "Justin", "Jenny", "Jaquline", "Kanses", "Sidney",
+            "Bart", "Londen", "Bobby", "Charls", "Marilyn", "Ashley"
+        ],
+        familyNames:[
+            "Baker", "Brewer", "Butcher", "Carter", "Chandler", "Clark",
+            "Collier", "Cooper", "Cook", "Carpenter", "Dyer", "Farmer",
+            "Faulkner", "Fisher", "Fletcher", "Fowler", "Fuller", "Glover",
+            "Hayward", "Manson"
+        ]
     },
     middleClassData: {
-        maxSize: 5,
-        thug: [0,3],
+        //maxSize: 5,
+        thug: [-1,2],
         worker:[2,3],
-        neet:[1,1]
+        neet:[1,1],
+        
+        firstNames:[
+            "James", "Jofrey", "Johan", "Charls", "Lisa", "Merry", "Lena", "Lora",
+            "Hanna", "Max"
+        ],
+        familyNames:[
+            "Archer", "Bailey", "Hawkins", "Cutcher", "Meyer", "Hochwart",
+            "Mausmann", "Obland", "Dawkins", "Monroe", "Roseveld", "Eisenhauer",
+            "Power"
+        ]
     },
     upperClassData: {
-        maxSize: 10,
-        thug: [0,2],
+        //maxSize: 10,
+        thug: [-3,1],
         worker:[1,4],
-        neet:[1,10]
+        neet:[2,5],
+        
+        firstNames:[
+            "Lady Lucilia",
+            "Lord MacHauton",
+            "Sir Leopold",
+            "Lord Dorian",
+            "Lord Henry",
+            "Sire Lancelot",
+            "Johann Wolfgang",
+            "Lady Josephine"
+        ],
+        familyNames:[
+            "van Org",
+            "van Hochblut",
+            "van Überwald",
+            "van VeryRichington",
+            "van Gray",
+            "van Gay",
+            "van Wotton",
+            "von Goethe"
+        ]
     },
 
     buildings: [
@@ -58,8 +99,8 @@ G.defaultTownSettings = {
             buildingType: "middleClassHouse",
             groups: ["home"],
             sprite: "images/middleClassHouse.png",
-            min: 1,
-            max: 7,
+            min: 2,
+            max: 8,
             nodes: [
                 {x: 0, y: 100, openTo:["left","south","north"]},
             ],
@@ -70,8 +111,8 @@ G.defaultTownSettings = {
             buildingType: "lowerClassHouse",
             groups: ["home"],
             sprite: "images/lowerClassHouse.png",
-            min: 1,
-            max: 10,
+            min: 3,
+            max: 9,
             nodes: [
                 {x: 0, y: 100, openTo:["left","south","north"]},
             ],
@@ -83,7 +124,7 @@ G.defaultTownSettings = {
             groups: ["workplace", "home"],
             sprite: "images/upperClassHouse.png",
             min: 1,
-            max: 3,
+            max: 4,
             nodes: [
                 {x: 0, y: 100, openTo:["left","south","north"]},
             ],

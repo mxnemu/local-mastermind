@@ -3,7 +3,9 @@ function Game(root) {
     this.entities = [];
     this.ui = new Ui();
     
+
     // test game
+    /*
     var map = new Map();
     var nodes = new Array();
     nodes.push(new Node( 100, 100));
@@ -18,14 +20,11 @@ function Game(root) {
     
     var actor = new Actor(nodes[3]);
     map.addActor(actor);
-    actor.addNodeToPath(nodes[1]);
-    actor.addNodeToPath(nodes[0]);
-    actor.addNodeToPath(nodes[1]);
-    actor.addNodeToPath(nodes[3]);
-    
+    actor.path = nodes[3].findPath(nodes[2]);
     this.setMap(map);
+    */
 
-    //this.setMap(new TownGenerator().create());
+    this.setMap(new TownGenerator().create());
     this.camera = new Camera(cc.Director.sharedDirector.winSize, this);
     //this.camera.trackedActor = actor;
 }
@@ -61,9 +60,8 @@ Game.inherit(Object, {
     
     mouseUp: function(event) {
         var point = this.camera.mouseToCamera(event.locationInCanvas);
-        console.log(""+event.locationInCanvas.x+" "+event.locationInCanvas.y+" be " +point.x +" "+ point.y)
-        var actor = this.map.getEntityOnPosition(point, "actor");
-        var building = this.map.getEntityOnPosition(point, "building");
+        var actor = this.map.getEntityOnPosition(point, "actor", this.ui.entity);
+        var building = this.map.getEntityOnPosition(point, "building", this.ui.entity);
     
     
         if (event.which == 3) {
@@ -77,6 +75,8 @@ Game.inherit(Object, {
         } else if (event.which == 1) {
             if (actor) {
                 this.ui.setSelectedActor(actor);
+            } else if (building) {
+                this.ui.setSelectedBuilding(building);
             }
         }
     }

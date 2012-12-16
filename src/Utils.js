@@ -55,6 +55,11 @@ function randomElementInArray(array) {
     return array[Math.floor(randomInRange(0, array.length))];
 }
 
+/// do not confuse with randomElementInArray this one takes a 2dim array as range
+function randomInRangearray(rangearray) {
+    return randomInRange(rangearray[0], rangearray[1])
+}
+
 // thanks to TheVillageIdiot @ stackoverflow.com
 // http://stackoverflow.com/questions/1056562/stupid-seo
 function preventArrowKeyScrolling() {
