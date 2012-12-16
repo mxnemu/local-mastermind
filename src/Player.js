@@ -11,5 +11,9 @@ Player.inherit(Object, {
     
     modifyMoney: function(difference) {
         this.setMoney(this.money + difference);
+    },
+    
+    hasHenchman: function(actor) {
+        return -1 != $.inArray(actor, this.henchmen);
     }
 });

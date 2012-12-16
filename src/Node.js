@@ -4,6 +4,7 @@ function Node(x, y, connections, actionType) {
     this.position = new cc.Point(x,y);
     this.user = null;
     this.building = null;
+    this.actors = [];
     this.connections = [];
     this.setConnections(connections || []);
     
@@ -48,6 +49,17 @@ Node.inherit(cc.Node, {
         return nodes;
     },
     
+    addActor: function(actor) {
+        this.actors.push(actor);
+    },
+    
+    removeActor: function(actor) {
+        var index = $.inArray(actor, this.actors);
+        if (index != -1) {
+            this.actors.splice(index, 1);
+        }
+    },
+    
     hasConnectionTo: function(node) {
         return -1 != $.inArray(node, this.connections);
     },
@@ -58,6 +70,8 @@ Node.inherit(cc.Node, {
     },
     
     // I just implemented freakin A* from memory that shit'z easy
+    // TODO argh shit forgot about checking which route is ACTUALLY the fastest,
+    // not just via heuristics
     findPath: function(node) {
         var path = [];
         var aNodes = [];

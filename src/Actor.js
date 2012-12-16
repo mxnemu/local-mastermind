@@ -2,6 +2,7 @@ function Actor(node, spriteName, household) {
     Actor.superclass.constructor.call(this);
     this.setAtNode(node)
     this.lastNode = node;
+    this.map = null;
     
     if (household) {
         this.home = household.home;
@@ -13,12 +14,13 @@ function Actor(node, spriteName, household) {
     this.job = null;
 
     this.path = [];
-    this.speed = 1;
+    this.speed = 1.5;
     this.action = null;
     this.actionHistory = [];
     
-    this.isMouseEnabled = true;
-
+    this.influence = 0.0; // influence of the player
+    this.suspicion = 0.0; // suspicion against the player
+    
     this.portrait = spriteName || "images/portrait.png";
     spriteName = spriteName || "images/person.png";
     this.sprite = new cc.Sprite({
@@ -76,9 +78,10 @@ Actor.inherit(cc.Node, {
                     
                     this.setAtNode(node);
                     this.path.splice(0,1);
+                    this.arriveOnNode(node);
                     
                     if (this.path.length == 0) {
-                        this.arrive();
+                        this.arriveOnFinalDestination();
                     }
                 } else {
                     // move
@@ -97,16 +100,21 @@ Actor.inherit(cc.Node, {
                 this.path.splice(0,1);
             } 
         } else {
-        
-            // search a new goal
-            if (this.job) {
-                this.findPath(this.job.node);
-                this.addActionToPath({name:"work", duration:this.job.worktime});
+            if (this.behaviour) {
+                this.behaviour.findNewAction();
             }
         }
     },
     
-    arrive: function() {
+    get hirecost() {
+        return this.baseHireCost * (1-influence);
+    },
+    
+    arriveOnNode: function(node) {
+        
+    },
+    
+    arriveOnFinalDestination: function() {
     
     },
     
@@ -120,6 +128,7 @@ Actor.inherit(cc.Node, {
     setAtNode: function(node) {
         this.position = new cc.Point(node.position.x, node.position.y);
         this.node = node;
+        this.node.addActor(this);
     },
     
     findPath: function(node) {

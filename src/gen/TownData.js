@@ -147,7 +147,7 @@ G.defaultTownSettings = {
                 {x: 0, y: 100, openTo:["left","south","north"]},
             ],
             worktime: 17,
-            lowerClassJobs: 3,
+            lowerClassJobs: 2,
             middleClassJobs: 1,
             upperClassJobs: 0
         },

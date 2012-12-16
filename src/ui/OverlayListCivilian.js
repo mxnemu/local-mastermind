@@ -4,12 +4,12 @@ function OverlayListCivilian(actors) {
 
 OverlayListCivilian.inherit(Object, {
     createUi: function() {
-        $(".overlayList").empty();
+        $(".overlayList .content").empty();
         $.each(this.actors, function() {
             var li = $("<li></li>");
             li.append("<span class='fullName'>"+ this.getFullName() +"</span>");
             
-            $(".overlayList").append(li);
+            $(".overlayList .content").append(li);
         });
     }
 });

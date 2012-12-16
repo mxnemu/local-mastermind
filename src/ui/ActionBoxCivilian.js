@@ -1,5 +1,6 @@
-function ActionBoxCivilian(actor) {
+function ActionBoxCivilian(actor, ui) {
     this.actor = actor;
+    this.ui = ui;
 }
 
 ActionBoxCivilian.inherit(Object, {
@@ -7,6 +8,9 @@ ActionBoxCivilian.inherit(Object, {
         $(".actionBox").empty();
         $(".actionBox").append($("<span>"+ this.actor.getFullName() +"</span>"));
         $(".actionBox").append($("<br/>"));
-        $(".actionBox").append($("<input value='hire' type='button'></input>"));
+        if (!this.ui.player.hasHenchman(this.actor)) {
+            $(".actionBox").append($("<span class='hirecost'>"+this.actor.hireCost+"</span>"))
+            $(".actionBox").append($("<input value='hire' type='button'></input>"));
+        }
     }
 });

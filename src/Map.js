@@ -22,6 +22,7 @@ Map.inherit(cc.Layer, {
     addActor: function(actor) {
         this.actors.push(actor);
         this.addChild(actor);
+        actor.map = this;
     },
     
     addBuilding: function(building) {
@@ -113,7 +114,13 @@ Map.inherit(cc.Layer, {
         return entity || firstMatch;
     },
     
-    
+    findBuildingOfType: function(type) {
+        for (var i=0; i < this.buildings.length; ++i) {
+            if (this.buildings[i].buildingType == type) {
+                return this.buildings[i];
+            }
+        }
+    },
     
     
     getClosestNodeToPosition: function(x,y) {

@@ -1,5 +1,6 @@
-function ActionBoxBuilding(building) {
+function ActionBoxBuilding(building, ui) {
     this.building = building
+    this.ui = ui;
 }
 
 ActionBoxBuilding.inherit(Object, {

@@ -274,6 +274,7 @@ TownGenerator.inherit(Object, {
         var actor = new Actor(household.home.node, "images/thug.png", household);
         actor.role = "thug";
         actor.socialClass = data.socialClass;
+        actor.behaviour = new ThugBehaviour(actor);
         return actor;
     },
     
@@ -281,6 +282,7 @@ TownGenerator.inherit(Object, {
         var actor = new Actor(household.home.node, "images/person.png", household);
         actor.role = "worker";
         actor.socialClass = data.socialClass;
+        actor.behaviour = new WorkerBehaviour(actor);
         return actor;
     },
     
@@ -288,6 +290,7 @@ TownGenerator.inherit(Object, {
         var actor = new Actor(household.home.node, "images/person.png", household);
         actor.role = "neet";
         actor.socialClass = data.socialClass;
+        actor.behaviour = new NeetBehaviour(actor);
         return actor;
     },
     

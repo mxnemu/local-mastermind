@@ -1,8 +1,6 @@
 function Game(root) {
     this.root = root;
     this.entities = [];
-    this.ui = new Ui();
-    
 
     // test game
     /*
@@ -27,6 +25,7 @@ function Game(root) {
     this.setMap(new TownGenerator().create());
     this.camera = new Camera(cc.Director.sharedDirector.winSize, this);
     this.player = new Player();
+    this.ui = new Ui(this.player);
     //this.camera.trackedEntity = actor;
 }
 
@@ -76,6 +75,8 @@ Game.inherit(Object, {
                 this.ui.setSelectedActor(actor);
             } else if (building) {
                 this.ui.setSelectedBuilding(building);
+            } else {
+                this.ui.setSelectedEntity(null);
             }
         }
     }
