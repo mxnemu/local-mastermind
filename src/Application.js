@@ -80,7 +80,7 @@ Application.inherit(cc.Layer, {
         this.game.mouseDragged(event);
     },
     
-    mouseWheel: function() {
+    mouseWheel: function(event) {
         this.game.mouseWheel(event);
     },
     
@@ -208,6 +208,7 @@ $(function() {
     registerResource("images/person.png", "image/png");
     registerResource("images/thug.png", "image/png");
     registerResource("images/neet.png", "image/png");
+    registerResource("images/worker.png", "image/png");
     registerResource("images/lowerClassHouse.png", "image/png");
     registerResource("images/middleClassHouse.png", "image/png");
     registerResource("images/upperClassHouse.png", "image/png");
@@ -231,8 +232,8 @@ $(function() {
     // preload audio files
     // TODO integrate audio loading into the preloader
     //registerAudio("blub");
-    //registerAudio("music");
-    //Audiomanager.instance.playMusic("music");
+    registerAudio("village-tired");
+    Audiomanager.instance.playMusic("village-tired");
     
     // Wait for the director to finish preloading our assets
     cc.addListener(director, 'ready', function (director) {
@@ -247,9 +248,19 @@ $(function() {
         
         $('canvas').bind('mousewheel', function(event, delta) {
             event.preventDefault();
-            app.mouseWheel(event);
+            app.mouseWheel(event.originalEvent);
             return false;
         });
+        
+        // firefox mousewheel event translation workaround
+        $('canvas').get(0).addEventListener("DOMMouseScroll", function(event) {
+            event.preventDefault();
+            // swap to chrome wheel
+            event.wheelDelta = 120*(event.detail > 0 ? -1 : 1);
+            console.log("ff scroll"+event.wheelDelta);
+            app.mouseWheel(event);
+            return false;
+        }, false);
 
         director.replaceScene(scene)
     });

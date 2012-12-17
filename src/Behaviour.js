@@ -8,14 +8,54 @@ Behaviour.inherit(Object, {
     },
     
     defaultActions: function() {
-        if (this.actor.household && this.actor.household.requiresResourceAddition()) {
-            
-            this.actor.findPathToBuildingType("smallShop");
-            this.actor.findPathTo(this.actor.home.node);
+        var _this = this;
+        
+        // sleep
+        if (this.actor.wakefulness < 20) {
+            var sleepRequired = 100 - this.actor.wakefulness;
+            this.actor.findPath(this.actor.home.node);
             this.actor.addActionToPath({
-                name: "restoreResources"
+                name: "sleep",
+                duration: sleepRequired/2,
+                wakefulness:sleepRequired
             })
+            return true;
+        // buy new food
+        } else if (this.actor.household.requiresResourceAddition()) {
+            // carries more stuff from the store if awake
+            this.actor.household.plannedResourceAddition = (this.actor.household.maxResources -
+                                                            this.actor.household.resources) *
+                                                            (100-this.actor.wakefulness);
+            this.actor.findPathToBuildingType("smallStore");
+            this.actor.addActionToPath({
+                name: "shopping",
+                duration: randomInRange(5, 15),
+                onEnd: function() {
+                    _this.actor.findPath(_this.actor.home.node);
+                    _this.actor.addActionToPath({
+                        name: "refillResources",
+                        duration: 5,
+                        onEnd: function() {
+                            _this.actor.household.refillResources();
+                        }
+                    });
+                }
+            });
+            console.log("go shopping");
+            return true;
+        // eat
+        } else if (this.actor.home.node == this.actor.node && this.actor.satiety < 50) {
+            var resourcesEaten = Math.min(100-this.actor.satiety, this.actor.household.resources)
+            this.actor.household.resources -= resourcesEaten;
+            this.actor.addActionToPath({
+                name:"eat",
+                satiety:resourcesEaten,
+                duration: resourcesEaten/5
+            });
+            console.log("eat");
+            return true;
         }
+        
         return false;
     },
     
@@ -27,17 +67,30 @@ Behaviour.inherit(Object, {
 
 function ThugBehaviour(actor) {
     ThugBehaviour.superclass.constructor.call(this, actor);
+    this.lurkTargets = ["smallStore", "library", "park", "random"];
 }
 
 ThugBehaviour.inherit(Behaviour, {
     findNewAction: function() {
+        if (this.defaultActions()) {
+            return;
+        }
+    
         var _this = this;
-        var targetBuildingType = "smallShop";
-        if (this.lastAction != "library") {
-           targetBuildingType = "library";
-        } else
         
-        if (targetType && this.actor.map) {
+        var lurkTargets = this.lurkTargets.slice();
+        for (var i=0; i < lurkTargets; ++i) {
+            if (lurkTargets[i] == this.lastAction) {
+                lurkTargets.splice(i,1);
+                break;
+            }
+        }
+        var targetBuildingType = randomElementInArray(lurkTargets);
+        
+        if (targetBuildingType == "random") {
+            this.actor.findPath(randomElementInArray(this.actor.map.nodes));
+            this.lastAction = targetBuildingType;
+        } else if (targetBuildingType && this.actor.map) {
             var building = this.actor.map.findBuildingOfType(targetBuildingType);
             if (building) {
                 this.actor.findPath(building.node);
@@ -75,10 +128,17 @@ function WorkerBehaviour(actor) {
 
 WorkerBehaviour.inherit(Behaviour, {
     findNewAction: function() {
-        // search a new goal
+        if (this.defaultActions()) {
+            return;
+        }
+        
         if (this.actor.job) {
-            //this.actor.findPath(this.actor.job.node);
-            //this.actor.addActionToPath({name:"work", duration:this.actor.job.worktime});
+            this.actor.findPath(this.actor.job.node);
+            this.actor.addActionToPath({
+                name:"work",
+                duration:this.actor.job.worktime,
+                wakefulness: -(this.actor.job.worktime*2)
+            });
         }
     }
 });
@@ -86,6 +146,7 @@ WorkerBehaviour.inherit(Behaviour, {
 function NeetBehaviour(actor) {
     NeetBehaviour.superclass.constructor.call(this, actor);
     this.lastAction = "";
+    this.lurkTargets = ["smallStore", "library", "park"];
 }
 
 NeetBehaviour.inherit(Behaviour, {
@@ -94,10 +155,14 @@ NeetBehaviour.inherit(Behaviour, {
             return;
         }
         
-        var targetBuildingType = "park";
-        if (this.lastAction != "library") {
-           targetBuildingType = "library";
+        var lurkTargets = this.lurkTargets.slice();
+        for (var i=0; i < lurkTargets; ++i) {
+            if (lurkTargets[i] == this.lastAction) {
+                lurkTargets.splice(i,1);
+                break;
+            }
         }
+        var targetBuildingType = randomElementInArray(lurkTargets);
         
         if (targetBuildingType && this.actor.map) {
             var building = this.actor.map.findBuildingOfType(targetBuildingType);
@@ -107,7 +172,7 @@ NeetBehaviour.inherit(Behaviour, {
             }
         }
         // that's all NEETs do
-        this.actor.addActionToPath({name:"relex", duration:randomInRange(7, 32)});
+        this.actor.addActionToPath({name:"relax", duration:randomInRange(7, 32)});
     }
 });
 

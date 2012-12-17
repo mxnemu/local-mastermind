@@ -2,15 +2,16 @@ function Household(home) {
     this.actors= [];
     this.home = home;
     
-    this.resources = 100;
+    this.resources = 700;
     this.minResources = 10;
-    this.maxResources = 200;
+    this.maxResources = 1000;
     this.plannedResourceAddition = 0;
 }
 
 Household.inherit(Object, {
     addActor: function(actor) {
         this.actors.push(actor);
+        actor.household = this;
     },
     
     refillResources: function() {

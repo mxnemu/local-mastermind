@@ -17,6 +17,8 @@ function Actor(node, spriteName, household) {
     this.speed = 1.5;
     this.action = null;
     this.actionHistory = [];
+    this.satiety = 100;
+    this.wakefulness = 100;
     
     this.influence = 0.0; // influence of the player
     this.suspicion = 0.0; // suspicion against the player
@@ -26,6 +28,8 @@ function Actor(node, spriteName, household) {
     this.sprite = new cc.Sprite({
         file: spriteName
     });
+    
+    this.baseHireCost = 5;
     
     
     this.addChild(this.sprite);
@@ -38,15 +42,25 @@ Actor.inherit(cc.Node, {
     update: function(dt) {
         
         if (this.action) {
-            this.action.duration -= dt;
+            // TODO get proper constructor for actions to get rid of this shit
+            this.action.duration = this.action.duration || 1;
+            this.action.progress = this.action.progress || 0;
+            this.action.progress += dt;
             
             if (this.action.update) {
                 this.action.update(dt);
             }
             
-            if (this.action.duration <= 0) {
+            if (this.action.progress >= this.action.duration) {
                 this.addActionToHistory(this.action);
-                console.log("finished" + this.action.name);
+                // lazy default hunger incr.
+                this.satiety += this.action.satiety || -this.action.duration/5; 
+                this.wakefulness += this.action.wakefulness || -this.action.duration/10;
+                
+                if (this.action.onEnd) {
+                    this.action.onEnd.call(this);
+                }
+                
                 this.action = this.action.next || null;
             }
         } else if (this.path.length > 0) {
@@ -107,7 +121,7 @@ Actor.inherit(cc.Node, {
     },
     
     get hirecost() {
-        return this.baseHireCost * (1-influence);
+        return this.baseHireCost * (1-(this.influence || 0));
     },
     
     arriveOnNode: function(node) {
@@ -116,6 +130,14 @@ Actor.inherit(cc.Node, {
     
     arriveOnFinalDestination: function() {
     
+    },
+    
+    findPathToBuildingType: function(buildingType) {
+        //var building = this.map.findClosestBuildingOfType(buildingType, this.node);
+        var building = this.map.findBuildingOfType(buildingType);
+        if (building) {
+            this.findPath(building.node);
+        }
     },
     
     addActionToHistory: function(action) {
@@ -147,5 +169,20 @@ Actor.inherit(cc.Node, {
     
     getFullName: function() {
         return this.firstName + " " + this.familyName;
+    },
+    
+    /// returns the name of the active action, or the one of the next planned
+    getActionName: function() {
+        if (this.action) {
+            return this.action.name;
+        }
+        
+        for (var i=0; i < this.path.length; ++i) {
+            if (this.path[i].action) {
+                return this.path[i].action.name;
+            }
+        }
+        
+        return "nothing"
     }
 });
