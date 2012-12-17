@@ -14,7 +14,7 @@ function Actor(node, spriteName, household) {
     this.job = null;
 
     this.path = [];
-    this.speed = 3.5;
+    this.speed = 1.5;
     this.action = null;
     this.actionHistory = [];
     this.satiety = 100;
