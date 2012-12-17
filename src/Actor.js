@@ -14,7 +14,7 @@ function Actor(node, spriteName, household) {
     this.job = null;
 
     this.path = [];
-    this.speed = 1.5;
+    this.speed = 3.5;
     this.action = null;
     this.actionHistory = [];
     this.satiety = 100;
@@ -30,6 +30,7 @@ function Actor(node, spriteName, household) {
     });
     
     this.baseHireCost = 5;
+    this.money = 15;
     
     
     this.addChild(this.sprite);
@@ -124,8 +125,17 @@ Actor.inherit(cc.Node, {
         return this.baseHireCost * (1-(this.influence || 0));
     },
     
+    otherActorArrivedAtNode: function(other) {
+        if (this.action && this.action.onOtherArrived) {
+            this.action.onOtherArrived.call(this, other);
+        }
+    },
+    
     arriveOnNode: function(node) {
-        
+        var _this = this;
+        $.each(node.actors, function() {
+            this.otherActorArrivedAtNode(_this);
+        });
     },
     
     arriveOnFinalDestination: function() {
@@ -140,6 +150,18 @@ Actor.inherit(cc.Node, {
         }
     },
     
+    transfereMoney: function(other, sum) {
+        sum = Math.min(this.money, sum);
+        other.money += sum;
+        this.money -= sum;
+        //console.log("transfered $" + sum + " from " + this.getFullName() +
+        //            " to " + other.getFullName());
+    },
+    
+    isInSameHousehold: function(other) {
+        return other.household == this.household;
+    },
+    
     addActionToHistory: function(action) {
         if (this.actionHistory.length > this.maxActionHistoryLength) {
             this.actionHistory.splice(0,1);
@@ -148,6 +170,10 @@ Actor.inherit(cc.Node, {
     },
     
     setAtNode: function(node) {
+        if (this.node) {
+            this.node.removeActor(this);
+        }
+    
         this.position = new cc.Point(node.position.x, node.position.y);
         this.node = node;
         this.node.addActor(this);
@@ -157,6 +183,16 @@ Actor.inherit(cc.Node, {
         if (node != this.node) {
             this.path = this.node.findPath(node);
         }
+    },
+    
+    interjectAction: function(action) {
+        this.action = action;
+        this.insertAction(action);
+    },
+    
+    insertAction: function(action, index) {
+        index = index || 0;
+        this.path.splice(index, 0, {node:null, action:action});
     },
     
     addActionToPath: function(action) {

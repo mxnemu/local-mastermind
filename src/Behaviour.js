@@ -52,7 +52,6 @@ Behaviour.inherit(Object, {
                 satiety:resourcesEaten,
                 duration: resourcesEaten/5
             });
-            console.log("eat");
             return true;
         }
         
@@ -103,18 +102,23 @@ ThugBehaviour.inherit(Behaviour, {
         this.actor.addActionToPath({
             name:"lookForVictims", 
             duration:randomInRange(30, 52),
-            onOtherArrives: function(other) {
+            onOtherArrived: function(other) {
+                if (this.isInSameHousehold(other) || other.role == "thug" || other.role == "police") {
+                    console.log(this.getFullName() + " does not harass " + other.getFullName());
+                    return; // thugs don't steal from thugs, family or police
+                }
+                
                 // i'd just like to interject for a moment
-                _this.interjectAction({
-                    name:"haress",
+                this.interjectAction({
+                    name:"harass",
                     duration: 5
                 });
                 other.insertAction({
-                    name:"getHaressed",
+                    name:"gettingHarassed",
                     duration: 5,
                     onEnd: function() {
                         var harressedMoney = 5;
-                        this.transfereMoney(harressedMoney);
+                        this.transfereMoney(_this.actor, harressedMoney);
                     }
                 });
             }

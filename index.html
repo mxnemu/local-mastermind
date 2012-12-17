@@ -142,6 +142,15 @@
                 overflow: auto;
             }
             
+            .textBelow {
+                width: 800px;
+                text-align:center;
+            }
+            
+            code {
+                font-size: 1.2em;
+            }
+            
         </style>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     </head>
@@ -174,11 +183,28 @@
             </div>
         </div>
         
-        <div class="instructions">
-            controls:<br/>
-            wasd / arrow keys:  move camera<br/>
-            +- / ,. : zoom in or out<br/>
-            c : reset camera position
+        <div class="textBelow">
+            <h1 style=" margin-top:5px; padding-top:0;">Local Mastermind</h1>
+            <code>
+                
+                !!! WARNING !!!<br/>
+                This is not a finished game.<br/>
+                This is a selfmaintaining simulation!<br/>
+                All the ui buttons are not working, yet!<br/>
+                <br/>
+                Move around and watch people doing things, but you can't interject!
+                
+            </code>
+            <br/>
+            <div class="instructions">
+                Controls:
+                <hr/>
+                <b>wasd / arrow keys</b>:  move camera<br/>
+                <b>+- / ,. </b>: zoom in or out<br/>
+                <b>c </b>: reset camera position<br/>
+                <b>rightclick on Entity</b>: follow with camera<br/>
+                <b>leftclick on Entity</b>: select Entity
+            </div>
         </div>
         
     </body>

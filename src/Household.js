@@ -14,6 +14,13 @@ Household.inherit(Object, {
         actor.household = this;
     },
     
+    removeActor: function() {
+        var index = $.inArray()
+        if (index != -1) {
+            this.actors.splice(index, 1);
+        }
+    },
+    
     refillResources: function() {
         this.resources = Math.min(this.resources + this.plannedResourceAddition,
                                   this.maxResources);
