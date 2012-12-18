@@ -1,4 +1,5 @@
 function Action(args) {
+    this.name = args.name;
     this.duration = args.duration || 1;
     this.progress = 0;
     this.satiety = args.satiety || -(this.duration/7);
