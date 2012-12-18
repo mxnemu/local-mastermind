@@ -140,8 +140,8 @@ Actor.inherit(cc.Node, {
     },
     
     findPathToBuildingType: function(buildingType) {
-        //var building = this.map.findClosestBuildingOfType(buildingType, this.node);
-        var building = this.map.findBuildingOfType(buildingType);
+        var building = this.map.findClosestBuildingOfType(buildingType, this.node);
+        //var building = this.map.findBuildingOfType(buildingType);
         if (building) {
             this.findPath(building.node);
         }

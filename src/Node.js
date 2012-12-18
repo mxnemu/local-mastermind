@@ -64,6 +64,17 @@ Node.inherit(cc.Node, {
         return -1 != $.inArray(node, this.connections);
     },
     
+    getDistanceTo: function(node) {
+        var path = this.findPath(node);
+        var distance = 0;
+        var lastNode = this;
+        for (var i=0; i < path.length; ++i) {
+            var d = lastNode.absoluteDistance(path[i].node);
+            distance += Math.max(d.x, d.y); // TODO get it precise
+        }
+        return distance;
+    },
+    
     absoluteDistance: function(node) {
         return new cc.Point(Math.abs(this.position.x-node.position.x),
                             Math.abs(this.position.y-node.position.y));
