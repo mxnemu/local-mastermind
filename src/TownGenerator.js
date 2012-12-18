@@ -218,7 +218,7 @@ TownGenerator.inherit(Object, {
         
         // find jobs you lazy scum!
         $.each(households, function() {
-            
+            var household = this;
             $.each(this.actors, function() {
                 var actor = this;
                 if (this.role == "worker") {
@@ -227,8 +227,11 @@ TownGenerator.inherit(Object, {
                             return;
                         }
                     });
+                    
                     if (!actor.job) {
-                        console.log("could not hire"+ actor.socialClass);
+                        console.log("could not hire "+ actor.socialClass +" so he commited sodoku");
+                        household.removeActor(this);
+                        return;
                     }
                 }
                 //this.path = this.node.findPath(randomElementInArray(map.nodes));
