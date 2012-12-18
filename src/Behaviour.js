@@ -109,18 +109,18 @@ ThugBehaviour.inherit(Behaviour, {
                 }
                 
                 // i'd just like to interject for a moment
-                this.interjectAction({
+                this.interjectAction(new Action({
                     name:"harass",
                     duration: 5
-                });
-                other.insertAction({
+                }));
+                other.insertAction(new Action({
                     name:"gettingHarassed",
                     duration: 5,
                     onEnd: function() {
                         var harressedMoney = 5;
                         this.transfereMoney(_this.actor, harressedMoney);
                     }
-                });
+                }));
             }
         }));
     }
