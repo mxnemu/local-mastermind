@@ -14,11 +14,11 @@ Behaviour.inherit(Object, {
         if (this.actor.wakefulness < 20) {
             var sleepRequired = 100 - this.actor.wakefulness;
             this.actor.findPath(this.actor.home.node);
-            this.actor.addActionToPath({
+            this.actor.addActionToPath(new Action({
                 name: "sleep",
                 duration: sleepRequired/2,
                 wakefulness:sleepRequired
-            })
+            }));
             return true;
         // buy new food
         } else if (this.actor.household.requiresResourceAddition()) {
@@ -27,31 +27,31 @@ Behaviour.inherit(Object, {
                                                             this.actor.household.resources) *
                                                             (100-this.actor.wakefulness);
             this.actor.findPathToBuildingType("smallStore");
-            this.actor.addActionToPath({
+            this.actor.addActionToPath(new Action({
                 name: "shopping",
                 duration: randomInRange(5, 15),
                 onEnd: function() {
                     _this.actor.findPath(_this.actor.home.node);
-                    _this.actor.addActionToPath({
+                    _this.actor.addActionToPath(new Action({
                         name: "refillResources",
                         duration: 5,
                         onEnd: function() {
                             _this.actor.household.refillResources();
                         }
-                    });
+                    }));
                 }
-            });
+            }));
             console.log("go shopping");
             return true;
         // eat
         } else if (this.actor.home.node == this.actor.node && this.actor.satiety < 50) {
             var resourcesEaten = Math.min(100-this.actor.satiety, this.actor.household.resources)
             this.actor.household.resources -= resourcesEaten;
-            this.actor.addActionToPath({
+            this.actor.addActionToPath(new Action({
                 name:"eat",
                 satiety:resourcesEaten,
                 duration: resourcesEaten/5
-            });
+            }));
             return true;
         }
         
@@ -99,7 +99,7 @@ ThugBehaviour.inherit(Behaviour, {
         
         
         // that's all thugs do
-        this.actor.addActionToPath({
+        this.actor.addActionToPath(new Action({
             name:"lookForVictims", 
             duration:randomInRange(30, 52),
             onOtherArrived: function(other) {
@@ -122,7 +122,7 @@ ThugBehaviour.inherit(Behaviour, {
                     }
                 });
             }
-        });
+        }));
     }
 });
 
@@ -138,11 +138,11 @@ WorkerBehaviour.inherit(Behaviour, {
         
         if (this.actor.job) {
             this.actor.findPath(this.actor.job.node);
-            this.actor.addActionToPath({
+            this.actor.addActionToPath(new Action({
                 name:"work",
                 duration:this.actor.job.worktime,
                 wakefulness: -(this.actor.job.worktime*2)
-            });
+            }));
         }
     }
 });
@@ -176,7 +176,10 @@ NeetBehaviour.inherit(Behaviour, {
             }
         }
         // that's all NEETs do
-        this.actor.addActionToPath({name:"relax", duration:randomInRange(7, 32)});
+        this.actor.addActionToPath(new Action({
+            name:"relax", 
+            duration:randomInRange(7, 32)
+        }));
     }
 });
 

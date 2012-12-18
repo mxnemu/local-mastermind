@@ -43,20 +43,17 @@ Actor.inherit(cc.Node, {
     update: function(dt) {
         
         if (this.action) {
-            // TODO get proper constructor for actions to get rid of this shit
-            this.action.duration = this.action.duration || 1;
-            this.action.progress = this.action.progress || 0;
             this.action.progress += dt;
             
             if (this.action.update) {
                 this.action.update(dt);
             }
             
-            if (this.action.progress >= this.action.duration) {
+            if (this.action.isFinished()) {
                 this.addActionToHistory(this.action);
                 // lazy default hunger incr.
-                this.satiety += this.action.satiety || -this.action.duration/5; 
-                this.wakefulness += this.action.wakefulness || -this.action.duration/10;
+                this.satiety += this.action.satiety; 
+                this.wakefulness += this.action.wakefulness;
                 
                 if (this.action.onEnd) {
                     this.action.onEnd.call(this);
