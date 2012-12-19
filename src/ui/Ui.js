@@ -2,6 +2,7 @@ function Ui(player) {
     this.player = player;
     this.entity = null;
     this.actionBox = null;
+    this.tutorial = new Tutorial();
     this.init();
 }
 
@@ -43,5 +44,6 @@ Ui.inherit(Object, {
             $(".overlayList").hide("slow");
         });
         //this.influenceBar = new Progressbar({height: 14, padding});
+        this.tutorial.start();
     }
 });

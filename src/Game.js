@@ -1,35 +1,38 @@
 function Game(root) {
     this.root = root;
     this.entities = [];
-
-    // test game
-    /*
-    var map = new Map();
-    var nodes = new Array();
-    nodes.push(new Node( 100, 100));
-    nodes.push(new Node( 400, 100, [nodes[0]]));
-    nodes.push(new Node( 700, 100, [nodes[1]]));
-    nodes.push(new Node( 400, 400, [nodes[1]]));
-    map.setNodes(nodes);
-    
-    var sprite = new cc.Sprite({file: "images/house.png"});
-    sprite.position = new cc.Point(100, 200);
-    map.addSprite(sprite);
-    
-    var actor = new Actor(nodes[3]);
-    map.addActor(actor);
-    actor.path = nodes[3].findPath(nodes[2]);
-    this.setMap(map);
-    */
-
-    this.setMap(new TownGenerator().create());
-    this.camera = new Camera(cc.Director.sharedDirector.winSize, this);
-    this.player = new Player();
-    this.ui = new Ui(this.player);
-    //this.camera.trackedEntity = actor;
 }
 
 Game.inherit(Object, {
+
+    init: function() {
+        // test game
+        /*
+        var map = new Map();
+        var nodes = new Array();
+        nodes.push(new Node( 100, 100));
+        nodes.push(new Node( 400, 100, [nodes[0]]));
+        nodes.push(new Node( 700, 100, [nodes[1]]));
+        nodes.push(new Node( 400, 400, [nodes[1]]));
+        map.setNodes(nodes);
+        
+        var sprite = new cc.Sprite({file: "images/house.png"});
+        sprite.position = new cc.Point(100, 200);
+        map.addSprite(sprite);
+        
+        var actor = new Actor(nodes[3]);
+        map.addActor(actor);
+        actor.path = nodes[3].findPath(nodes[2]);
+        this.setMap(map);
+        */
+
+        this.setMap(new TownGenerator().create());
+        this.camera = new Camera(cc.Director.sharedDirector.winSize, this);
+        this.player = new Player();
+        this.ui = new Ui(this.player);
+    
+        //this.camera.trackedEntity = actor;
+    },
     
     setMap: function(map) {
         if (this.map) {

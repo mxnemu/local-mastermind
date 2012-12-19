@@ -97,6 +97,7 @@ Application.inherit(cc.Layer, {
     createExampleGame: function() {
         this.game = new Game(this);
         Game.instance = this.game;
+        this.game.init();
     },
     
     // Here's the application's mainloop    

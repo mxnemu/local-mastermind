@@ -1,10 +1,10 @@
 function Tutorial() {
-    this.step = 0;
+    this.step = 1;
     this.progress = 0;
     this.skiped = false;
 }
 
-Tutorial.inherit(Object, function() {
+Tutorial.inherit(Object, {
 
     start: function() {
         this["step" + this.step]();  
@@ -36,7 +36,7 @@ Tutorial.inherit(Object, function() {
         $(".tutorialBox .continueCondition").text(
             "Move with wasd and zoom with ., to continue."
         );
-        
+        /* TODO FIXME let camera fire events
         Game.instance.camera.addEventListener("zoom", function() {
             Game.instance.camera.removeEventListener("zoom", this);
             zoomed = true;
@@ -47,6 +47,7 @@ Tutorial.inherit(Object, function() {
             moved = false;
             nextStep();
         });
+        */
     },
     
     step2: function() {
