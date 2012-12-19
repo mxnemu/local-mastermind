@@ -7,7 +7,7 @@ function Camera(size, game) {
     this.trackOffset = null;
 }
 
-Camera.inherit(Object, {
+Camera.inherit(Observable, {
     update: function() {
         if (this.trackedEntity) {
             if (this.trackedEntity.destroyed) {
@@ -22,25 +22,25 @@ Camera.inherit(Object, {
         }
         
         
-        
+        var moveDelta = new cc.Point(0,0);
         // left
         if (Input.instance.keysDown[37] || Input.instance.keysDown[65]) {
-            this.game.map.position.x += this.scrollSpeed;
+            moveDelta.x += this.scrollSpeed;
             this.trackedEntity = null;
         }
         // right
         if (Input.instance.keysDown[39] || Input.instance.keysDown[68]) {
-            this.game.map.position.x -= this.scrollSpeed;
+            moveDelta.x -= this.scrollSpeed;
             this.trackedEntity = null;
         }
         // up 38
         if (Input.instance.keysDown[38] || Input.instance.keysDown[87]) {
-            this.game.map.position.y -= this.scrollSpeed;
+            moveDelta.y -= this.scrollSpeed;
             this.trackedEntity = null;
         }
         // down 40     
         if (Input.instance.keysDown[40] || Input.instance.keysDown[83]) {
-            this.game.map.position.y += this.scrollSpeed;
+            moveDelta.y += this.scrollSpeed;
             this.trackedEntity = null;
         }
         
@@ -51,6 +51,7 @@ Camera.inherit(Object, {
         // - or . to zoom out 189 also on numpad
         if (Input.instance.keysDown[189] || Input.instance.keysDown[190] || Input.instance.keysDown[190]) {
             this.scaleByDelta(-40);
+            
         }
         
         // c reset camera position
@@ -59,11 +60,17 @@ Camera.inherit(Object, {
             this.game.map.position.y = 0;
             this.trackedEntity = null;
         }
+
+        if (moveDelta.x != 0 || moveDelta.y != 0) {
+            this.fireEvent("move", {delta: moveDelta});
+            this.game.map.position.x += moveDelta.x; 
+            this.game.map.position.y += moveDelta.y; 
+        }       
     },
     
     scaleByDelta: function(delta, event) {
-        
         var scaleDelta = delta * 0.0005;
+        this.fireEvent("zoom", {delta: scaleDelta});
         var newScale = this.game.map.scale + scaleDelta;
         if (newScale > 0 && newScale < 3) {
             var center = this.mouseToCamera(new cc.Point(this.size.width/2, this.size.height/2));

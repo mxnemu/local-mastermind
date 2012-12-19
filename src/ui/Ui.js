@@ -1,4 +1,5 @@
 function Ui(player) {
+    Ui.superclass.constructor.call(this);
     this.player = player;
     this.entity = null;
     this.actionBox = null;
@@ -6,13 +7,14 @@ function Ui(player) {
     this.init();
 }
 
-Ui.inherit(Object, {
+Ui.inherit(Observable, {
     setSelectedActor: function(actor) {
         this.entity = actor;
         this.actionBox = new ActionBoxCivilian(actor, this);
         this.actionBox.createUi();
         $(".villianPortrait img").show();
         $(".villianPortrait img").attr("src", actor.portrait);
+        this.fireEvent("actorSelected", {actor: actor});
     },
     
     setSelectedBuilding: function(building) {
@@ -21,6 +23,7 @@ Ui.inherit(Object, {
         this.actionBox.createUi();
         $(".villianPortrait img").show();
         $(".villianPortrait img").attr("src", building.portrait);
+        this.fireEvent("buildingSelected", {building: building});
     },
     
     setSelectedEntity: function(entity) {
@@ -32,6 +35,7 @@ Ui.inherit(Object, {
             $(".actionBox").empty();
             $(".villianPortrait img").hide();
             $(".villianPortrait img").removeAttr("src");
+            this.fireEvent("unselected", {});
         }
     },
     

@@ -1,5 +1,6 @@
 function Actor(node, spriteName, household) {
     Actor.superclass.constructor.call(this);
+    Observable.prototype.constructor.call(this); // evil multi inheritance
     this.setAtNode(node)
     this.lastNode = node;
     this.map = null;
@@ -182,11 +183,13 @@ Actor.inherit(cc.Node, {
         }
     },
     
+    /// replace the current action and set the next action to the current
     interjectAction: function(action) {
         this.action = action;
         this.insertAction(action);
     },
     
+    /// insert given action at given index. If index is not provided insert at 0
     insertAction: function(action, index) {
         index = index || 0;
         this.path.splice(index, 0, {node:null, action:action});
@@ -219,3 +222,8 @@ Actor.inherit(cc.Node, {
         return "nothing"
     }
 });
+
+// some evil prototype hacking. Friends of linear inheritance look away now!
+Actor.prototype.fireEvent = Observable.prototype.fireEvent;
+Actor.prototype.addObserver = Observable.prototype.addObserver;
+Actor.prototype.removeObserver = Observable.prototype.removeObserver;

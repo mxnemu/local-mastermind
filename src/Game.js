@@ -1,9 +1,10 @@
 function Game(root) {
+    Game.superclass.constructor.call(this);
     this.root = root;
     this.entities = [];
 }
 
-Game.inherit(Object, {
+Game.inherit(Observable, {
 
     init: function() {
         // test game

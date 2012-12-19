@@ -70,3 +70,34 @@
     width: 800px;
     text-align:center;
 }
+
+.tutorialBox {
+    position: absolute;
+    top: 200px;
+    left: 0;
+    width: 200px;
+    background-color: #333;
+    border-top: 3px solid #222;
+    border-right: 3px solid #222;
+    border-bottom: 3px solid #222;
+    border-top-right-radius:15px;
+    border-bottom-right-radius:15px;
+    font-size: 13px;
+    padding: 5px;
+}
+
+.tutorialBox .continueCondition {
+    margin-top: 5px;
+    border-top: 1px dotted #222;  
+    padding-top: 2px;  
+    color: #FFF;
+    font-family: Mono, Sans;
+}
+
+.tutorialBox .titlebar {
+    color:white;
+    font-size: 9px;
+    margin-bottom: 5px;
+    border-bottom: 1px dotted #222;  
+    padding-bottom: 3px;
+}
