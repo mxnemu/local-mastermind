@@ -10,6 +10,6 @@ function Action(args) {
 
 Action.inherit(Object, {
     isFinished: function() {
-        return this.duration >= this.progress;
+        return this.progress >= this.duration;
     }
 });

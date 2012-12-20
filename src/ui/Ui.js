@@ -2,12 +2,24 @@ function Ui(player) {
     Ui.superclass.constructor.call(this);
     this.player = player;
     this.entity = null;
-    this.actionBox = null;
+    this._actionBox = null;
     this.tutorial = new Tutorial();
     this.init();
 }
 
 Ui.inherit(Observable, {
+
+    get actionBox() {
+        return this._actionBox;
+    },
+
+    set actionBox(actionBox) {
+        if (this._actionBox) {
+            this._actionBox.destroy();
+        }
+        this._actionBox = actionBox;
+    },    
+    
     setSelectedActor: function(actor) {
         this.entity = actor;
         this.actionBox = new ActionBoxCivilian(actor, this);

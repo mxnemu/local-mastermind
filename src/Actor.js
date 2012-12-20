@@ -16,7 +16,7 @@ function Actor(node, spriteName, household) {
 
     this.path = [];
     this.speed = 1.5;
-    this.action = null;
+    this._action = null;
     this.actionHistory = [];
     this.satiety = 100;
     this.wakefulness = 100;
@@ -187,6 +187,15 @@ Actor.inherit(cc.Node, {
     interjectAction: function(action) {
         this.action = action;
         this.insertAction(action);
+    },
+    
+    get action() {
+        return this._action;
+    },
+    
+    set action(action) {
+        this._action = action;
+        this.fireEvent("actionChanged", {action: action});
     },
     
     /// insert given action at given index. If index is not provided insert at 0
