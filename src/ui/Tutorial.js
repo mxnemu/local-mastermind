@@ -10,7 +10,7 @@ function Tutorial() {
         $(".tutorialBox").hide("slow");
     });
     
-    $(".tutorialBox .skip").click(function() {
+    $(".tutorialBox .skipButton").click(function() {
         _this.skiped = true;
         $(".tutorialBox").hide("slow");
     });
