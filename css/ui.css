@@ -2,6 +2,9 @@
     position:absolute;
     top:492px;
     left:0px;
+    /* 
+     -webkit-transform: translate: (492px,0px)
+    */
     background-color: #333;
     width: 100px;
     height: 100px;

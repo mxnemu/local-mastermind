@@ -1,5 +1,6 @@
 function TownGenerator() {
     this.buildings = [];
+    this.data = G.defaultTownSettings;
 }
 
 TownGenerator.inherit(Object, {
@@ -17,13 +18,37 @@ TownGenerator.inherit(Object, {
         var buildings = [];
         
         // parse json & generate buildings        
-        $.each(G.defaultTownSettings.buildings, function() {
+        $.each(this.data.buildings, function() {
             for (var i=0; i < randomInRange(this.min, this.max); ++i) {
-                console.log(this.label);
+                //console.log(this.label);
                 var building = new Building();
+                if (this.buildingType == "policeStation") {
                 building.restore(this);
                 buildings.push(building);
-                _this.addLogisticsOfBuilding(building)
+                _this.addLogisticsOfBuilding(building);
+                }
+
+                // ouch this breaks everything
+                /*
+                if (this.destinatedBuildings) {
+                    for (var j=0; j < this.destinatedBuildings.length; ++j) {
+                        for (var k=0; k < randomInRange(this.destinatedBuildings[j].min, this.destinatedBuildings[j].max); ++k) {
+                            var dData = _this.getBuildingDataForType(this.destinatedBuildings[j].buildingType);
+                            if (dData) {
+                                var dbuilding = new Building();
+                                dbuilding.restore(dData);
+                                dbuilding.destinatedWorkplace = this;
+                                buildings.push(dbuilding);
+                                _this.addLogisticsOfBuilding(dbuilding);
+                                console.log("DESTENY")
+                            } else {
+                                console.warn("Can not find buildingData" +
+                                             this.destinatedBuildings[j].buildingType);
+                            }
+                        }
+                    }
+                }
+                */
             }
         });
         
@@ -196,6 +221,16 @@ TownGenerator.inherit(Object, {
         return map;
     },
     
+    getBuildingDataForType: function(type) {
+        var building;
+        $.each(this.data.buildings, function() {
+            if (this.buildingType == type) {
+                building = this;
+                return;
+            }
+        });
+        return building;
+    },
     
     createPopulation: function(map) {
         var _this = this;
@@ -221,15 +256,29 @@ TownGenerator.inherit(Object, {
             var household = this;
             $.each(this.actors, function() {
                 var actor = this;
+                
+                // asign workers
                 if (this.role == "worker") {
-                    $.each(_this.buildings, function() {
-                        if (!actor.job && this.hire(actor)) {
+
+                    // Policeman and goverment people have a desteny!
+                    if (household.destinatedWorkplace) {
+                        console.log("ITZ MA DESTENY!");
+                        if (!actor.job && household.destinatedWorkplace.hire(actor)) {
                             return;
                         }
-                    });
+                    // asign to first best free job
+                    } else {
+                        $.each(_this.buildings, function() {
+                            if (!actor.job && this.hire(actor)) {
+                                return;
+                            }
+                        });
+                     }
                     
+                    // kill workers who can't get a job - life is harsh
                     if (!actor.job) {
-                        console.log("could not hire "+ actor.socialClass +" so he commited sodoku");
+                        console.log("could not hire " + actor.socialClass +
+                                    " so he commited sodoku");
                         household.removeActor(this);
                         return;
                     }
@@ -268,8 +317,13 @@ TownGenerator.inherit(Object, {
             household.addActor(this.createNeet(household, data))
         }
         
+        if (home.destinatedWorkplace) {
+            household.destinatedWorkplace = home.destinatedWorkplace;
+            delete home.destinatedWorkplace;
+        }
+        
         this.nameHouseholdMembers(household, data);
-        console.log(household.familyName+" "+household.actors.length);
+        //console.log(household.familyName+" "+household.actors.length);
         return household;
     },
     
@@ -319,7 +373,6 @@ TownGenerator.inherit(Object, {
         });
     },
     
-        
     addLogisticsOfBuilding: function(building) {
         //TODO
     },

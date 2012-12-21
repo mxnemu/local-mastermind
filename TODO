@@ -1,4 +1,40 @@
-TODO
+Using (n,n,n) for (influence gain, suspicion gain, money gain)
+
+DETAILED TODO
+1. Hire button for thugs
+2. replace thug behaviour with Henchman behaviour
+3. click on henchman -> then click on waypoint, so he walks there
+4. List of actions for the henchman: 
+4.1 make trouble (0,0,0)
+4.2 collect Money (0,1,1)
+4.3 propagate mastermind (1,1,0)
+
+5. Building heists
+5.1 Steal candy from the store (0,0,1)
+5.2 Destroy police files (0,-1,0)
+5.3 squat home (1,1,1)
+
+6. Heist Menu:
+{
+    Action:
+        a
+        b
+        c
+    Henchmen:
+        Smithers
+        Burton
+        Hensington
+    Time:
+        Dropdown-date-picker   
+        Timer in the ui for running heists
+}
+
+7. Police behaviour
+7.1 fire events on map: attract police with node
+7.2 rank priority nodes for the police
+7.3 the police is faster than regular people
+
+BIG TIME PLAN TODO
 
 2. generate thugs and police man
 4. generate daily routine
