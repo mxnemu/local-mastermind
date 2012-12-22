@@ -104,7 +104,6 @@ ThugBehaviour.inherit(Behaviour, {
             duration:randomInRange(30, 52),
             onOtherArrived: function(other) {
                 if (this.isInSameHousehold(other) || other.role == "thug" || other.role == "police") {
-                    console.log(this.getFullName() + " does not harass " + other.getFullName());
                     return; // thugs don't steal from thugs, family or police
                 }
                 
