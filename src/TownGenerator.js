@@ -22,9 +22,11 @@ TownGenerator.inherit(Object, {
         
         // position and connect
         this.positionBuildings(buildGrid, buildGridWidth, buildGridHeight);
-        this.connectBuildings(buildGrid, buildGridWidth, buildGridHeight);
-
         this.addToMap(map);
+        //this.connectBuildingsViaRaycast(map);
+        this.connectBuildingsViaGrid(buildGrid, buildGridWidth, buildGridHeight);
+        map.setNodes(this.nodes);
+        
         
         var populationGenerator = new PopulationGenerator(this.data, this.buildings);
 
@@ -116,7 +118,57 @@ TownGenerator.inherit(Object, {
         }
     },
     
-    connectBuildings: function(buildGrid, buildGridWidth, buildGridHeight) {
+    connectBuildingsViaRaycast: function(map) {
+        var rayCastBuilding = function(position, delta, initial) {
+            for (var i=1; i < 200; ++i) {
+                var p = new cc.Point(position.x + (delta.x*i), position.y + (delta.y*i));
+                var building = map.getEntityOnPosition(p, "building");
+                if (building && building != initial) {
+                    return building;
+                }
+            }
+            return null;
+        }
+    
+        for (var i=0; i < this.buildings.length; ++i) {
+            var building = this.buildings[i];
+            var alreadyConnected = function(o) {
+                if (building.nodel.hasConnectionTo(o.nodel) ||
+                    building.nodel.hasConnectionTo(o.noder) ||
+                    building.noder.hasConnectionTo(o.nodel) ||
+                    building.noder.hasConnectionTo(o.noder)) {
+                    return true;
+                }
+                return false;
+            }
+        
+            // connect left
+            var b = rayCastBuilding(building.nodel.position, new cc.Point(-50,0), building);
+            if (b && !alreadyConnected(b)) {
+                building.nodel.addConnection(b.noder);
+            }
+            
+            // connect right
+            b = rayCastBuilding(building.noder.position, new cc.Point(50,0), building);
+            if (b && !alreadyConnected(b)) {
+                building.noder.addConnection(b.nodel);
+            }
+            
+            // connect above
+            b = rayCastBuilding(building.nodel.position, new cc.Point(0,50), building);
+            if (b && !alreadyConnected(b)) {
+                building.nodel.addConnection(b.nodel);
+            }
+            
+            // connect under
+            b = rayCastBuilding(building.noder.position, new cc.Point(0,-50), building);
+            if (b && !alreadyConnected(b)) {
+                building.noder.addConnection(b.noder);
+            }
+        }
+    },
+    
+    connectBuildingsViaGrid: function(buildGrid, buildGridWidth, buildGridHeight) {
         // connect Nodes
         var getNextBuildingInColumn = function(index, deltaModifier) {
             var isInSameColumn = function(newIndex) {
@@ -203,7 +255,6 @@ TownGenerator.inherit(Object, {
         $.each(this.buildings, function() {
             map.addBuilding(this);
         });
-        map.setNodes(this.nodes);
     },
     
     getBuildingDataForType: function(type) {
