@@ -8,39 +8,51 @@ TownGenerator.inherit(Object, {
         var _this = this;
         var map = new Map();
         
-        this.lowerClassData = G.defaultTownSettings.lowerClassData;
-        this.middleClassData = G.defaultTownSettings.middleClassData;
-        this.upperClassData = G.defaultTownSettings.upperClassData;
+        // generate all town buildings at 0,0 position
+        this.generateBuildings();
         
-        var position = new cc.Point(0,0);
-        var lastPosition = null;
+        // prepare for position and connection        
+        this.nodes = [];
+        var buildGrid = [];
+        var buildGridWidth = Math.floor(this.buildings.length/3);
+        var buildGridHeight = Math.floor(this.buildings.length/3);
+        for (var i=0; i < buildGridWidth*buildGridHeight; ++i) {
+            buildGrid.push(null);
+        }
         
-        var buildings = [];
+        // position and connect
+        this.positionBuildings(buildGrid, buildGridWidth, buildGridHeight);
+        this.connectBuildings(buildGrid, buildGridWidth, buildGridHeight);
+
+        this.addToMap(map);
         
-        // parse json & generate buildings        
+        var populationGenerator = new PopulationGenerator(this.data, this.buildings);
+
+
+        populationGenerator.create(map);        
+        return map;
+    },
+    
+    generateBuildings: function() {
+        var _this = this;
+        // parse json & generate buildings    
         $.each(this.data.buildings, function() {
             for (var i=0; i < randomInRange(this.min, this.max); ++i) {
                 //console.log(this.label);
                 var building = new Building();
                 building.restore(this);
-                buildings.push(building);
+                _this.buildings.push(building);
                 _this.addLogisticsOfBuilding(building);
             }
         });
-        
-        var buildGrid = [];
-        var buildGridWidth = Math.floor(buildings.length/3);
-        var buildGridHeight = Math.floor(buildings.length/3);
-        for (var i=0; i < buildGridWidth*buildGridHeight; ++i) {
-            buildGrid.push(null);
-        }
-        
-        Utils.shuffleArray(buildings);
+    },
+    
+    positionBuildings: function(buildGrid, buildGridWidth, buildGridHeight) {
         
         //TODO this shit needs proper streets
         // insert in to build grid      
         var insertCount = 0;  
-        $.each(buildings, function() {
+        $.each(this.buildings, function() {
             var building = this;
 
             // make sure there is 1 building in each column first            
@@ -68,7 +80,6 @@ TownGenerator.inherit(Object, {
         
         
         // build grid to pixels and disconnected nodes
-        var nodes = [];
         var pos = 0;
         var rowHeight = 0;
         for (var y=0; y < buildGridHeight; ++y) {
@@ -96,14 +107,16 @@ TownGenerator.inherit(Object, {
                                              building.position.y - building.contentSize.height/2);
                     building.nodel.addConnection(building.node);
                     building.noder.addConnection(building.node);
-                    nodes.push(building.nodel);
-                    nodes.push(building.node);
-                    nodes.push(building.noder);
+                    this.nodes.push(building.nodel);
+                    this.nodes.push(building.node);
+                    this.nodes.push(building.noder);
                 }
                 ++pos;
             }
         }
-        
+    },
+    
+    connectBuildings: function(buildGrid, buildGridWidth, buildGridHeight) {
         // connect Nodes
         var getNextBuildingInColumn = function(index, deltaModifier) {
             var isInSameColumn = function(newIndex) {
@@ -184,19 +197,13 @@ TownGenerator.inherit(Object, {
                 ++pos;
             }
         }
-        
-        // insert the result
-        $.each(buildings, function() {
+    },
+    
+    addToMap: function(map) {
+        $.each(this.buildings, function() {
             map.addBuilding(this);
         });
-        map.setNodes(nodes);
-        
-        this.buildings = buildings;
-        
-        var populationGenerator = new PopulationGenerator(this.data, this.buildings);
-        populationGenerator.create(map);
-        
-        return map;
+        map.setNodes(this.nodes);
     },
     
     getBuildingDataForType: function(type) {
