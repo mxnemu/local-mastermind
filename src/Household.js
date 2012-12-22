@@ -14,8 +14,8 @@ Household.inherit(Object, {
         actor.household = this;
     },
     
-    removeActor: function() {
-        var index = $.inArray()
+    removeActor: function(actor) {
+        var index = $.inArray(actor, this.actors);
         if (index != -1) {
             this.actors.splice(index, 1);
         }

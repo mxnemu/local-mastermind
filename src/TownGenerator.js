@@ -22,33 +22,9 @@ TownGenerator.inherit(Object, {
             for (var i=0; i < randomInRange(this.min, this.max); ++i) {
                 //console.log(this.label);
                 var building = new Building();
-                if (this.buildingType == "policeStation") {
                 building.restore(this);
                 buildings.push(building);
                 _this.addLogisticsOfBuilding(building);
-                }
-
-                // ouch this breaks everything
-                /*
-                if (this.destinatedBuildings) {
-                    for (var j=0; j < this.destinatedBuildings.length; ++j) {
-                        for (var k=0; k < randomInRange(this.destinatedBuildings[j].min, this.destinatedBuildings[j].max); ++k) {
-                            var dData = _this.getBuildingDataForType(this.destinatedBuildings[j].buildingType);
-                            if (dData) {
-                                var dbuilding = new Building();
-                                dbuilding.restore(dData);
-                                dbuilding.destinatedWorkplace = this;
-                                buildings.push(dbuilding);
-                                _this.addLogisticsOfBuilding(dbuilding);
-                                console.log("DESTENY")
-                            } else {
-                                console.warn("Can not find buildingData" +
-                                             this.destinatedBuildings[j].buildingType);
-                            }
-                        }
-                    }
-                }
-                */
             }
         });
         
@@ -216,7 +192,9 @@ TownGenerator.inherit(Object, {
         map.setNodes(nodes);
         
         this.buildings = buildings;
-        this.createPopulation(map);
+        
+        var populationGenerator = new PopulationGenerator(this.data, this.buildings);
+        populationGenerator.create(map);
         
         return map;
     },
@@ -230,147 +208,6 @@ TownGenerator.inherit(Object, {
             }
         });
         return building;
-    },
-    
-    createPopulation: function(map) {
-        var _this = this;
-        var households = [];
-        $.each(this.buildings, function() {
-            var household;
-            
-            if (this.upperClassHome > 0) {
-                household = _this.createUpperClassHousehold(this);
-            } else if (this.lowerClassHome > 0) {
-                household = _this.createLowerClassHousehold(this);
-            } else if (this.middleClassHome > 0) {
-                household = _this.createMiddleClassHousehold(this);
-            }
-            
-            if (household) {
-                households.push(household);
-            }
-        });
-        
-        // find jobs you lazy scum!
-        $.each(households, function() {
-            var household = this;
-            $.each(this.actors, function() {
-                var actor = this;
-                
-                // asign workers
-                if (this.role == "worker") {
-
-                    // Policeman and goverment people have a desteny!
-                    if (household.destinatedWorkplace) {
-                        console.log("ITZ MA DESTENY!");
-                        if (!actor.job && household.destinatedWorkplace.hire(actor)) {
-                            return;
-                        }
-                    // asign to first best free job
-                    } else {
-                        $.each(_this.buildings, function() {
-                            if (!actor.job && this.hire(actor)) {
-                                return;
-                            }
-                        });
-                     }
-                    
-                    // kill workers who can't get a job - life is harsh
-                    if (!actor.job) {
-                        console.log("could not hire " + actor.socialClass +
-                                    " so he commited sodoku");
-                        household.removeActor(this);
-                        return;
-                    }
-                }
-                //this.path = this.node.findPath(randomElementInArray(map.nodes));
-                map.addActor(this);
-            });
-        });
-    },
-    
-    createUpperClassHousehold: function(home) {
-        return this.createHousehold(home, this.upperClassData);
-    },
-    
-    createMiddleClassHousehold: function(home) {
-        return this.createHousehold(home, this.middleClassData);
-    },
-    
-    createLowerClassHousehold: function(home) {
-        return this.createHousehold(home, this.lowerClassData);
-    },
-    
-    createHousehold: function(home, data) {
-        var household = new Household(home);
-        
-        var numberOfThugs = randomInRangearray(data.thug);
-        for (var i=0; i < numberOfThugs; ++i) {
-            household.addActor(this.createThug(household, data));
-        }
-        var numberOfWorkers = randomInRangearray(data.worker);
-        for (var i=0; i < numberOfWorkers; ++i) {
-            household.addActor(this.createWorker(household, data))
-        }
-        var numberOfNeets = randomInRangearray(data.neet);
-        for (var i=0; i < numberOfNeets; ++i) {
-            household.addActor(this.createNeet(household, data))
-        }
-        
-        if (home.destinatedWorkplace) {
-            household.destinatedWorkplace = home.destinatedWorkplace;
-            delete home.destinatedWorkplace;
-        }
-        
-        this.nameHouseholdMembers(household, data);
-        //console.log(household.familyName+" "+household.actors.length);
-        return household;
-    },
-    
-    createThug: function(household, data) {
-        var actor = new Actor(household.home.node, "images/thug.png", household);
-        actor.role = "thug";
-        actor.socialClass = data.socialClass;
-        actor.behaviour = new ThugBehaviour(actor);
-        return actor;
-    },
-    
-    createWorker: function(household, data) {
-        var actor = new Actor(household.home.node, "images/worker.png", household);
-        actor.role = "worker";
-        actor.socialClass = data.socialClass;
-        actor.behaviour = new WorkerBehaviour(actor);
-        return actor;
-    },
-    
-    createNeet: function(household, data) {
-        var actor = new Actor(household.home.node, "images/neet.png", household);
-        actor.role = "neet";
-        actor.socialClass = data.socialClass;
-        actor.behaviour = new NeetBehaviour(actor);
-        return actor;
-    },
-    
-    // avoid duplicate family names and duplicate first names in 1 household
-    nameHouseholdMembers: function(household, data) {
-        if (!data.freeLastNames || data.freeLastNames.length == 0) {
-            data.freeLastNames = data.familyNames.slice();
-        }
-        var familyNameIndex = Math.floor(randomInRange(0, data.freeLastNames.length));
-        household.familyName = data.freeLastNames[familyNameIndex];
-        data.freeLastNames.splice(familyNameIndex,1);
-        
-        var freeNames = data.firstNames.slice();
-        $.each(household.actors, function() {
-            if (freeNames.length == 0) {
-                freeNames = data.firstNames.slice();
-            }
-            var nameIndex = Math.floor(randomInRange(0, freeNames.length));
-            this.firstName = freeNames[nameIndex];
-            freeNames.splice(nameIndex,1);
-            
-            this.familyName = household.familyName;
-        });
     },
     
     addLogisticsOfBuilding: function(building) {
