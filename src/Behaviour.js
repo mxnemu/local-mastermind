@@ -184,6 +184,7 @@ NeetBehaviour.inherit(Behaviour, {
 
 function PoliceBehaviour(actor) {
     PoliceBehaviour.superclass.constructor.call(this, actor);
+    this.ignorance = actor.socialClass == "lower" ? 30 : 15;
 }
 
 PoliceBehaviour.inherit(Behaviour, {
