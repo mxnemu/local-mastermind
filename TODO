@@ -1,5 +1,11 @@
 Using (n,n,n) for (influence gain, suspicion gain, money gain)
 
+Unsorted:
+Action cirminal score: 
+    -police shall ignore ciriminal actions under a certain score
+    -bribes increases the the ignored value
+    -if a policeman takes action, they detain all persons on the node and go to the station where the persons get their suspicousness score incresed and a "inJail" action that can not be interjected
+
 DETAILED TODO
 1. Hire button for thugs
 2. replace thug behaviour with Henchman behaviour
