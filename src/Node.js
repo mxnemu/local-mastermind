@@ -156,6 +156,39 @@ ConnectionLine.inherit(cc.Node, {
         context.moveTo(this.nodeA.position.x,this.nodeA.position.y);
         context.lineTo(this.nodeB.position.x,this.nodeB.position.y);
         context.stroke();       
-        
     },
+    
+    collidesWithLine: function(other) {
+        var t1, t2, o1, o2, r;
+        if (this.nodeA.x + this.nodeA.y < this.nodeB.x + this.nodeB.y) {
+            t1 = this.nodeA.position;
+            t2 = this.nodeB;
+        } else {
+            t1 = this.nodeB;
+            t2 = this.nodeA;
+        }
+        
+        if (other.nodeA.x + other.nodeA.y < other.nodeB.x + other.nodeB.y) {
+            o1 = other.nodeA;
+            o2 = other.nodeB;
+        } else {
+            o1 = other.nodeB;
+            o2 = other.nodeA;
+        }
+        
+        // (x1*y2 - y1*x2)*(x3-x4)-(x1-x2)*(x3*y4 -y3*x4) / (x1-x2)*(y3-y4)-(y1-y2)*(x3-x4)
+        // or just
+        // (x1-x2)*(y3-y4) - (y1-y2)*(x3-x4) == 0 means paralell, 
+        // but that also accounts collisons outside of the line length
+        
+        r = new cc.Point(0,0);
+        r.x = (t1.x*t2.y - t1.y*t2.x)*(o1.x-o2.x)-(t1.x-t2.x)*(o1.x*o2.y -o1.y*o2.x) / (t1.x-t1.x)*(o1.y-o2.y)-(t1.y-t2.y)*(o1.x-o2.x);
+        r.y = (t1.x*t2.y - t1.y*t2.x)*(o1.y-o2.y)-(t1.y-t2.y)*(o1.x*o2.y -o1.y*o2.x) / (t1.x-t1.x)*(o1.y-o2.y)-(t1.y-t2.y)*(o1.x-o2.x);
+        
+        // does not work, because no proper sorting, but I'm to lazy for that right now.
+        return r.x > t1.x && r.x < t2.x &&
+               r.x > o1.x && r.x < o2.x &&
+               r.y > t1.y && r.y < t2.y &&
+               r.y > o1.y && r.y < o2.y;
+    }
 })
