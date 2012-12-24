@@ -69,13 +69,10 @@ G.defaultTownSettings = {
             buildingType: "policeStation",
             groups: ["police", "government"],
             sprite: "images/policeStation.png",
-            policeJobs: 5,
+            lowerClassJobs: 2,
+            middleClassJobs: 3,
             min: 1,
             max: 1,
-            destinatedBuildings: [
-                { buildingType: "middleClassHouse", min: 1, max:2},
-                { buildingType: "lowerClassHouse", min: 0, max:1},
-            ]
         },    
         {
             label: "Park",

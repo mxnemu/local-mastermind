@@ -188,6 +188,18 @@ function PoliceBehaviour(actor) {
 
 PoliceBehaviour.inherit(Behaviour, {
     findNewAction: function() {
+        if (this.defaultActions()) {
+            return;
+        }
         
+        // TODO check suspicious heat from map
+        if (this.actor.map) {
+            this.actor.findPath(randomElementInArray(this.actor.map.nodes));
+            
+            this.actor.addActionToPath(new Action({
+                name:"patrol",
+                duration:randomInRange(2, 6)
+            }));
+        }
     }
 });

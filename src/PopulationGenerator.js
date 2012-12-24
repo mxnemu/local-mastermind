@@ -27,6 +27,7 @@ PopulationGenerator.inherit(Object, {
         
         this.asignJobs();
         this.addToMap(map);
+        this.initialRandomRelax();
     },
     
     asignJobs: function() {
@@ -43,6 +44,11 @@ PopulationGenerator.inherit(Object, {
                     // asign to first best free job
                     $.each(_this.buildings, function() {
                         if (!actor.job && this.hire(actor)) {
+                            // TODO put it somewhere where it makes sense. It's 2am now and I don't know shit.
+                            if (this.buildingType == "policeStation") {
+                                _this.replaceWithPoliceman(actor);
+                                console.log("we pulice nuw");
+                            }
                             return;
                         }
                     });
@@ -63,6 +69,14 @@ PopulationGenerator.inherit(Object, {
         $.each(this.households, function() {
             $.each(this.actors, function() {
                 map.addActor(this);
+            });
+        });
+    },
+    
+    initialRandomRelax: function() {
+        $.each(this.households, function() {
+            $.each(this.actors, function() {
+                this.addActionToPath(new Action({name: "relax", duration: randomInRange(0,10)}));
             });
         });
     },
@@ -127,6 +141,15 @@ PopulationGenerator.inherit(Object, {
         actor.socialClass = data.socialClass;
         actor.behaviour = new NeetBehaviour(actor);
         return actor;
+    },
+    
+    replaceWithPoliceman: function(actor) {
+        actor.role = "policeman";
+        actor.removeChild(actor.sprite);
+        actor.sprite = new cc.Sprite({file: "images/policeman.png"});
+        actor.portrait = "images/policeman.png";
+        actor.addChild(actor.sprite);
+        actor.behaviour = new PoliceBehaviour(actor);
     },
     
     // avoid duplicate family names and duplicate first names in 1 household
