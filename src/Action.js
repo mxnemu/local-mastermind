@@ -6,6 +6,7 @@ function Action(args) {
     this.wakefulness = args.wakefulness || -(this.duration/10);
     this.onEnd = args.onEnd || null;
     this.onOtherArrived = args.onOtherArrived || null;
+    this.criminal = args.criminal || null;
 }
 
 Action.inherit(Object, {
