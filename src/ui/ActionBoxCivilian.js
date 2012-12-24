@@ -9,10 +9,16 @@ ActionBoxCivilian.inherit(Object, {
         $(".actionBox").empty();
         $(".actionBox").append($("<span>"+ this.actor.getFullName() +"</span>"));
         $(".actionBox").append($("<br/>"));
-        if (!this.ui.player.hasHenchman(this.actor)) {
+        if (!this.ui.player.hasHenchman(this.actor) && this.actor.role == "thug" || this.actor.role == "nerd") {
+            var hireButton = $("<input value='hire' type='button'></input>");
             $(".actionBox").append($("<span class='hirecost'>$"+this.actor.hirecost+"</span>"))
-            $(".actionBox").append($("<input value='hire' type='button'></input>"));
+            $(".actionBox").append(hireButton);
             $(".actionBox").append($("<br/>"));
+            
+            hireButton.click(function() {
+                _this.ui.player.hire(_this.actor);
+                _this.ui.setSelectedActor(_this.actor);
+            });
         }
         $(".actionBox").append($("<span>Role: </span>"));
         $(".actionBox").append($("<span>"+ this.actor.role +"</span>"));

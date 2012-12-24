@@ -4,6 +4,10 @@ function Player() {
 }
 
 Player.inherit(Object, {
+    get money() {
+        return this._money;
+    },
+
     set money(money) {
         this._money = money;
         $(".moneyDisplay").text(""+money);        
@@ -15,5 +19,11 @@ Player.inherit(Object, {
     
     hasHenchman: function(actor) {
         return -1 != $.inArray(actor, this.henchmen);
+    },
+    
+    hire: function(actor) {
+        this.money -= actor.hirecost;
+        this.henchmen.push(actor);
+        $(".showHenchmenButton").show("slow");
     }
 });

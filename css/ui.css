@@ -48,6 +48,14 @@
     opacity: 0.9;
 }
 
+.statisticsBar .showHenchmenButton {
+    float:right;
+}
+
+.statisticsBar .moneyBox, .statisticsBar .suspicionBox {
+    float:left;
+}
+
 .moneyBox {
     color:green;
 }
