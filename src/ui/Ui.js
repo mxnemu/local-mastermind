@@ -3,7 +3,8 @@ function Ui(player) {
     this.player = player;
     this.entity = null;
     this._actionBox = null;
-    this.statisticsBar = new StatisticsBar();
+    this._overlayList = null;
+    this.statisticsBar = new StatisticsBar(this);
     this.tutorial = new Tutorial(this);
     this.init();
 }
@@ -19,12 +20,28 @@ Ui.inherit(Observable, {
             this._actionBox.destroy();
         }
         this._actionBox = actionBox;
-    },    
+        if (actionBox) {
+            actionBox.createUi();
+        }
+    },   
+    
+    get overlayList() {
+        return this._overlayList;
+    },
+    
+    set overlayList(overlayList) {
+        if (this._overlayList) {
+            this._overlayList.destroy();
+        }
+        this._overlayList = overlayList;
+        if (overlayList) {
+            overlayList.createUi();
+        }
+    }, 
     
     setSelectedActor: function(actor) {
         this.entity = actor;
         this.actionBox = new ActionBoxCivilian(actor, this);
-        this.actionBox.createUi();
         $(".villianPortrait img").show();
         $(".villianPortrait img").attr("src", actor.portrait);
         this.fireEvent("actorSelected", {actor: actor});
@@ -33,7 +50,6 @@ Ui.inherit(Observable, {
     setSelectedBuilding: function(building) {
         this.entity = building;
         this.actionBox = new ActionBoxBuilding(building, this);
-        this.actionBox.createUi();
         $(".villianPortrait img").show();
         $(".villianPortrait img").attr("src", building.portrait);
         this.fireEvent("buildingSelected", {building: building});
@@ -61,6 +77,7 @@ Ui.inherit(Observable, {
             $(".overlayList").hide("slow");
         });
         
+        this.statisticsBar.init();
         //this.influenceBar = new Progressbar({height: 14, padding});
         this.tutorial.start();
     }

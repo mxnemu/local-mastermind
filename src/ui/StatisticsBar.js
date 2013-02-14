@@ -10,7 +10,7 @@ StatisticsBar.inherit(Object, {
         }
         
         $(".showHenchmenButton").click(function() {
-            ui.overlay = new OverlayListHenchmen(_this.ui.player.henchmen);
+            _this.ui.overlayList = new OverlayListHenchmen(_this.ui.player.henchmen);
         });
     }
 });
