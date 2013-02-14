@@ -116,9 +116,11 @@ Node.inherit(cc.Node, {
             var current = aNodes[0];
             if (current.node != node) {
                 for (var i=0; i < current.node.connections.length; ++i) {
-                    addAnode({node: current.node.connections[i],
-                              heuristic: current.node.connections[i].absoluteDistance(node),
-                              last: current});
+                    addAnode({
+                        node: current.node.connections[i],
+                        heuristic: current.node.connections[i].absoluteDistance(node),
+                        last: current
+                    });
                 }
                 closedNodes.push(current);
                 aNodes.splice(j,1);
