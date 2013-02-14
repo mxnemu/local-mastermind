@@ -3,7 +3,8 @@ function Ui(player) {
     this.player = player;
     this.entity = null;
     this._actionBox = null;
-    this.tutorial = new Tutorial();
+    this.statisticsBar = new StatisticsBar();
+    this.tutorial = new Tutorial(this);
     this.init();
 }
 
@@ -59,6 +60,7 @@ Ui.inherit(Observable, {
         $(".overlayList .titlebar .closeButton").click(function() {
             $(".overlayList").hide("slow");
         });
+        
         //this.influenceBar = new Progressbar({height: 14, padding});
         this.tutorial.start();
     }
