@@ -39,14 +39,14 @@ DETAILED TODO
 7.  [ ] Police behaviour
 7.1 [ ] fire events on map: attract police with node
 7.2 [ ] rank priority nodes for the police
-7.3 [ ] the police is faster than regular people
+7.3 [x] the police is faster than regular people
 
 BIG TIME PLAN TODO
 
 2.  [ ] generate thugs and police man
 4.  [ ] generate daily routine
 4.1 [ ] goto place at time, stay there 'til time, goto next place
-5.  [ ] henchman list
+5.  [x] henchman list
 6.  [ ] suspicion / influence values
 6.1 [ ] high suspicion makes it more probably that the authority will find your hq and if you can't defend that you're game's over
 6.2 [ ] high influence increases income and lowers the cost of thugs and police bribes
