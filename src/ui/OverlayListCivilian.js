@@ -12,5 +12,8 @@ OverlayListCivilian.inherit(Object, {
             
             $(".overlayList .content").append(li);
         });
+    },
+    
+    destroy: function() {
     }
 });

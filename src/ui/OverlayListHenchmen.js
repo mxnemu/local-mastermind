@@ -17,5 +17,8 @@ OverlayListHenchmen.inherit(Object, {
             });
         });
         $(".overlayList").show("slow");
+    },
+    
+    destroy: function() {
     }
 });
