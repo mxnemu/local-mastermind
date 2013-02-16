@@ -221,6 +221,7 @@ $(function() {
     registerResource("images/factory.png", "image/png");
     registerResource("images/policeStation.png", "image/png");
     registerResource("images/policeman.png", "image/png");
+    registerResource("images/badge.png", "image/png");
     
     
     

@@ -123,6 +123,20 @@ Actor.inherit(cc.Node, {
         return this.baseHireCost * (1-(this.influence || 0));
     },
     
+    get badge() {
+        return this._badge;
+    },
+    
+    set badge(badge) {
+        if (this.badge) {
+            this.removeChild(this.badge);
+        }
+        this._badge = badge;
+        if (badge) {
+            this.addChild(badge);
+        }
+    },
+    
     otherActorArrivedAtNode: function(other) {
         if (this.action && this.action.onOtherArrived) {
             this.action.onOtherArrived.call(this, other);

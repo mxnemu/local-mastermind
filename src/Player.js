@@ -24,6 +24,8 @@ Player.inherit(Object, {
     hire: function(actor) {
         this.money -= actor.hirecost;
         this.henchmen.push(actor);
+        //TODO make customizable
+        actor.badge = new cc.Sprite({file:"images/badge.png"});
         $(".showHenchmenButton").show("slow");
     }
 });
