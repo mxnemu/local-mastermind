@@ -8,6 +8,7 @@ Action cirminal score:
 
 DETAILED TODO
 1.  [x] Hire button for thugs
+1.1 [x] Hired actors get a cute little armband
 2.  [ ] replace thug behaviour with Henchman behaviour
 3.  [ ] click on henchman -> then click on waypoint, so he walks there
 4.  [ ] List of actions for the henchman: 
