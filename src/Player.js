@@ -1,9 +1,10 @@
 function Player() {
+    Player.superclass.constructor.call(this);
     this.money = 20;
     this.henchmen = [];
 }
 
-Player.inherit(Object, {
+Player.inherit(Observable, {
     get money() {
         return this._money;
     },
@@ -27,5 +28,6 @@ Player.inherit(Object, {
         //TODO make customizable
         actor.badge = new cc.Sprite({file:"images/badge.png"});
         $(".showHenchmenButton").show("slow");
+        this.fireEvent("hire", {actor:actor});
     }
 });

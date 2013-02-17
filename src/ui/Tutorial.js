@@ -90,6 +90,26 @@ Tutorial.inherit(Object, {
     },
     
     step3: function() {
+    var _this = this;
+        this.setProgress(2);
+        $(".tutorialBox .content").get(0).innerHTML =
+            "Click on the hire button in the bottom right<br/>" +
+            "to recruit your first servant."
+        ;
+        $(".tutorialBox .continueCondition").text(
+            "Click on the hire button."
+        );
+        Game.instance.ui.player.addObserver("hire", function(event) {
+            if (event.actor && event.actor.role == "thug") {
+                Game.instance.ui.player.removeObserver("hire", this);
+                _this.step4();
+            } else {
+                console.log("That's not a thug you genious"); // TODO tell via gui
+            }
+        });
+    },
+    
+    step4: function() {
         $(".tutorialBox .content").get(0).innerHTML =
             "Hah this part of the tutorial doesn't exist, yet!<br/>" +
             "Guess you're screwed! <br/>" +
