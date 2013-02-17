@@ -31,6 +31,10 @@ Game.inherit(Observable, {
         this.camera = new Camera(cc.Director.sharedDirector.winSize, this);
         this.player = new Player();
         this.ui = new Ui(this.player);
+        
+        if (this.map.buildings.length > 0) {
+            this.camera.trackedEntity = this.map.buildings[0];
+        }
     
         //this.camera.trackedEntity = actor;
     },
