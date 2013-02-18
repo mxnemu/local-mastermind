@@ -97,6 +97,7 @@ Application.inherit(cc.Layer, {
     createExampleGame: function() {
         this.game = new Game(this);
         Game.instance = this.game;
+        this.game.init();
     },
     
     // Here's the application's mainloop    
@@ -218,6 +219,11 @@ $(function() {
     registerResource("images/library.png", "image/png");
     registerResource("images/office.png", "image/png");
     registerResource("images/factory.png", "image/png");
+    registerResource("images/policeStation.png", "image/png");
+    registerResource("images/policeman.png", "image/png");
+    registerResource("images/badge.png", "image/png");
+    
+    
     
     
     

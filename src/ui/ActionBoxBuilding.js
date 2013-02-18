@@ -13,5 +13,8 @@ ActionBoxBuilding.inherit(Object, {
         $(".actionBox").append($("<input value='charge prot. Money' type='button'></input>"));
         $(".actionBox").append($("<br/>"));
         $(".actionBox").append($("<input value='plot takeover' type='button'></input>"));
+    },
+    
+    destroy: function() {
     }
 });

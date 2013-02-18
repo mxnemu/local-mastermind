@@ -1,4 +1,5 @@
 function OverlayListCivilian(actors) {
+    OverlayListCivilian.superclass.constructor.call(this);
     this.actors = actors
 }
 
@@ -11,5 +12,8 @@ OverlayListCivilian.inherit(Object, {
             
             $(".overlayList .content").append(li);
         });
+    },
+    
+    destroy: function() {
     }
 });

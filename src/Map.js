@@ -122,6 +122,21 @@ Map.inherit(cc.Layer, {
         }
     },
     
+    findClosestBuildingOfType: function(type, node) {
+        var closest;
+        var closestDistance = -1;
+        for (var i=0; i < this.buildings.length; ++i) {
+            if (this.buildings[i].buildingType == type) {
+                var distance = node.getDistanceTo(this.buildings[i].node);
+                if (!closest || closestDistance < distance) {
+                    closest = this.buildings[i];
+                    closestDistance = distance;
+                }
+            }
+        }
+        return closest;
+    },
+    
     
     getClosestNodeToPosition: function(x,y) {
         var closestNode = null;

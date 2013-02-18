@@ -1,5 +1,6 @@
 function TownGenerator() {
     this.buildings = [];
+    this.data = G.defaultTownSettings;
 }
 
 TownGenerator.inherit(Object, {
@@ -7,39 +8,53 @@ TownGenerator.inherit(Object, {
         var _this = this;
         var map = new Map();
         
-        this.lowerClassData = G.defaultTownSettings.lowerClassData;
-        this.middleClassData = G.defaultTownSettings.middleClassData;
-        this.upperClassData = G.defaultTownSettings.upperClassData;
+        // generate all town buildings at 0,0 position
+        this.generateBuildings();
         
-        var position = new cc.Point(0,0);
-        var lastPosition = null;
-        
-        var buildings = [];
-        
-        // parse json & generate buildings        
-        $.each(G.defaultTownSettings.buildings, function() {
-            for (var i=0; i < randomInRange(this.min, this.max); ++i) {
-                console.log(this.label);
-                var building = new Building();
-                building.restore(this);
-                buildings.push(building);
-                _this.addLogisticsOfBuilding(building)
-            }
-        });
-        
+        // prepare for position and connection        
+        this.nodes = [];
         var buildGrid = [];
-        var buildGridWidth = Math.floor(buildings.length/3);
-        var buildGridHeight = Math.floor(buildings.length/3);
+        var buildGridWidth = Math.floor(this.buildings.length/3);
+        var buildGridHeight = Math.floor(this.buildings.length/3);
         for (var i=0; i < buildGridWidth*buildGridHeight; ++i) {
             buildGrid.push(null);
         }
         
-        Utils.shuffleArray(buildings);
+        // position and connect
+        this.positionBuildings(buildGrid, buildGridWidth, buildGridHeight);
+        this.addToMap(map);
+        //this.connectBuildingsViaRaycast(map);
+        this.connectBuildingsViaGrid(buildGrid, buildGridWidth, buildGridHeight);
+        map.setNodes(this.nodes);
+        
+        
+        var populationGenerator = new PopulationGenerator(this.data, this.buildings);
+
+
+        populationGenerator.create(map);        
+        return map;
+    },
+    
+    generateBuildings: function() {
+        var _this = this;
+        // parse json & generate buildings    
+        $.each(this.data.buildings, function() {
+            for (var i=0; i < randomInRange(this.min, this.max); ++i) {
+                //console.log(this.label);
+                var building = new Building();
+                building.restore(this);
+                _this.buildings.push(building);
+                _this.addLogisticsOfBuilding(building);
+            }
+        });
+    },
+    
+    positionBuildings: function(buildGrid, buildGridWidth, buildGridHeight) {
         
         //TODO this shit needs proper streets
         // insert in to build grid      
         var insertCount = 0;  
-        $.each(buildings, function() {
+        $.each(this.buildings, function() {
             var building = this;
 
             // make sure there is 1 building in each column first            
@@ -67,7 +82,6 @@ TownGenerator.inherit(Object, {
         
         
         // build grid to pixels and disconnected nodes
-        var nodes = [];
         var pos = 0;
         var rowHeight = 0;
         for (var y=0; y < buildGridHeight; ++y) {
@@ -95,14 +109,66 @@ TownGenerator.inherit(Object, {
                                              building.position.y - building.contentSize.height/2);
                     building.nodel.addConnection(building.node);
                     building.noder.addConnection(building.node);
-                    nodes.push(building.nodel);
-                    nodes.push(building.node);
-                    nodes.push(building.noder);
+                    this.nodes.push(building.nodel);
+                    this.nodes.push(building.node);
+                    this.nodes.push(building.noder);
                 }
                 ++pos;
             }
         }
+    },
+    
+    connectBuildingsViaRaycast: function(map) {
+        var rayCastBuilding = function(position, delta, initial) {
+            for (var i=1; i < 200; ++i) {
+                var p = new cc.Point(position.x + (delta.x*i), position.y + (delta.y*i));
+                var building = map.getEntityOnPosition(p, "building");
+                if (building && building != initial) {
+                    return building;
+                }
+            }
+            return null;
+        }
+    
+        for (var i=0; i < this.buildings.length; ++i) {
+            var building = this.buildings[i];
+            var alreadyConnected = function(o) {
+                if (building.nodel.hasConnectionTo(o.nodel) ||
+                    building.nodel.hasConnectionTo(o.noder) ||
+                    building.noder.hasConnectionTo(o.nodel) ||
+                    building.noder.hasConnectionTo(o.noder)) {
+                    return true;
+                }
+                return false;
+            }
         
+            // connect left
+            var b = rayCastBuilding(building.nodel.position, new cc.Point(-50,0), building);
+            if (b && !alreadyConnected(b)) {
+                building.nodel.addConnection(b.noder);
+            }
+            
+            // connect right
+            b = rayCastBuilding(building.noder.position, new cc.Point(50,0), building);
+            if (b && !alreadyConnected(b)) {
+                building.noder.addConnection(b.nodel);
+            }
+            
+            // connect above
+            b = rayCastBuilding(building.nodel.position, new cc.Point(0,50), building);
+            if (b && !alreadyConnected(b)) {
+                building.nodel.addConnection(b.nodel);
+            }
+            
+            // connect under
+            b = rayCastBuilding(building.noder.position, new cc.Point(0,-50), building);
+            if (b && !alreadyConnected(b)) {
+                building.noder.addConnection(b.noder);
+            }
+        }
+    },
+    
+    connectBuildingsViaGrid: function(buildGrid, buildGridWidth, buildGridHeight) {
         // connect Nodes
         var getNextBuildingInColumn = function(index, deltaModifier) {
             var isInSameColumn = function(newIndex) {
@@ -183,140 +249,25 @@ TownGenerator.inherit(Object, {
                 ++pos;
             }
         }
-        
-        // insert the result
-        $.each(buildings, function() {
+    },
+    
+    addToMap: function(map) {
+        $.each(this.buildings, function() {
             map.addBuilding(this);
         });
-        map.setNodes(nodes);
-        
-        this.buildings = buildings;
-        this.createPopulation(map);
-        
-        return map;
     },
     
-    
-    createPopulation: function(map) {
-        var _this = this;
-        var households = [];
-        $.each(this.buildings, function() {
-            var household;
-            
-            if (this.upperClassHome > 0) {
-                household = _this.createUpperClassHousehold(this);
-            } else if (this.lowerClassHome > 0) {
-                household = _this.createLowerClassHousehold(this);
-            } else if (this.middleClassHome > 0) {
-                household = _this.createMiddleClassHousehold(this);
-            }
-            
-            if (household) {
-                households.push(household);
+    getBuildingDataForType: function(type) {
+        var building;
+        $.each(this.data.buildings, function() {
+            if (this.buildingType == type) {
+                building = this;
+                return;
             }
         });
-        
-        // find jobs you lazy scum!
-        $.each(households, function() {
-            
-            $.each(this.actors, function() {
-                var actor = this;
-                if (this.role == "worker") {
-                    $.each(_this.buildings, function() {
-                        if (!actor.job && this.hire(actor)) {
-                            return;
-                        }
-                    });
-                    if (!actor.job) {
-                        console.log("could not hire"+ actor.socialClass);
-                    }
-                }
-                //this.path = this.node.findPath(randomElementInArray(map.nodes));
-                map.addActor(this);
-            });
-        });
+        return building;
     },
     
-    createUpperClassHousehold: function(home) {
-        return this.createHousehold(home, this.upperClassData);
-    },
-    
-    createMiddleClassHousehold: function(home) {
-        return this.createHousehold(home, this.middleClassData);
-    },
-    
-    createLowerClassHousehold: function(home) {
-        return this.createHousehold(home, this.lowerClassData);
-    },
-    
-    createHousehold: function(home, data) {
-        var household = new Household(home);
-        
-        var numberOfThugs = randomInRangearray(data.thug);
-        for (var i=0; i < numberOfThugs; ++i) {
-            household.addActor(this.createThug(household, data));
-        }
-        var numberOfWorkers = randomInRangearray(data.worker);
-        for (var i=0; i < numberOfWorkers; ++i) {
-            household.addActor(this.createWorker(household, data))
-        }
-        var numberOfNeets = randomInRangearray(data.neet);
-        for (var i=0; i < numberOfNeets; ++i) {
-            household.addActor(this.createNeet(household, data))
-        }
-        
-        this.nameHouseholdMembers(household, data);
-        console.log(household.familyName+" "+household.actors.length);
-        return household;
-    },
-    
-    createThug: function(household, data) {
-        var actor = new Actor(household.home.node, "images/thug.png", household);
-        actor.role = "thug";
-        actor.socialClass = data.socialClass;
-        actor.behaviour = new ThugBehaviour(actor);
-        return actor;
-    },
-    
-    createWorker: function(household, data) {
-        var actor = new Actor(household.home.node, "images/worker.png", household);
-        actor.role = "worker";
-        actor.socialClass = data.socialClass;
-        actor.behaviour = new WorkerBehaviour(actor);
-        return actor;
-    },
-    
-    createNeet: function(household, data) {
-        var actor = new Actor(household.home.node, "images/neet.png", household);
-        actor.role = "neet";
-        actor.socialClass = data.socialClass;
-        actor.behaviour = new NeetBehaviour(actor);
-        return actor;
-    },
-    
-    // avoid duplicate family names and duplicate first names in 1 household
-    nameHouseholdMembers: function(household, data) {
-        if (!data.freeLastNames || data.freeLastNames.length == 0) {
-            data.freeLastNames = data.familyNames.slice();
-        }
-        var familyNameIndex = Math.floor(randomInRange(0, data.freeLastNames.length));
-        household.familyName = data.freeLastNames[familyNameIndex];
-        data.freeLastNames.splice(familyNameIndex,1);
-        
-        var freeNames = data.firstNames.slice();
-        $.each(household.actors, function() {
-            if (freeNames.length == 0) {
-                freeNames = data.firstNames.slice();
-            }
-            var nameIndex = Math.floor(randomInRange(0, freeNames.length));
-            this.firstName = freeNames[nameIndex];
-            freeNames.splice(nameIndex,1);
-            
-            this.familyName = household.familyName;
-        });
-    },
-    
-        
     addLogisticsOfBuilding: function(building) {
         //TODO
     },

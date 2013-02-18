@@ -1,5 +1,6 @@
 function Actor(node, spriteName, household) {
     Actor.superclass.constructor.call(this);
+    Observable.prototype.constructor.call(this); // evil multi inheritance
     this.setAtNode(node)
     this.lastNode = node;
     this.map = null;
@@ -15,7 +16,7 @@ function Actor(node, spriteName, household) {
 
     this.path = [];
     this.speed = 1.5;
-    this.action = null;
+    this._action = null;
     this.actionHistory = [];
     this.satiety = 100;
     this.wakefulness = 100;
@@ -43,20 +44,17 @@ Actor.inherit(cc.Node, {
     update: function(dt) {
         
         if (this.action) {
-            // TODO get proper constructor for actions to get rid of this shit
-            this.action.duration = this.action.duration || 1;
-            this.action.progress = this.action.progress || 0;
             this.action.progress += dt;
             
             if (this.action.update) {
                 this.action.update(dt);
             }
             
-            if (this.action.progress >= this.action.duration) {
+            if (this.action.isFinished()) {
                 this.addActionToHistory(this.action);
                 // lazy default hunger incr.
-                this.satiety += this.action.satiety || -this.action.duration/5; 
-                this.wakefulness += this.action.wakefulness || -this.action.duration/10;
+                this.satiety += this.action.satiety; 
+                this.wakefulness += this.action.wakefulness;
                 
                 if (this.action.onEnd) {
                     this.action.onEnd.call(this);
@@ -125,6 +123,20 @@ Actor.inherit(cc.Node, {
         return this.baseHireCost * (1-(this.influence || 0));
     },
     
+    get badge() {
+        return this._badge;
+    },
+    
+    set badge(badge) {
+        if (this.badge) {
+            this.removeChild(this.badge);
+        }
+        this._badge = badge;
+        if (badge) {
+            this.addChild(badge);
+        }
+    },
+    
     otherActorArrivedAtNode: function(other) {
         if (this.action && this.action.onOtherArrived) {
             this.action.onOtherArrived.call(this, other);
@@ -143,8 +155,8 @@ Actor.inherit(cc.Node, {
     },
     
     findPathToBuildingType: function(buildingType) {
-        //var building = this.map.findClosestBuildingOfType(buildingType, this.node);
-        var building = this.map.findBuildingOfType(buildingType);
+        var building = this.map.findClosestBuildingOfType(buildingType, this.node);
+        //var building = this.map.findBuildingOfType(buildingType);
         if (building) {
             this.findPath(building.node);
         }
@@ -185,11 +197,22 @@ Actor.inherit(cc.Node, {
         }
     },
     
+    /// replace the current action and set the next action to the current
     interjectAction: function(action) {
         this.action = action;
         this.insertAction(action);
     },
     
+    get action() {
+        return this._action;
+    },
+    
+    set action(action) {
+        this._action = action;
+        this.fireEvent("actionChanged", {action: action});
+    },
+    
+    /// insert given action at given index. If index is not provided insert at 0
     insertAction: function(action, index) {
         index = index || 0;
         this.path.splice(index, 0, {node:null, action:action});
@@ -222,3 +245,8 @@ Actor.inherit(cc.Node, {
         return "nothing"
     }
 });
+
+// some evil prototype hacking. Friends of linear inheritance look away now!
+Actor.prototype.fireEvent = Observable.prototype.fireEvent;
+Actor.prototype.addObserver = Observable.prototype.addObserver;
+Actor.prototype.removeObserver = Observable.prototype.removeObserver;

@@ -65,20 +65,27 @@ G.defaultTownSettings = {
 
     buildings: [
         {
+            label: "Police Station",
+            buildingType: "policeStation",
+            groups: ["police", "government"],
+            sprite: "images/policeStation.png",
+            lowerClassJobs: 2,
+            middleClassJobs: 3,
+            min: 1,
+            max: 1,
+        },    
+        {
             label: "Park",
             buildingType: "park",
             groups: ["public"],
             sprite: "images/park.png",
             min: 1,
             max: 1,
-            nodes: [
-                {x: 0, y: 100, openTo:["left","south","north"]},
-            ]
         },
         {
             label: "Town Hall",
             buildingType: "townhall",
-            groups: ["townhall"],
+            groups: ["government"],
             sprite: "images/townhall.png",
             min: 1,
             max: 1,
@@ -90,9 +97,6 @@ G.defaultTownSettings = {
             sprite: "images/library.png",
             min: 1,
             max: 1,
-            nodes: [
-                
-            ],
             lowerClassJobs: 1,
             middleClassJobs: 2,
             upperClassJobs: 0
@@ -104,9 +108,6 @@ G.defaultTownSettings = {
             sprite: "images/middleClassHouse.png",
             min: 2,
             max: 8,
-            nodes: [
-                {x: 0, y: 100, openTo:["left","south","north"]},
-            ],
             middleClassHome: 5
         },
         {
@@ -116,9 +117,6 @@ G.defaultTownSettings = {
             sprite: "images/lowerClassHouse.png",
             min: 3,
             max: 9,
-            nodes: [
-                {x: 0, y: 100, openTo:["left","south","north"]},
-            ],
             lowerClassHome: 7
         },
         {
@@ -128,9 +126,6 @@ G.defaultTownSettings = {
             sprite: "images/upperClassHouse.png",
             min: 1,
             max: 4,
-            nodes: [
-                {x: 0, y: 100, openTo:["left","south","north"]},
-            ],
             worktime: 7,
             upperClassHome: 10,
             middleClassHome: 2,
@@ -143,9 +138,6 @@ G.defaultTownSettings = {
             sprite: "images/smallStore.png",
             min: 1,
             max: 7,
-            nodes: [
-                {x: 0, y: 100, openTo:["left","south","north"]},
-            ],
             worktime: 17,
             lowerClassJobs: 2,
             middleClassJobs: 1,
@@ -158,9 +150,6 @@ G.defaultTownSettings = {
             sprite: "images/office.png",
             min: 1,
             max: 2,
-            nodes: [
-                {x: 0, y: 100, openTo:["left","south","north"]},
-            ],
             worktime: 14,
             lowerClassJobs: 2,
             middleClassJobs: 5,
@@ -173,9 +162,6 @@ G.defaultTownSettings = {
             sprite: "images/factory.png",
             min: 1,
             max: 3,
-            nodes: [
-                {x: 0, y: 100, openTo:["left","south","north"]},
-            ],
             worktime: 24,
             lowerClassJobs: 15,
             middleClassJobs: 5,

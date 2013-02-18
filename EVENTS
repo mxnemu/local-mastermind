@@ -1,0 +1,29 @@
+These quest like events will trigger randomly, but influenced by the players
+actions.
+
+=============
+Name: Civil Defense Force
+Desc: The citizens have formed a civil defense force to protect themselfs
+      from the haressment of your thugs! Their leader %actorName %actorPronoun
+      declared an end to your dreadful reign.
+      The situation is startling! Some of the Shopkeepers refuse to pay their
+      protection money and civil patrols give your minions a rough time.
+      You should not hesitate and start investing into the demoralization of
+      these filthy fools.
+Solu: plant under cover spies into the org to trigger a follow up quest where
+      you have to turn around a coup against you.
+Solu: Threaten the familiy of the leader
+Solu: Call back all your thugs and start operating in the shadows
+Requ: Enraged shopkeepers, too much public thug activity
+
+=============
+Name: The Snake
+Desc: One of your informants at the local pub heard that a contortionist is
+      visiting the city. Someone with such skills could be of use for your
+      ingenious stealth raids.
+      You should should advise your informants to keep an eye on new people.
+      Such talented personal might not easily impressed. Maybe you should
+      prepare a new scandalous heist to brighten up your reputation.
+Solu: Let informants lurk around hotels, trainstations and the pub
+Solu: get at a title story by exerting stealth acts
+Requ: random
