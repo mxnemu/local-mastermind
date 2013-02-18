@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Local Mastermind</title>
+        
+        <!-- Libraries -->
+        <script src="lib/jquery-1.7.2.min.js" defer></script>
+        <script src="lib/cocos2d-beta2.js"></script>
+        <script src="lib/box2d.js" defer></script>
+        
+        <!-- Utils -->
+        <script src="src/Utils.js" defer></script>
+        
+        <!-- Game -->
+        <script src="src/Globals.js" defer></script>
+        <script src="src/Audiomanager.js" defer></script>
+        <script src="src/CollisionHandler.js" defer></script>
+        <script src="src/Input.js" defer></script>
+        <script src="src/PhysicsNode.js" defer></script>
+        <script src="src/Itembar.js" defer></script>
+        <script src="src/FloatingScore.js" defer></script>
+
+        <script src="src/Node.js" defer></script>
+        <script src="src/Behaviour.js" defer></script>
+        <script src="src/Household.js" defer></script>
+        <script src="src/Actor.js" defer></script>
+        <script src="src/Building.js" defer></script>
+        <script src="src/Map.js" defer></script>
+        
+        <!-- Generators -->
+        <script src="src/gen/TownData.js" defer></script>
+        <script src="src/TownGenerator.js" defer></script>
+                
+        <!-- Ui -->
+        <script src="src/ui/ActionBoxBuilding.js" defer></script>
+        <script src="src/ui/ActionBoxCivilian.js" defer></script>
+        <script src="src/ui/ActionBoxHenchman.js" defer></script>
+        <script src="src/ui/Ui.js" defer></script>
+        
+        <script src="src/Camera.js" defer></script>
+        <script src="src/Player.js" defer></script>
+        <script src="src/Game.js" defer></script>
+        <script src="src/Application.js" defer></script>
+        
+        <style>
+            body, html {
+                height:100%;
+                width:100%;
+                margin:0;
+                padding:0;
+                background-color: #222;
+                color: #AAA;
+                font-family: Sans, Verdana, Arial;
+                
+                
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+        
+            .debugcanvas {
+                position:absolute;
+                top:0;
+                left:0;
+                pointer-events: none; /* forward clicks to lower elements */
+            }
+            
+            #cocos2d-demo {
+                position:relative;
+                width: 800px; 
+                height: 600px;
+            }
+            
+            .villianPortrait {
+                position:absolute;
+                top:492px;
+                left:0px;
+                background-color: #333;
+                width: 100px;
+                height: 100px;
+                border-top: 5px solid #222;
+                border-right: 5px solid #222;
+                border-top-right-radius:15px;
+                padding-top:3px;
+                padding-right:3px;
+                opacity: 0.9;
+            }
+            
+            .villianPortrait img {
+                max-width: 100px;
+                max-height: 100px;
+            }
+            
+            .statisticsBar {
+                position:absolute;
+                top:539px;
+                left:108px;
+                width: 500px;
+                height: 50px;
+                background-color: #333;
+                border-top: 5px solid #222;
+                padding: 3px;
+                opacity: 0.9;
+            }
+            
+            .actionBox {
+                position:absolute;
+                top:492px;
+                left:612px;
+                width: 181px;
+                height: 100px;
+                background-color: #333;
+                border-top: 5px solid #222;
+                border-left: 5px solid #222;
+                border-top-left-radius:15px;
+                padding-top:3px;
+                padding-left:3px;
+                opacity: 0.9;
+            }
+            
+            .moneyBox {
+                color:green;
+            }
+            
+            .hirecost {
+                color:#DD5501;
+            }
+            
+            .overlayList {
+                position:absolute;
+                top: 0px;
+                width: 495px;
+                height: 492px;
+                left: 108px;
+                background-color: #333;
+                border: 5px solid #222;
+                border-radius: 5px;
+                opacity: 0.99;
+                overflow: auto;
+            }
+            
+            .textBelow {
+                width: 800px;
+                text-align:center;
+            }
+            
+            code {
+                font-size: 1.2em;
+            }
+            
+        </style>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    </head>
+
+    <body>
+        <!--<img src="img/header.png" style="display:block"/> -->
+        <div id="cocos2d-demo">
+        
+        </div>
+        
+        <div class="villianPortrait uiOverlay">
+            <img src=""/>
+        </div>
+        <div class="statisticsBar uiOverlay">
+            <div class="moneyBox">
+                <span>$</span><span class="moneyDisplay">0</span>
+            </div>
+            <div class="suspicionBox">
+                <img src="images/policeIcon.png" /><span class="suspicionDisplay"></span>
+            </div>
+            <div class="henchmanBox">
+            </div>
+        </div>
+        <div class="actionBox uiOverlay">
+        </div>
+        <div style="display:none;" class="overlayList uiOverlay">
+            <div class="titlebar">
+                <img class="closeButton" src="images/uiCloseButton.png" title="suspicion" />
+                <ol class="content"></ol>
+            </div>
+        </div>
+        
+        <div class="textBelow">
+            <h1 style=" margin-top:5px; padding-top:0;">Local Mastermind</h1>
+            <code>
+                
+                !!! WARNING !!!<br/>
+                This is not a finished game.<br/>
+                This is a selfmaintaining simulation!<br/>
+                All the ui buttons are not working, yet!<br/>
+                <br/>
+                Move around and watch people doing things, but you can't interject!
+                
+            </code>
+            <br/>
+            <div class="instructions">
+                Controls:
+                <hr/>
+                <b>wasd / arrow keys</b>:  move camera<br/>
+                <b>+- / ,. </b>: zoom in or out<br/>
+                <b>c </b>: reset camera position<br/>
+                <b>rightclick on Entity</b>: follow with camera<br/>
+                <b>leftclick on Entity</b>: select Entity
+            </div>
+        </div>
+        
+    </body>
+</html>
