@@ -187,7 +187,7 @@ ConnectionLine.inherit(cc.Node, {
         r.x = (t1.x*t2.y - t1.y*t2.x)*(o1.x-o2.x)-(t1.x-t2.x)*(o1.x*o2.y -o1.y*o2.x) / (t1.x-t1.x)*(o1.y-o2.y)-(t1.y-t2.y)*(o1.x-o2.x);
         r.y = (t1.x*t2.y - t1.y*t2.x)*(o1.y-o2.y)-(t1.y-t2.y)*(o1.x*o2.y -o1.y*o2.x) / (t1.x-t1.x)*(o1.y-o2.y)-(t1.y-t2.y)*(o1.x-o2.x);
         
-        // does not work, because no proper sorting, but I'm to lazy for that right now.
+        // does not work, because no proper sorting, but I'm too lazy for that right now.
         return r.x > t1.x && r.x < t2.x &&
                r.x > o1.x && r.x < o2.x &&
                r.y > t1.y && r.y < t2.y &&
