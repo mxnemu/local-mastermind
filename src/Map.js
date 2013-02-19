@@ -30,6 +30,15 @@ Map.inherit(cc.Layer, {
         this.addChild(building);
     },
     
+    removeActor: function(actor) {
+        var index = $.inArray(actor, this.actors);
+        if (index != -1) {
+            this.actors.splice(index,1);
+            this.removeChild(actor);
+            actor.map = null;
+        }
+    },
+    
     update: function(dt) {
         for (var i=0; i < this.actors.length; ++i) {
             this.actors[i].update(dt);
@@ -45,6 +54,7 @@ Map.inherit(cc.Layer, {
         
         $.each(this.nodes, function() {
             var nodeA = this;
+            this.map = _this;
             _this.addChild(this);
             $.each(this.connections, function() {
                 _this.addConnectionLine(nodeA, this);
@@ -63,7 +73,7 @@ Map.inherit(cc.Layer, {
                 return;
             }
         });
-        if (!exists) {
+        if (!exists && nodeA.map == nodeB.map) {
             var line = new ConnectionLine(nodeA, nodeB);
             this.connectionLines.push(line);
             _this.addChild(line);

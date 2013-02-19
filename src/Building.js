@@ -1,6 +1,6 @@
 function Building(spriteName, map, node) {
     Building.superclass.constructor.call(this);
-    this._node = null;
+    this.node = new Node();
     this.map = null;
     this.label = 0;
     this.buildingType = "none";
@@ -23,7 +23,11 @@ function Building(spriteName, map, node) {
         this.sprite = new cc.Sprite({file: spriteName});
         this.contentSize = new cc.Size(this.sprite.contentSize.width,
                                    this.sprite.contentSize.height);
-   }
+    }
+    
+    this.insideMap = new Map();
+    this.insideNode = new Node(0,0, [this.node]);
+    this.insideNode.map = this.insideMap;
 }
 
 Building.inherit(cc.Node, {
@@ -58,8 +62,8 @@ Building.inherit(cc.Node, {
         this.upperClassHome = data.upperClassHome;
     },
     
-    update: function() {
-    
+    update: function(dt) {
+        this.insideMap.update(dt);
     },
     
     hasJobFor: function(actor) {
