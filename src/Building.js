@@ -24,10 +24,6 @@ function Building(spriteName, map, node) {
         this.contentSize = new cc.Size(this.sprite.contentSize.width,
                                    this.sprite.contentSize.height);
     }
-    
-    this.insideMap = new Map();
-    this.insideNode = new Node(0,0, [this.node]);
-    this.insideNode.map = this.insideMap;
 }
 
 Building.inherit(cc.Node, {
@@ -60,10 +56,16 @@ Building.inherit(cc.Node, {
         this.lowerClassHome = data.lowerClassHome;
         this.middleClassHome = data.middleClassHome;
         this.upperClassHome = data.upperClassHome;
+        
+        if (data.interior) {
+            this.createInterior();
+        }
     },
     
     update: function(dt) {
-        this.insideMap.update(dt);
+        if (this.interiorMap) {
+            this.interiorMap.update(dt);
+        }
     },
     
     hasJobFor: function(actor) {
@@ -92,6 +94,12 @@ Building.inherit(cc.Node, {
     
     getFullName: function() {
         return this.label;
+    },
+    
+    createInterior: function() {
+        this.interiorMap = new Map();
+        this.insideNode = new Node(0,0, [this.node]);
+        this.insideNode.map = this.interiorMap;
     }
 
 });

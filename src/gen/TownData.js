@@ -73,6 +73,7 @@ G.defaultTownSettings = {
             middleClassJobs: 3,
             min: 1,
             max: 1,
+            interior: {}
         },    
         {
             label: "Park",
@@ -81,6 +82,7 @@ G.defaultTownSettings = {
             sprite: "images/park.png",
             min: 1,
             max: 1,
+            interior: null
         },
         {
             label: "Town Hall",
@@ -89,6 +91,7 @@ G.defaultTownSettings = {
             sprite: "images/townhall.png",
             min: 1,
             max: 1,
+            interior: {}
         },
         {
             label: "Library",
@@ -99,7 +102,8 @@ G.defaultTownSettings = {
             max: 1,
             lowerClassJobs: 1,
             middleClassJobs: 2,
-            upperClassJobs: 0
+            upperClassJobs: 0,
+            interior: {}
         },
         {
             label: "Middle Class House",
@@ -108,7 +112,8 @@ G.defaultTownSettings = {
             sprite: "images/middleClassHouse.png",
             min: 2,
             max: 8,
-            middleClassHome: 5
+            middleClassHome: 5,
+            interior: {}
         },
         {
             label: "Lower Class House",
@@ -117,7 +122,8 @@ G.defaultTownSettings = {
             sprite: "images/lowerClassHouse.png",
             min: 3,
             max: 9,
-            lowerClassHome: 7
+            lowerClassHome: 7,
+            interior: {}
         },
         {
             label: "Upper Class House",
@@ -129,7 +135,8 @@ G.defaultTownSettings = {
             worktime: 7,
             upperClassHome: 10,
             middleClassHome: 2,
-            middleClassJobs: 2
+            middleClassJobs: 2,
+            interior: {}
         },
         {
             label: "Small Store",
@@ -141,7 +148,8 @@ G.defaultTownSettings = {
             worktime: 17,
             lowerClassJobs: 2,
             middleClassJobs: 1,
-            upperClassJobs: 0
+            upperClassJobs: 0,
+            interior: {}
         },
         {
             label: "Office",
@@ -153,7 +161,8 @@ G.defaultTownSettings = {
             worktime: 14,
             lowerClassJobs: 2,
             middleClassJobs: 5,
-            upperClassJobs: 2
+            upperClassJobs: 2,
+            interior: {}
         },
         {
             label: "Factory",
@@ -165,7 +174,8 @@ G.defaultTownSettings = {
             worktime: 24,
             lowerClassJobs: 15,
             middleClassJobs: 5,
-            upperClassJobs: 1
+            upperClassJobs: 1,
+            interior: {}
         }
     ]
 
