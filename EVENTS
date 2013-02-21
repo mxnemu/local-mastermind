@@ -27,3 +27,18 @@ Desc: One of your informants at the local pub heard that a contortionist is
 Solu: Let informants lurk around hotels, trainstations and the pub
 Solu: get at a title story by exerting stealth acts
 Requ: random
+
+=============
+Name: Snitches
+Desc: Treatchery! The police was informed about your actions from the very 
+      beginning of the plan! Somebody in your organization must have been 
+      illoyal to you. It's impossible to plot sucessful operations in this 
+      atmosphere of mistrust. 
+      Identifiying and eliminating the rat has to be the high priority target.
+Solu: Scedule a new Heist and watch henchmen that are involved with the polices.
+Solu: Let your spys watch over your own personal.
+Solu: Randomly eliminate the culprit.
+Requ: A henchman is very unhappy with payment / treatment, but becomes suddenly
+      statisfied without player action.
+      A random heist is stopped by the police, just after your henchmen are
+      positioned. After the heist ended the event pops up.
