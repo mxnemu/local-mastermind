@@ -48,13 +48,14 @@ Tutorial.inherit(Object, {
             "in this town and how you can use them for your evil deeds.<br/>" +
             "<br/>" +
             "If you already know the game, you can press " +
-            "the skip button.<br/>" +
+            "the skip button on top of this window.<br/>" +
             "<br/>" +
             "You can navigate using the <b>WASD</b> keys " +
-            "and zoom using the <b>mousewheel</b> or the ',' and '.' keys. "
+            "and zoom using the <b>mousewheel</b> or the <b>,</b> " +
+            "and <b>.</b> keys. "
         ;
         $(".tutorialBox .continueCondition").text(
-            "Move with and zoom to continue."
+            "Move and zoom to continue."
         );
         Game.instance.camera.addObserver("zoom", function() {
             Game.instance.camera.removeObserver("zoom", this);
