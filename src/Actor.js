@@ -3,7 +3,6 @@ function Actor(node, spriteName, household) {
     Observable.prototype.constructor.call(this); // evil multi inheritance
     this.setAtNode(node)
     this.lastNode = node;
-    this.map = null;
     
     if (household) {
         this.home = household.home;
@@ -70,6 +69,11 @@ Actor.inherit(cc.Node, {
                 this.action = action
                 this.path[0].action = null;
             } else if (node) {
+                if (node.map != this.node.map) {
+                    this.setAtNode(node);
+                    return;
+                }
+            
                 var xDistance = Math.abs(node.position.x - this.position.x);
                 var yDistance = Math.abs(node.position.y - this.position.y);
                 
@@ -137,6 +141,18 @@ Actor.inherit(cc.Node, {
         }
     },
     
+    get map() {
+        if (this.node) {
+            return this.node.map;
+        }
+        return this._map; // fallback for old code support TODO remove
+    },
+    
+    set map(map) {
+         // fallback for old code support TODO remove and make readonly
+        this._map = map;
+    },
+    
     otherActorArrivedAtNode: function(other) {
         if (this.action && this.action.onOtherArrived) {
             this.action.onOtherArrived.call(this, other);
@@ -184,8 +200,13 @@ Actor.inherit(cc.Node, {
     setAtNode: function(node) {
         if (this.node) {
             this.node.removeActor(this);
+            
+            if (this.node.map != node.map) {
+                this.node.map.removeActor(this);
+                node.map.addActor(this);
+            }
         }
-    
+        
         this.position = new cc.Point(node.position.x, node.position.y);
         this.node = node;
         this.node.addActor(this);

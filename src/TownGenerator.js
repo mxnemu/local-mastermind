@@ -103,8 +103,7 @@ TownGenerator.inherit(Object, {
                     lastHeight = building.contentSize.height;
                     building.nodel = new Node(building.position.x - building.contentSize.width/2,
                                              building.position.y - building.contentSize.height/2);
-                    building.node = new Node(building.position.x,
-                                             building.position.y - building.contentSize.height/2);
+                    building.node.position = new cc.Point(building.position.x, building.position.y - building.contentSize.height/2);
                     building.noder = new Node(building.position.x + building.contentSize.width/2,
                                              building.position.y - building.contentSize.height/2);
                     building.nodel.addConnection(building.node);
