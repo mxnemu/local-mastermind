@@ -71,7 +71,6 @@ Actor.inherit(cc.Node, {
             } else if (node) {
                 if (node.map != this.node.map) {
                     this.setAtNode(node);
-                    
                     return;
                 }
             
@@ -140,6 +139,18 @@ Actor.inherit(cc.Node, {
         if (badge) {
             this.addChild(badge);
         }
+    },
+    
+    get map() {
+        if (this.node) {
+            return this.node.map;
+        }
+        return this._map; // fallback for old code support TODO remove
+    },
+    
+    set map(map) {
+         // fallback for old code support TODO remove and make readonly
+        this._map = map;
     },
     
     otherActorArrivedAtNode: function(other) {
