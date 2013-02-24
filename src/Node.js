@@ -147,7 +147,7 @@ function ConnectionLine(nodeA, nodeB) {
     ConnectionLine.superclass.constructor.call(this);
     this.nodeA = nodeA;
     this.nodeB = nodeB;
-    this.zOrder = -1
+    this.zOrder = G.connectionLineZ;
     this.opacity = 100;
 }
 

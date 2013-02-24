@@ -97,13 +97,41 @@ Building.inherit(cc.Node, {
     },
     
     createInterior: function(data) {
+        var _this = this;
         this.interiorMap = new Map();
-        this.insideNode = new Node(0,0, [this.node]);
-        this.insideNode.map = this.interiorMap;
+        var xOffset = 0, yOffset = 0;
         
         if (data.sprite) {
             this.interiorSprite = new cc.Sprite({file:data.sprite});
+            this.interiorSprite.zOrder = G.interiorZ;
             this.interiorMap.addSprite(this.interiorSprite);
+            xOffset = -this.interiorSprite.contentSize.width /2;
+            yOffset = this.interiorSprite.contentSize.height /2;
+        }
+        
+        if (data.nodes && data.nodes.length > 0) {
+            var interiorNodes = [];
+            $.each(data.nodes, function() {
+                var connections = [];
+                if (this.connections) {
+                    $.each(this.connections, function() {
+                        connections.push(interiorNodes[this]);
+                    });
+                }
+                var node = new Node(
+                    this.x + xOffset,
+                    -this.y + yOffset,
+                    connections,
+                    this.type
+                );
+                node.map = _this.interiorMap;
+                interiorNodes.push(node);
+            });
+            this.interiorMap.setNodes(interiorNodes);
+            this.insideNode = interiorNodes[0];
+        } else {
+            this.insideNode = new Node(0,0, [this.node]);
+            this.insideNode.map = this.interiorMap;
         }
     }
 

@@ -87,6 +87,7 @@ ThugBehaviour.inherit(Behaviour, {
         var targetBuildingType = randomElementInArray(lurkTargets);
         
         if (targetBuildingType == "random") {
+            //TODO next line node can be null error
             this.actor.findPath(randomElementInArray(this.actor.map.nodes));
             this.lastAction = targetBuildingType;
         } else if (targetBuildingType && this.actor.map) {
