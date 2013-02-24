@@ -13,7 +13,7 @@ Behaviour.inherit(Object, {
         // sleep
         if (this.actor.wakefulness < 20) {
             var sleepRequired = 100 - this.actor.wakefulness;
-            this.actor.findPath(this.actor.home.insideNode);
+            this.actor.findPathToNodeTypeInBuilding(this.actor.home, "sleep");
             this.actor.addActionToPath(new Action({
                 name: "sleep",
                 duration: sleepRequired/2,

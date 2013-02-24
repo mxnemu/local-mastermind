@@ -128,10 +128,10 @@ Building.inherit(cc.Node, {
                 interiorNodes.push(node);
             });
             this.interiorMap.setNodes(interiorNodes);
-            this.insideNode = interiorNodes[0];
+            this.interiorNode = interiorNodes[0];
         } else {
-            this.insideNode = new Node(0,0, [this.node]);
-            this.insideNode.map = this.interiorMap;
+            this.interiorNode = new Node(0,0, [this.node]);
+            this.interiorNode.map = this.interiorMap;
         }
     }
 

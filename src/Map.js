@@ -162,7 +162,7 @@ Map.inherit(cc.Layer, {
         return closestNode;
     },
     
-    getFreeNodesOfType: function(type) {
+    findFreeNodesOfType: function(type) {
         var returnArray = [];
         $.each(this.nodes, function() {
             if (this.type == type && !this.user) {
@@ -172,7 +172,8 @@ Map.inherit(cc.Layer, {
         return returnArray;
     },
     
-    getClosestFreeNodeOfType: function(type) {
-        var nodes = getFreeNodesOfType(type);
+    findClosestFreeNodeOfType: function(startNode, type) {
+        var nodes = this.findFreeNodesOfType(type);
+        return nodes[0] || null;
     }
 })

@@ -18,7 +18,7 @@ function Actor(node, spriteName, household) {
     this._action = null;
     this.actionHistory = [];
     this.satiety = 100;
-    this.wakefulness = 100;
+    this.wakefulness = 1;
     
     this.influence = 0.0; // influence of the player
     this.suspicion = 0.0; // suspicion against the player
@@ -170,14 +170,6 @@ Actor.inherit(cc.Node, {
     
     },
     
-    findPathToBuildingType: function(buildingType) {
-        var building = this.map.findClosestBuildingOfType(buildingType, this.node);
-        //var building = this.map.findBuildingOfType(buildingType);
-        if (building) {
-            this.findPath(building.node);
-        }
-    },
-    
     transfereMoney: function(other, sum) {
         sum = Math.min(this.money, sum);
         other.money += sum;
@@ -213,8 +205,36 @@ Actor.inherit(cc.Node, {
     },
     
     findPath: function(node) {
-        if (node != this.node) {
+        if (node && node != this.node) {
             this.path = this.node.findPath(node);
+        }
+    },
+    
+    findPathAndAppend: function(node) {
+        var lastNode = this.node;
+        if (this.path.length > 0) {
+            lastNode = this.path[this.path.length-1].node;
+        }
+        if (node && node != lastNode) {
+            this.path = this.path.concat(lastNode.findPath(node));
+        }
+    },
+    
+    findPathToBuildingType: function(buildingType) {
+        var building = this.map.findClosestBuildingOfType(buildingType, this.node);
+        //var building = this.map.findBuildingOfType(buildingType);
+        if (building) {
+            this.findPath(building.node);
+        }
+    },
+    
+    findPathToNodeTypeInBuilding: function(building, type) {
+        if (building) {
+            // no xMap pathfinding, yet
+            this.findPath(building.node);
+            this.addNodeToPath(building.interiorNode); 
+            var node = building.interiorMap.findClosestFreeNodeOfType(building.interiorNode, type);
+            this.findPathAndAppend(node);
         }
     },
     
