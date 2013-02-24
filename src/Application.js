@@ -205,25 +205,33 @@ $(function() {
     
     // list your images here
     // they will be loaded with the loadingscreen before your game starts
-    registerResource("images/house.png", "image/png");
+    
+    // actors
+    registerResource("images/policeman.png", "image/png");
     registerResource("images/person.png", "image/png");
     registerResource("images/thug.png", "image/png");
     registerResource("images/neet.png", "image/png");
     registerResource("images/worker.png", "image/png");
+    
+    // bulidings
     registerResource("images/lowerClassHouse.png", "image/png");
     registerResource("images/middleClassHouse.png", "image/png");
     registerResource("images/upperClassHouse.png", "image/png");
+    
+    registerResource("images/policeStation.png", "image/png");
     registerResource("images/park.png", "image/png");
-    registerResource("images/smallStore.png", "image/png");
     registerResource("images/townhall.png", "image/png");
     registerResource("images/library.png", "image/png");
+    registerResource("images/smallStore.png", "image/png");
     registerResource("images/office.png", "image/png");
     registerResource("images/factory.png", "image/png");
-    registerResource("images/policeStation.png", "image/png");
-    registerResource("images/policeman.png", "image/png");
-    registerResource("images/badge.png", "image/png");
     
-    
+    // interiors
+    registerResource("images/lowerClassHouseInterior.png", "image/png");
+
+    // misc
+    registerResource("images/house.png", "image/png");
+    registerResource("images/badge.png", "image/png"); // the debug sprite
     
     
     
