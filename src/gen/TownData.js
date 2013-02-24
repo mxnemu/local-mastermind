@@ -123,7 +123,9 @@ G.defaultTownSettings = {
             min: 3,
             max: 9,
             lowerClassHome: 7,
-            interior: {}
+            interior: {
+                sprite: "images/lowerClassHouseInterior.png"
+            }
         },
         {
             label: "Upper Class House",

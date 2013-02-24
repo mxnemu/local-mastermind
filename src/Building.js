@@ -58,7 +58,7 @@ Building.inherit(cc.Node, {
         this.upperClassHome = data.upperClassHome;
         
         if (data.interior) {
-            this.createInterior();
+            this.createInterior(data.interior);
         }
     },
     
@@ -96,10 +96,15 @@ Building.inherit(cc.Node, {
         return this.label;
     },
     
-    createInterior: function() {
+    createInterior: function(data) {
         this.interiorMap = new Map();
         this.insideNode = new Node(0,0, [this.node]);
         this.insideNode.map = this.interiorMap;
+        
+        if (data.sprite) {
+            this.interiorSprite = new cc.Sprite({file:data.sprite});
+            this.interiorMap.addSprite(this.interiorSprite);
+        }
     }
 
 });
