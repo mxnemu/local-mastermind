@@ -5,6 +5,7 @@ function Map() {
     this.nodes = [];
     this.sprites = [];
     this.connectionLines = [];
+    this.mapConnections = [];
     this.cameraStart = new cc.Point(0,0);
 }
 
@@ -53,14 +54,16 @@ Map.inherit(cc.Layer, {
         var _this = this;
         
         $.each(this.nodes, function() {
-            var nodeA = this;
             this.map = _this;
             _this.addChild(this);
+        });
+        
+        $.each(this.nodes, function() {
+            var nodeA = this;
             $.each(this.connections, function() {
                 _this.addConnectionLine(nodeA, this);
             });
         });
-        
     },
     
     addConnectionLine: function(nodeA, nodeB) {
@@ -73,11 +76,36 @@ Map.inherit(cc.Layer, {
                 return;
             }
         });
-        if (!exists && nodeA.map == nodeB.map) {
-            var line = new ConnectionLine(nodeA, nodeB);
-            this.connectionLines.push(line);
-            _this.addChild(line);
-            console.log("line");
+        if (!exists) {
+            if (nodeA.map == nodeB.map) {
+                var line = new ConnectionLine(nodeA, nodeB);
+                this.connectionLines.push(line);
+                _this.addChild(line);
+                console.log("line");
+            } else if (nodeA.map && nodeB.map) {
+                var entrance = (nodeA.map == this) ? nodeA : nodeB;
+                var exit = (nodeA.map == this) ? nodeB : nodeA;
+                var map = (nodeA.map == this) ? nodeB.map : nodeA.map;
+                this.addMapConnection(entrance, exit, map);
+                map.addMapConnection(exit, entrance, this);
+            }
+        }
+    },
+    
+    addMapConnection: function(entranceNode, exitNode, map) {
+        var exists = false;
+        $.each(this.mapConnections, function() {
+            if (this.entranceNode == entranceNode && this.map == map) {
+                exists = true;
+                return;
+            }
+        });
+        if (!exists) {
+            this.mapConnections.push({
+                entranceNode: entranceNode,
+                exitNode: exitNode,
+                map: map
+            });
         }
     },
     
@@ -175,5 +203,40 @@ Map.inherit(cc.Layer, {
     findClosestFreeNodeOfType: function(startNode, type) {
         var nodes = this.findFreeNodesOfType(type);
         return nodes[0] || null;
+    },
+    
+    findMapConnectionPath: function(map, triedConnections) {
+        triedConnections = triedConnections || [];
+        var path = [];
+        var directConnection = false;
+        
+        $.each(this.mapConnections, function() {
+            if (this.map == map) {
+                path.push(this);
+                directConnection = true;
+                return; // break
+            }
+        });
+        
+        if (!directConnection) {
+            var foundPath = false;
+            $.each(this.mapConnections, function() {
+                if (!foundPath && $.inArray(this, triedConnections != -1)) {
+                    triedConnections.push(this);
+                    var addPath = this.map.findMapConnectionPath(map, triedConnections);
+                    if (addPath) {
+                        path = path.concat(addPath);
+                        path.push(this);
+                        return;
+                    }
+                }
+            });
+        }
+        
+        if (path.length > 0 || map == this) {
+            return path.reverse(); // start with this end with goal
+        }
+        
+        return null;
     }
 })

@@ -127,8 +127,9 @@ Building.inherit(cc.Node, {
                 node.map = _this.interiorMap;
                 interiorNodes.push(node);
             });
-            this.interiorMap.setNodes(interiorNodes);
             this.interiorNode = interiorNodes[0];
+            this.interiorNode.addConnection(this.node);
+            this.interiorMap.setNodes(interiorNodes);
         } else {
             this.interiorNode = new Node(0,0, [this.node]);
             this.interiorNode.map = this.interiorMap;

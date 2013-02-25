@@ -204,9 +204,32 @@ Actor.inherit(cc.Node, {
         this.node.addActor(this);
     },
     
-    findPath: function(node) {
-        if (node && node != this.node) {
-            this.path = this.node.findPath(node);
+    findPath: function(finishNode) {
+        if (!this.node || !finishNode) {
+            console.error("trying to find path from/to undefined location");
+            return;
+        }
+        this.findPathFromStartToEnd(this.node, finishNode);
+    },
+    
+    findPathFromStartToEnd: function(startNode, finishNode) {
+        if (startNode.map != finishNode.map) {
+            var path = [];
+            var mapPath = startNode.map.findMapConnectionPath(finishNode.map);
+            var node = startNode;
+            if (mapPath) {
+                $.each(mapPath, function() {
+                    path = path.concat(node.findPath(this.entranceNode));
+                    path.push({node:this.exitNode});
+                    node = this.exitNode;
+                });
+                path = path.concat(node.findPath(finishNode));
+            }
+            this.path = path;
+        }
+        
+        if (startNode) {
+            this.path = startNode.findPath(finishNode);
         }
     },
     
