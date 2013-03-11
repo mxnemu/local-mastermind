@@ -77,6 +77,13 @@ ThugBehaviour.inherit(Behaviour, {
     
         var _this = this;
         
+        // go outside
+        if (this.actor.map != Application.instance.game.outdoorMap) {
+            this.actor.findPathToMap(Application.instance.game.outdoorMap);
+            this.actor.addActionToPath(new Action({name:"goOutside"}))
+            return;
+        }
+        
         var lurkTargets = this.lurkTargets.slice();
         for (var i=0; i < lurkTargets; ++i) {
             if (lurkTargets[i] == this.lastAction) {
@@ -140,6 +147,13 @@ WorkerBehaviour.inherit(Behaviour, {
             return;
         }
         
+        // go outside
+        if (this.actor.map != Application.instance.game.outdoorMap) {
+            this.actor.findPathToMap(Application.instance.game.outdoorMap);
+            this.actor.addActionToPath(new Action({name:"goOutside"}))
+            return;
+        }
+        
         if (this.actor.job) {
             this.actor.findPath(this.actor.job.interiorNode);
             this.actor.addActionToPath(new Action({
@@ -160,6 +174,13 @@ function NeetBehaviour(actor) {
 NeetBehaviour.inherit(Behaviour, {
     findNewAction: function() {
         if (this.defaultActions()) {
+            return;
+        }
+        
+        // go outside
+        if (this.actor.map != Application.instance.game.outdoorMap) {
+            this.actor.findPathToMap(Application.instance.game.outdoorMap);
+            this.actor.addActionToPath(new Action({name:"goOutside"}))
             return;
         }
         
@@ -195,6 +216,13 @@ function PoliceBehaviour(actor) {
 PoliceBehaviour.inherit(Behaviour, {
     findNewAction: function() {
         if (this.defaultActions()) {
+            return;
+        }
+        
+        // go outside
+        if (this.actor.map != Application.instance.game.outdoorMap) {
+            this.actor.findPathToMap(Application.instance.game.outdoorMap);
+            this.actor.addActionToPath(new Action({name:"goOutside"}))
             return;
         }
         

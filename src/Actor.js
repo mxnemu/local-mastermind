@@ -18,7 +18,7 @@ function Actor(node, spriteName, household) {
     this._action = null;
     this.actionHistory = [];
     this.satiety = 100;
-    this.wakefulness = 1;
+    this.wakefulness = 100;
     
     this.influence = 0.0; // influence of the player
     this.suspicion = 0.0; // suspicion against the player
@@ -153,6 +153,15 @@ Actor.inherit(cc.Node, {
         this._map = map;
     },
     
+    get lastPathNode() {
+        for (var i=this.path.length-1; i >= 0; --i) {
+            if (this.path[i].node) {
+                return this.path[i].node;
+            }
+        }
+        return null;
+    },
+    
     otherActorArrivedAtNode: function(other) {
         if (this.action && this.action.onOtherArrived) {
             this.action.onOtherArrived.call(this, other);
@@ -214,8 +223,21 @@ Actor.inherit(cc.Node, {
     
     findPathFromStartToEnd: function(startNode, finishNode) {
         if (startNode.map != finishNode.map) {
+            this.findPathFromNodeToMap(startNode, finishNode.map);
+            this.path = this.path.concat(this.lastPathNode.findPath(finishNode));
+        } else if (startNode) {
+            this.path = startNode.findPath(finishNode);
+        }
+    },
+    
+    findPathToMap: function(finishMap) {
+        this.findPathFromNodeToMap(this.node, finishMap);
+    },
+    
+    findPathFromNodeToMap: function(startNode, finishMap) {
+        if (startNode.map != finishMap) {
             var path = [];
-            var mapPath = startNode.map.findMapConnectionPath(finishNode.map);
+            var mapPath = startNode.map.findMapConnectionPath(finishMap);
             var node = startNode;
             if (mapPath) {
                 $.each(mapPath, function() {
@@ -223,13 +245,8 @@ Actor.inherit(cc.Node, {
                     path.push({node:this.exitNode});
                     node = this.exitNode;
                 });
-                path = path.concat(node.findPath(finishNode));
             }
             this.path = path;
-        }
-        
-        if (startNode) {
-            this.path = startNode.findPath(finishNode);
         }
     },
     
