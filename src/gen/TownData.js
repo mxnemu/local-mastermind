@@ -123,7 +123,17 @@ G.defaultTownSettings = {
             min: 3,
             max: 9,
             lowerClassHome: 7,
-            interior: {}
+            interior: {
+                sprite: "images/lowerClassHouseInterior.png",
+                nodes: [
+                    {x:1120, y:1380, type:"door"},
+                    {x:1120, y:727, connections:[0]},
+                    {x:1120, y:267, connections:[1], type:"bathroom"},
+                    {x:590, y:727, connections:[1]},
+                    {x:590, y:490, connections:[3], type:"food"},
+                    {x:590, y:1140, connections:[3], type:"sleep"},
+                ]
+            }
         },
         {
             label: "Upper Class House",

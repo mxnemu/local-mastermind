@@ -153,6 +153,15 @@ Actor.inherit(cc.Node, {
         this._map = map;
     },
     
+    get lastPathNode() {
+        for (var i=this.path.length-1; i >= 0; --i) {
+            if (this.path[i].node) {
+                return this.path[i].node;
+            }
+        }
+        return null;
+    },
+    
     otherActorArrivedAtNode: function(other) {
         if (this.action && this.action.onOtherArrived) {
             this.action.onOtherArrived.call(this, other);
@@ -168,14 +177,6 @@ Actor.inherit(cc.Node, {
     
     arriveOnFinalDestination: function() {
     
-    },
-    
-    findPathToBuildingType: function(buildingType) {
-        var building = this.map.findClosestBuildingOfType(buildingType, this.node);
-        //var building = this.map.findBuildingOfType(buildingType);
-        if (building) {
-            this.findPath(building.node);
-        }
     },
     
     transfereMoney: function(other, sum) {
@@ -212,9 +213,68 @@ Actor.inherit(cc.Node, {
         this.node.addActor(this);
     },
     
-    findPath: function(node) {
-        if (node != this.node) {
-            this.path = this.node.findPath(node);
+    findPath: function(finishNode) {
+        if (!this.node || !finishNode) {
+            console.error("trying to find path from/to undefined location");
+            return;
+        }
+        this.findPathFromStartToEnd(this.node, finishNode);
+    },
+    
+    findPathFromStartToEnd: function(startNode, finishNode) {
+        if (startNode.map != finishNode.map) {
+            this.findPathFromNodeToMap(startNode, finishNode.map);
+            this.path = this.path.concat(this.lastPathNode.findPath(finishNode));
+        } else if (startNode) {
+            this.path = startNode.findPath(finishNode);
+        }
+    },
+    
+    findPathToMap: function(finishMap) {
+        this.findPathFromNodeToMap(this.node, finishMap);
+    },
+    
+    findPathFromNodeToMap: function(startNode, finishMap) {
+        if (startNode.map != finishMap) {
+            var path = [];
+            var mapPath = startNode.map.findMapConnectionPath(finishMap);
+            var node = startNode;
+            if (mapPath) {
+                $.each(mapPath, function() {
+                    path = path.concat(node.findPath(this.entranceNode));
+                    path.push({node:this.exitNode});
+                    node = this.exitNode;
+                });
+            }
+            this.path = path;
+        }
+    },
+    
+    findPathAndAppend: function(node) {
+        var lastNode = this.node;
+        if (this.path.length > 0) {
+            lastNode = this.path[this.path.length-1].node;
+        }
+        if (node && node != lastNode) {
+            this.path = this.path.concat(lastNode.findPath(node));
+        }
+    },
+    
+    findPathToBuildingType: function(buildingType) {
+        var building = this.map.findClosestBuildingOfType(buildingType, this.node);
+        //var building = this.map.findBuildingOfType(buildingType);
+        if (building) {
+            this.findPath(building.node);
+        }
+    },
+    
+    findPathToNodeTypeInBuilding: function(building, type) {
+        if (building) {
+            // no xMap pathfinding, yet
+            this.findPath(building.node);
+            this.addNodeToPath(building.interiorNode); 
+            var node = building.interiorMap.findClosestFreeNodeOfType(building.interiorNode, type);
+            this.findPathAndAppend(node);
         }
     },
     

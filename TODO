@@ -55,11 +55,16 @@ BIG TIME PLAN TODO
 8.1 [ ] secure cellphones (the police will not find you on your henchmen cell phones);
 8.2 [ ] Smokebombs - they are just cool
 
-
 NEW BUILDINGS
    [ ] Hotel
    [ ] Pub
    [ ] Trainstation
+
+OPTIONAL COOL FEATURES
+
+   [ ] Newspaper generation. Make a newspaper like in Sim city 
+       that reports recent events and hints to upcoming oppurtiunities
+   [ ] unique Event Quests that show based on player actions and playstyle.
 
 DONE
 1. [x] write town generator

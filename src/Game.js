@@ -28,6 +28,7 @@ Game.inherit(Observable, {
         */
 
         this.setMap(new TownGenerator().create());
+        this.outdoorMap = this.map;
         this.camera = new Camera(cc.Director.sharedDirector.winSize, this);
         this.player = new Player();
         this.ui = new Ui(this.player);

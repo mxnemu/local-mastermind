@@ -13,7 +13,7 @@ Behaviour.inherit(Object, {
         // sleep
         if (this.actor.wakefulness < 20) {
             var sleepRequired = 100 - this.actor.wakefulness;
-            this.actor.findPath(this.actor.home.insideNode);
+            this.actor.findPathToNodeTypeInBuilding(this.actor.home, "sleep");
             this.actor.addActionToPath(new Action({
                 name: "sleep",
                 duration: sleepRequired/2,
@@ -31,7 +31,7 @@ Behaviour.inherit(Object, {
                 name: "shopping",
                 duration: randomInRange(5, 15),
                 onEnd: function() {
-                    _this.actor.findPath(_this.actor.home.insideNode);
+                    _this.actor.findPath(_this.actor.home.interiorNode);
                     _this.actor.addActionToPath(new Action({
                         name: "refillResources",
                         duration: 5,
@@ -44,7 +44,7 @@ Behaviour.inherit(Object, {
             console.log("go shopping");
             return true;
         // eat
-        } else if (this.actor.home.insideNode == this.actor.insideNode && this.actor.satiety < 50) {
+        } else if (this.actor.home.interiorNode == this.actor.interiorNode && this.actor.satiety < 50) {
             var resourcesEaten = Math.min(100-this.actor.satiety, this.actor.household.resources)
             this.actor.household.resources -= resourcesEaten;
             this.actor.addActionToPath(new Action({
@@ -77,6 +77,13 @@ ThugBehaviour.inherit(Behaviour, {
     
         var _this = this;
         
+        // go outside
+        if (this.actor.map != Application.instance.game.outdoorMap) {
+            this.actor.findPathToMap(Application.instance.game.outdoorMap);
+            this.actor.addActionToPath(new Action({name:"goOutside"}))
+            return;
+        }
+        
         var lurkTargets = this.lurkTargets.slice();
         for (var i=0; i < lurkTargets; ++i) {
             if (lurkTargets[i] == this.lastAction) {
@@ -87,13 +94,14 @@ ThugBehaviour.inherit(Behaviour, {
         var targetBuildingType = randomElementInArray(lurkTargets);
         
         if (targetBuildingType == "random") {
+            //TODO next line node can be null error
             this.actor.findPath(randomElementInArray(this.actor.map.nodes));
             this.lastAction = targetBuildingType;
         } else if (targetBuildingType && this.actor.map) {
             var building = this.actor.map.findBuildingOfType(targetBuildingType);
             if (building) {
-                if (building.insideNode && building.isPublic) {
-                    this.actor.findPath(building.insideNode);    
+                if (building.interiorNode && building.isPublic) {
+                    this.actor.findPath(building.interiorNode);    
                 } else {
                     this.actor.findPath(building.node);
                 }
@@ -139,8 +147,15 @@ WorkerBehaviour.inherit(Behaviour, {
             return;
         }
         
+        // go outside
+        if (this.actor.map != Application.instance.game.outdoorMap) {
+            this.actor.findPathToMap(Application.instance.game.outdoorMap);
+            this.actor.addActionToPath(new Action({name:"goOutside"}))
+            return;
+        }
+        
         if (this.actor.job) {
-            this.actor.findPath(this.actor.job.insideNode);
+            this.actor.findPath(this.actor.job.interiorNode);
             this.actor.addActionToPath(new Action({
                 name:"work",
                 duration:this.actor.job.worktime,
@@ -162,6 +177,13 @@ NeetBehaviour.inherit(Behaviour, {
             return;
         }
         
+        // go outside
+        if (this.actor.map != Application.instance.game.outdoorMap) {
+            this.actor.findPathToMap(Application.instance.game.outdoorMap);
+            this.actor.addActionToPath(new Action({name:"goOutside"}))
+            return;
+        }
+        
         var lurkTargets = this.lurkTargets.slice();
         for (var i=0; i < lurkTargets; ++i) {
             if (lurkTargets[i] == this.lastAction) {
@@ -174,7 +196,7 @@ NeetBehaviour.inherit(Behaviour, {
         if (targetBuildingType && this.actor.map) {
             var building = this.actor.map.findBuildingOfType(targetBuildingType);
             if (building) {
-                this.actor.findPath(building.insideNode || building.node);
+                this.actor.findPath(building.interiorNode || building.node);
                 this.lastAction = targetBuildingType;
             }
         }
@@ -194,6 +216,13 @@ function PoliceBehaviour(actor) {
 PoliceBehaviour.inherit(Behaviour, {
     findNewAction: function() {
         if (this.defaultActions()) {
+            return;
+        }
+        
+        // go outside
+        if (this.actor.map != Application.instance.game.outdoorMap) {
+            this.actor.findPathToMap(Application.instance.game.outdoorMap);
+            this.actor.addActionToPath(new Action({name:"goOutside"}))
             return;
         }
         
