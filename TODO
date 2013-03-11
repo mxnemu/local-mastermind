@@ -43,6 +43,11 @@ DETAILED TODO
 
 BIG TIME PLAN TODO
 
+1.  [ ] character creation with different archtypes
+        that give you different stories, starting lairs, henchman.
+1.1 [ ] build your own lair mode where you arrange tiles to build your lair.
+1.2 [ ] design your own uniform draw mode
+1.3 [ ] design your own sculpture / object mode (maybe shared online (inb4 dicks))
 2.  [ ] generate thugs and police man
 4.  [ ] generate daily routine
 4.1 [ ] goto place at time, stay there 'til time, goto next place
@@ -56,9 +61,15 @@ BIG TIME PLAN TODO
 8.2 [ ] Smokebombs - they are just cool
 
 NEW BUILDINGS
+   Public:
    [ ] Hotel
    [ ] Pub
    [ ] Trainstation
+   
+   Starting lairs:
+   [ ] Your mom's basement
+   [ ] Deserted moldy house ruin
+   [ ] cheap 1 room apartment
 
 OPTIONAL COOL FEATURES
 
