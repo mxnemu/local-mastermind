@@ -55,7 +55,9 @@ BIG TIME PLAN TODO
 6.  [ ] suspicion / influence values
 6.1 [ ] high suspicion makes it more probably that the authority will find your hq and if you can't defend that you're game's over
 6.2 [ ] high influence increases income and lowers the cost of thugs and police bribes
-7.  [ ] maps inside buildings
+7.  [x] maps inside buildings
+7.1 [ ] block a node for other actors while using it. Actors search free nodes.
+7.2 [ ] different workerType nodes (work-upper, work-lower, work-middle)
 8.  [ ] hire / threaten nerds to do research for you
 8.1 [ ] secure cellphones (the police will not find you on your henchmen cell phones);
 8.2 [ ] Smokebombs - they are just cool
