@@ -48,7 +48,7 @@
     opacity: 0.9;
 }
 
-.statisticsBar .showHenchmenButton {
+.statisticsBar .showHenchmenButton, .statisticsBar .leaveBuildingButton{
     float:right;
 }
 

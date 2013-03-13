@@ -155,7 +155,7 @@ WorkerBehaviour.inherit(Behaviour, {
         }
         
         if (this.actor.job) {
-            this.actor.findPath(this.actor.job.interiorNode);
+            this.actor.findPathToNodeTypeInBuilding(this.actor.job, "work");
             this.actor.addActionToPath(new Action({
                 name:"work",
                 duration:this.actor.job.worktime,

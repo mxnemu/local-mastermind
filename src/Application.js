@@ -228,6 +228,8 @@ $(function() {
     
     // interiors
     registerResource("images/lowerClassHouseInterior.png", "image/png");
+    registerResource("images/factoryInterior.png", "image/png");
+    
 
     // misc
     registerResource("images/house.png", "image/png");

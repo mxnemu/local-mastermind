@@ -185,7 +185,29 @@ G.defaultTownSettings = {
             lowerClassJobs: 15,
             middleClassJobs: 5,
             upperClassJobs: 1,
-            interior: {}
+            interior: {
+                sprite: "images/factoryInterior.png",
+                nodes: [
+                    {x:1155, y:540, type:"door"},
+                    {x:1155, y:386, connections:[0]},
+                    {x:1155, y:320, connections:[1]},
+                    // top lane
+                    {x:1155, y:186, connections:[2], type:"work"},
+                    {x:960, y:186, connections:[3], type:"work"},
+                    {x:750, y:186, connections:[4], type:"work"},
+                    {x:550, y:186, connections:[5], type:"work"},
+                    // low lane
+                    {x:1155, y:386, connections:[1], type:"work"},
+                    {x:960, y:386, connections:[7], type:"work"},
+                    {x:750, y:386, connections:[8], type:"work"},
+                    {x:550, y:386, connections:[9], type:"work"},
+                    // mid to boss chair
+                    {x:320, y:320, connections:[2]},
+                    {x:320, y:220, connections:[11]},
+                    {x:150, y:220, connections:[12]},
+                    {x:150, y:300, connections:[13], type:"work"},
+                ]
+            }
         }
     ]
 
