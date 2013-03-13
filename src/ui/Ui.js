@@ -41,7 +41,7 @@ Ui.inherit(Observable, {
     }, 
     
     setSelectedActor: function(actor) {
-        this.entity = actor;
+        this.setSelectedEntity(actor);
         this.actionBox = new ActionBoxCivilian(actor, this);
         $(".villianPortrait img").show();
         $(".villianPortrait img").attr("src", actor.portrait);
@@ -49,7 +49,7 @@ Ui.inherit(Observable, {
     },
     
     setSelectedBuilding: function(building) {
-        this.entity = building;
+        this.setSelectedEntity(building);
         this.actionBox = new ActionBoxBuilding(building, this);
         $(".villianPortrait img").show();
         $(".villianPortrait img").attr("src", building.portrait);
@@ -57,8 +57,15 @@ Ui.inherit(Observable, {
     },
     
     setSelectedEntity: function(entity) {
+        var _this = this;
+        this.entity = entity;
+        
+        $(".villianPortrait img").unbind("click");
+        
         if (entity) {
-            //TODO check for type and call the other set function
+            $(".villianPortrait img").click(function() {
+                _this.game.camera.trackedEntity = entity;
+            });
         } else {
             this.entity = entity;
             this.actionBox = null;
