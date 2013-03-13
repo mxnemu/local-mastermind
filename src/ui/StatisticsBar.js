@@ -12,5 +12,17 @@ StatisticsBar.inherit(Object, {
         $(".showHenchmenButton").click(function() {
             _this.ui.overlayList = new OverlayListHenchmen(_this.ui.player.henchmen);
         });
+        
+        $(".leaveBuildingButton").click(function() {
+            _this.ui.game.camera.jumpToMap(_this.ui.game.outdoorMap);
+        });
+
+        this.ui.game.addObserver("changeMap", function(event) {
+            if (event.newMap != _this.ui.game.outdoorMap) {
+                $(".leaveBuildingButton").show("slow");
+            } else {
+                $(".leaveBuildingButton").hide("slow");
+            }
+        });
     }
 });

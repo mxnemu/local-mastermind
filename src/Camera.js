@@ -109,6 +109,12 @@ Camera.inherit(Observable, {
     centerAt: function(point) {
         this.game.map.position.x = (-point.x + this.size.width/2)*this.game.map.scale;
         this.game.map.position.y = (-point.y + this.size.height/2)*this.game.map.scale;
+    },
+    
+    // reset track and jump to entrance of map
+    jumpToMap: function(map) {
+        this.trackedEntity = null;
+        this.game.setMap(map);
     }
 });
 

@@ -1,6 +1,7 @@
-function Ui(player) {
+function Ui(game) {
     Ui.superclass.constructor.call(this);
-    this.player = player;
+    this.game = game;
+    this.player = game.player;
     this.entity = null;
     this._actionBox = null;
     this._overlayList = null;

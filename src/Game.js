@@ -31,7 +31,7 @@ Game.inherit(Observable, {
         this.outdoorMap = this.map;
         this.camera = new Camera(cc.Director.sharedDirector.winSize, this);
         this.player = new Player();
-        this.ui = new Ui(this.player);
+        this.ui = new Ui(this);
         
         if (this.map.buildings.length > 0) {
             this.camera.trackedEntity = this.map.buildings[0];
@@ -44,10 +44,11 @@ Game.inherit(Observable, {
         if (this.map) {
             this.root.removeChild(this.map);
         }
-    
+        var oldMap = this.map; // store for event
         this.map = map;
         this.map.restCamera();
         this.root.addChild(this.map);
+        this.fireEvent("changeMap", {newMap: map, oldMap: oldMap});
     },
     
     update: function(dt) {
