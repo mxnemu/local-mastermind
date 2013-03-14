@@ -142,12 +142,12 @@ Node.inherit(cc.Node, {
     },
 
     get blocked() {
-	    for (var i=0; i<this.actors.length; ++i) {
-	        if (actors[i].action && actors[i].action.blocking) {
-		    return true;
-	        }
-	    }
-	    return false;
+        for (var i=0; i<this.actors.length; ++i) {
+            if (this.actors[i].action && this.actors[i].action.blocking) {
+                return true;
+            }
+        }
+        return false;
     }
 });
 

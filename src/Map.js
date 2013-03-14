@@ -23,7 +23,6 @@ Map.inherit(cc.Layer, {
     addActor: function(actor) {
         this.actors.push(actor);
         this.addChild(actor);
-        actor.map = this;
     },
     
     addBuilding: function(building) {
@@ -36,7 +35,6 @@ Map.inherit(cc.Layer, {
         if (index != -1) {
             this.actors.splice(index,1);
             this.removeChild(actor);
-            actor.map = null;
         }
     },
     
