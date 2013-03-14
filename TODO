@@ -6,6 +6,9 @@ Action cirminal score:
     -bribes increases the the ignored value
     -if a policeman takes action, they detain all persons on the node and go to the station where the persons get their suspicousness score incresed and a "inJail" action that can not be interjected
 
+FIXES:
+    [ ] cleanup pathfinding functions. Don't overwrite the path in each fun
+
 DETAILED TODO
 1.  [x] Hire button for thugs
 1.1 [x] Hired actors get a cute little armband
