@@ -17,7 +17,8 @@ Behaviour.inherit(Object, {
             this.actor.addActionToPath(new Action({
                 name: "sleep",
                 duration: sleepRequired/2,
-                wakefulness:sleepRequired
+                wakefulness:sleepRequired,
+                blocking: true
             }));
             return true;
         // buy new food

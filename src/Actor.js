@@ -145,11 +145,12 @@ Actor.inherit(cc.Node, {
         if (this.node) {
             return this.node.map;
         }
-        return this._map; // fallback for old code support TODO remove
+        return this._map;
     },
     
     set map(map) {
          // fallback for old code support TODO remove and make readonly
+         console.warn("should not set map on actor. This has no effect.");
         this._map = map;
     },
     
@@ -270,7 +271,6 @@ Actor.inherit(cc.Node, {
     
     findPathToNodeTypeInBuilding: function(building, type) {
         if (building) {
-            // no xMap pathfinding, yet
             this.findPath(building.node);
             this.addNodeToPath(building.interiorNode); 
             var node = building.interiorMap.findClosestFreeNodeOfType(building.interiorNode, type);
