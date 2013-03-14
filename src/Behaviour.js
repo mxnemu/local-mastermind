@@ -160,7 +160,8 @@ WorkerBehaviour.inherit(Behaviour, {
             this.actor.addActionToPath(new Action({
                 name:"work",
                 duration:this.actor.job.worktime,
-                wakefulness: -(this.actor.job.worktime*2)
+                wakefulness: -(this.actor.job.worktime*2),
+                blocking: true
             }));
         }
     }
