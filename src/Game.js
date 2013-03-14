@@ -72,23 +72,46 @@ Game.inherit(Observable, {
         var point = this.camera.mouseToCamera(event.locationInCanvas);
         var actor = this.map.getEntityOnPosition(point, "actor", this.ui.entity);
         var building = this.map.getEntityOnPosition(point, "building", this.ui.entity);
+        var isDoubleClick = this.checkDoubleClick(event.which);
     
     
-        if (event.which == 3) {
+        if (event.which == G.rightMouseButtonIndex) {
             if (actor) {
                 this.camera.trackedEntity = actor;
-            } else  if (building) {
+            } else if (building) {
                 this.camera.trackedEntity = building;
+            // shortcut to get out
+            } else if (isDoubleClick) {
+                if (this.map != this.outdoorMap) {
+                    this.camera.jumpToMap(this.outdoorMap);
+                }
             }
-        } else if (event.which == 1) {
+        } else if (event.which == G.leftMouseButtonIndex) {
             if (actor) {
                 this.ui.setSelectedActor(actor);
             } else if (building) {
                 this.ui.setSelectedBuilding(building);
+                if (isDoubleClick && building == this.ui.entity) {
+                    this.camera.jumpToMap(building.interiorMap);
+                }
             } else {
                 this.ui.setSelectedEntity(null);
             }
         }
+    },
+    
+    checkDoubleClick: function(buttonIndex) {
+        var ret = false;
+        var currentTime = new Date().getTime();
+        if (this.lastClickTime &&
+            this.lastMouseButtonIndex == buttonIndex &&
+            currentTime - this.lastClickTime < G.doubleClickTime) {
+
+            ret = true;
+        }
+        this.lastClickTime = currentTime;
+        this.lastMouseButtonIndex = buttonIndex;
+        return ret;
     }
 });
 
