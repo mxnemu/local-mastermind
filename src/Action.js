@@ -7,6 +7,7 @@ function Action(args) {
     this.onEnd = args.onEnd || null;
     this.onOtherArrived = args.onOtherArrived || null;
     this.criminal = args.criminal || null;
+    this.blocking = args.blocking || false;
 }
 
 Action.inherit(Object, {

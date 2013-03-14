@@ -2,7 +2,6 @@ function Node(x, y, connections, actionType) {
     Node.superclass.constructor.call(this);
     this.type = actionType;
     this.position = new cc.Point(x,y);
-    this.user = null;
     this.building = null;
     this.actors = [];
     this.connections = [];
@@ -141,6 +140,15 @@ Node.inherit(cc.Node, {
         }
         return path;
     },
+
+    get blocked() {
+	    for (var i=0; i<this.actors.length; ++i) {
+	        if (actors[i].action && actors[i].action.blocking) {
+		    return true;
+	        }
+	    }
+	    return false;
+    }
 });
 
 function ConnectionLine(nodeA, nodeB) {

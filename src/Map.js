@@ -190,10 +190,10 @@ Map.inherit(cc.Layer, {
         return closestNode;
     },
     
-    findFreeNodesOfType: function(type) {
+    findNodesOfType: function(type) {
         var returnArray = [];
         $.each(this.nodes, function() {
-            if (this.type == type && !this.user) {
+            if (this.type == type) {
                 returnArray.push(this);
             }
         });
@@ -201,8 +201,25 @@ Map.inherit(cc.Layer, {
     },
     
     findClosestFreeNodeOfType: function(startNode, type) {
-        var nodes = this.findFreeNodesOfType(type);
-        return nodes[0] || null;
+        var nodes = this.findNodesOfType(type);
+        
+        for (var i=0; i< nodes.length; ++i) {
+            if (nodes[i].blocked) {
+                nodes.splice(i, 1);
+                --i;
+            }
+        }
+        
+        var closest;
+        var lowestDistance;
+        for (var i=0; i< nodes.length; ++i) {
+            var distance = nodes[i].absoluteDistance(startNode);
+            if (!closest || distance < lowestDistance) {
+                lowestDistance = distance;
+                closest = nodes[i];
+            }
+        }
+        return closest;
     },
     
     findMapConnectionPath: function(map, triedConnections) {
