@@ -77,6 +77,8 @@ Camera.inherit(Observable, {
             this.game.map.scale = newScale;
             if (!this.trackedEntity) {
                 this.centerAt(center); // scale at center is fuggan amazing
+            } else {
+                this.centerAt(this.trackedEntity.position);
             }
         }
     },
