@@ -74,10 +74,12 @@ Camera.inherit(Observable, {
         var newScale = this.game.map.scale + scaleDelta;
         if (newScale > 0 && newScale < 3) {
             var center = this.mouseToCamera(new cc.Point(this.size.width/2, this.size.height/2));
+            cc.Director.sharedDirector.isPaused = true;
             this.game.map.scale = newScale;
             if (!this.trackedEntity) {
                 this.centerAt(center); // scale at center is fuggan amazing
             }
+            cc.Director.sharedDirector.isPaused = false;
         }
     },
     
