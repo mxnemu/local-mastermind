@@ -80,10 +80,10 @@ Game.inherit(Observable, {
                 this.camera.trackedEntity = actor;
             } else if (building) {
                 this.camera.trackedEntity = building;
-            // shortcut to get out
+            // shortcut to leave building
             } else if (isDoubleClick) {
                 if (this.map != this.outdoorMap) {
-                    this.camera.jumpToMap(this.outdoorMap);
+                    this.camera.jumpToMap(this.outdoorMap, this.map.building);
                 }
             }
         } else if (event.which == G.leftMouseButtonIndex) {
@@ -92,7 +92,7 @@ Game.inherit(Observable, {
             } else if (building) {
                 this.ui.setSelectedBuilding(building);
                 if (isDoubleClick && building == this.ui.entity) {
-                    this.camera.jumpToMap(building.interiorMap);
+                    this.camera.jumpToMap(building.interiorMap, building.interiorNode);
                 }
             } else {
                 this.ui.setSelectedEntity(null);
