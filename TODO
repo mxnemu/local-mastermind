@@ -51,7 +51,7 @@ BIG TIME PLAN TODO
 1.1 [ ] build your own lair mode where you arrange tiles to build your lair.
 1.2 [ ] design your own uniform draw mode
 1.3 [ ] design your own sculpture / object mode (maybe shared online (inb4 dicks))
-2.  [ ] generate thugs and police man
+2.  [x] generate thugs and police man
 4.  [ ] generate daily routine
 4.1 [ ] goto place at time, stay there 'til time, goto next place
 5.  [x] henchman list
@@ -59,8 +59,9 @@ BIG TIME PLAN TODO
 6.1 [ ] high suspicion makes it more probably that the authority will find your hq and if you can't defend that you're game's over
 6.2 [ ] high influence increases income and lowers the cost of thugs and police bribes
 7.  [x] maps inside buildings
-7.1 [ ] block a node for other actors while using it. Actors search free nodes.
+7.1 [x] block a node for other actors while using it. Actors search free nodes.
 7.2 [ ] different workerType nodes (work-upper, work-lower, work-middle)
+7.3 [ ] Job class to manage worker jobs. Example: cleaner (moves around builing)
 8.  [ ] hire / threaten nerds to do research for you
 8.1 [ ] secure cellphones (the police will not find you on your henchmen cell phones);
 8.2 [ ] Smokebombs - they are just cool
@@ -73,12 +74,12 @@ NEW BUILDINGS
    
    Starting lairs:
    [ ] Your mom's basement
-   [ ] Deserted moldy house ruin
+   [ ] Deserted moldy house
    [ ] cheap 1 room apartment
 
 OPTIONAL COOL FEATURES
 
-   [ ] Newspaper generation. Make a newspaper like in Sim city 
+   [ ] Newspaper generation. Make a newspaper like in Sim city 2000
        that reports recent events and hints to upcoming oppurtiunities
    [ ] unique Event Quests that show based on player actions and playstyle.
 
