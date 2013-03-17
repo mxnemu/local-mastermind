@@ -6,6 +6,7 @@ function Node(x, y, connections, actionType) {
     this.actors = [];
     this.connections = [];
     this.setConnections(connections || []);
+    this.lock = null;
     
     this.contentSize = new cc.Size(5,5);
 }
@@ -142,12 +143,15 @@ Node.inherit(cc.Node, {
     },
 
     get blocked() {
+        return (this.lock && !this.lock.isDestroyed);
+        /*
         for (var i=0; i<this.actors.length; ++i) {
             if (this.actors[i].action && this.actors[i].action.blocking) {
                 return true;
             }
         }
         return false;
+        */
     }
 });
 

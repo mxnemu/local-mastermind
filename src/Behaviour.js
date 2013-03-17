@@ -161,7 +161,7 @@ WorkerBehaviour.inherit(Behaviour, {
                 name:"work",
                 duration:this.actor.job.worktime,
                 wakefulness: -(this.actor.job.worktime*2),
-                blocking: true
+                lock: new Lock(this.actor, 150000)
             }));
         }
     }
