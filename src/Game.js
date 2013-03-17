@@ -52,7 +52,7 @@ Game.inherit(Observable, {
     },
     
     update: function(dt) {
-        this.map.update(dt);
+        this.outdoorMap.update(dt);
         this.camera.update(dt);
     },
     
