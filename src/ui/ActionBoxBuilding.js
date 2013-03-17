@@ -17,8 +17,12 @@ ActionBoxBuilding.inherit(Object, {
         $(".actionBox").empty();
         $(".actionBox").append($("<span>"+ this.building.getFullName() +"</span>"));
         $(".actionBox").append($("<br/>"));
-        $(".actionBox").append(enterButton);
-        $(".actionBox").append($("<br/>"));
+        
+        if (this.building.interiorMap) {
+            $(".actionBox").append(enterButton);
+            $(".actionBox").append($("<br/>"));
+        }
+        
         $(".actionBox").append($("<input value='More...' type='button'></input>"));
         // TODO charge prot money, add $ icon to regularly charged buildings
         // TODO show statistics, workers, inhabitants
