@@ -115,8 +115,13 @@ Camera.inherit(Observable, {
     
     // reset track and jump to entrance of map
     jumpToMap: function(map, entity) {
+        if (!map) {
+            return;
+        }
+        
         this.trackedEntity = null;
         this.game.setMap(map);
+        
         if (entity) {
             this.centerAt(entity.position);
         }
