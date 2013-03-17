@@ -300,6 +300,12 @@ Actor.inherit(cc.Node, {
     },
     
     addActionToPath: function(action) {
+        if (action.lock) {
+             var lastNode = this.lastPathNode || this.node;
+             if (!lastNode.lock || lastNode.lock.isDestroyed) {
+                lastNode.lock = action.lock;
+             }
+        }
         this.path.push({node:null, action:action});
     },
     

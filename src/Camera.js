@@ -77,6 +77,8 @@ Camera.inherit(Observable, {
             this.game.map.scale = newScale;
             if (!this.trackedEntity) {
                 this.centerAt(center); // scale at center is fuggan amazing
+            } else {
+                this.centerAt(this.trackedEntity.position);
             }
         }
     },
@@ -112,9 +114,12 @@ Camera.inherit(Observable, {
     },
     
     // reset track and jump to entrance of map
-    jumpToMap: function(map) {
+    jumpToMap: function(map, entity) {
         this.trackedEntity = null;
         this.game.setMap(map);
+        if (entity) {
+            this.centerAt(entity.position);
+        }
     }
 });
 

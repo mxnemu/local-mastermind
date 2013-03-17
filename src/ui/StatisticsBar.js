@@ -14,7 +14,7 @@ StatisticsBar.inherit(Object, {
         });
         
         $(".leaveBuildingButton").click(function() {
-            _this.ui.game.camera.jumpToMap(_this.ui.game.outdoorMap);
+            _this.ui.game.camera.jumpToMap(_this.ui.game.outdoorMap, _this.ui.game.map.building);
         });
 
         this.ui.game.addObserver("changeMap", function(event) {

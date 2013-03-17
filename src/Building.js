@@ -99,6 +99,7 @@ Building.inherit(cc.Node, {
     createInterior: function(data) {
         var _this = this;
         this.interiorMap = new Map();
+        this.interiorMap.building = this;
         var xOffset = 0, yOffset = 0;
         
         if (data.sprite) {
