@@ -50,6 +50,7 @@
 
 .statisticsBar .showHenchmenButton, .statisticsBar .leaveBuildingButton{
     float:right;
+    clear:right;
 }
 
 .statisticsBar .moneyBox, .statisticsBar .suspicionBox {
