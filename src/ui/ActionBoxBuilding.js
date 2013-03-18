@@ -23,7 +23,14 @@ ActionBoxBuilding.inherit(Object, {
             $(".actionBox").append($("<br/>"));
         }
         
-        $(".actionBox").append($("<input value='More...' type='button'></input>"));
+        
+        var moreButton = $("<input value='More...' type='button'></input>");
+        moreButton.click(function() { 
+            var o = new OverlayPlot(_this.ui, _this.building);
+            o.createUi();
+        });
+        
+        $(".actionBox").append(moreButton);
         // TODO charge prot money, add $ icon to regularly charged buildings
         // TODO show statistics, workers, inhabitants
         // TODO plot heist / harassment menu
