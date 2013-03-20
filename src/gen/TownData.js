@@ -8,7 +8,8 @@ G.defaultTownSettings = {
         
         firstNames:[
             "Kevin", "Justin", "Jenny", "Jaquline", "Kanses", "Sidney",
-            "Bart", "Londen", "Bobby", "Charls", "Marilyn", "Ashley"
+            "Bart", "Londen", "Bobby", "Charls", "Marilyn", "Ashley",
+            "Burton"
         ],
         familyNames:[
             "Baker", "Brewer", "Butcher", "Carter", "Chandler",
@@ -31,7 +32,7 @@ G.defaultTownSettings = {
         familyNames:[
             "Archer", "Bailey", "Hawkins", "Cutcher", "Meyer", "Hochwart",
             "Mausmann", "Obland", "Dawkins", "Monroe", "Roseveld", "Eisenhauer",
-            "Power", "Clark"
+            "Power", "Clark", "Smithers", "Hensington"
         ]
     },
     upperClassData: {

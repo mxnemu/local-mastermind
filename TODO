@@ -14,6 +14,7 @@ DETAILED TODO
 1.1 [x] Hired actors get a cute little armband
 2.  [ ] replace thug behaviour with Henchman behaviour
 3.  [ ] click on henchman -> then click on waypoint, so he walks there
+
 4.  [ ] List of actions for the henchman: 
 4.1 [ ] make trouble (0,0,0)
 4.2 [ ] collect Money (0,1,1)
@@ -24,20 +25,12 @@ DETAILED TODO
 5.2 [ ] Destroy police files (0,-1,0)
 5.3 [ ] squat home (1,1,1)
 
-6.  [ ] Heist Menu:
-{
-    Action:
-        a
-        b
-        c
-    Henchmen:
-        Smithers
-        Burton
-        Hensington
-    Time:
-        Dropdown-date-picker   
-        Timer in the ui for running heists
-}
+6.  [x] Heist/Plot Menu:
+6.1 [x] Action to perform drop down
+6.2 [x] List henchmen with checkboxes. Click to add them to the heist.
+6.3 [ ] Datepicker for ingame date. One heist date + arrival offset per actor.
+6.3a[ ] Workaround during alpha with seconds of delay per actor
+6.4 [ ] Ui overlay listing heists that start soon
 
 7.  [ ] Police behaviour
 7.1 [ ] fire events on map: attract police with node
