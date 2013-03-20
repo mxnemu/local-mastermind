@@ -26,9 +26,9 @@ OverlayPlot.inherit(Object, {
         parent.append(list);
         
         var actionBox = $("<select size='1'></select>");
-        actionBox.append($("<option value='harassVisitors'>Harass visitors</option>"));
-        actionBox.append($("<option value='harassWorkers'>Harass workers</option>"));
-        actionBox.append($("<option value='claimProtectionMoney'>Claim protection money</option>"));
+        actionBox.append("<option value='harassVisitors'>Harass visitors</option>");
+        actionBox.append("<option value='harassWorkers'>Harass workers</option>");
+        actionBox.append("<option value='claimProtectionMoney'>Claim protection money</option>");
         
         parent.append(actionBox);
         parent.append("<br/>");
