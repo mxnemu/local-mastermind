@@ -20,6 +20,7 @@ OverlayPlot.inherit(Object, {
             li.append("<input type='checkbox'>");
             li.append("<img class='portrait' height='16px' src='"+ this.portrait +"'/>");
             li.append("<span class='fullName'>"+ this.getFullName() +"</span>");
+            li.data("actor", actor);            
             list.append(li);
         });
         
@@ -35,6 +36,14 @@ OverlayPlot.inherit(Object, {
         
         var orderButton = $("<input type='button' value='Order'></input>");
         orderButton.click(function() {
+            list.children().each(function() {
+                // lazy assumption that the checkbox is element 0
+                if (this.children[0].checked) {
+                    var actor = $(this).data("actor");
+                    actor.findPath(_this.building.node);
+                    actor.addActionToPath(new Action({name:"plottingAction"}))
+                }
+            });
             _this.destroy();
         });
         
