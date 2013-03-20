@@ -17,7 +17,7 @@ OverlayPlot.inherit(Object, {
         $.each(actors, function() {
             var actor = this;
             var li = $("<label></label>");
-            li.append($("<input type='checkbox'>"));
+            li.append("<input type='checkbox'>");
             li.append("<img class='portrait' height='16px' src='"+ this.portrait +"'/>");
             li.append("<span class='fullName'>"+ this.getFullName() +"</span>");
             list.append(li);
