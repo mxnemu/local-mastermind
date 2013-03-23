@@ -115,6 +115,7 @@ ThugBehaviour.inherit(Behaviour, {
         this.actor.addActionToPath(new Action({
             name:"lookForVictims", 
             duration:randomInRange(30, 52),
+            heat: 100,
             onOtherArrived: function(other) {
                 if (this.isInSameHousehold(other) || other.role == "thug" || other.role == "policeman") {
                     return; // thugs don't steal from thugs, family or police
@@ -213,6 +214,30 @@ NeetBehaviour.inherit(Behaviour, {
 function PoliceBehaviour(actor) {
     PoliceBehaviour.superclass.constructor.call(this, actor);
     this.ignorance = actor.socialClass == "lower" ? 30 : 15;
+    
+    var _this = this;
+    // that line...
+    //Application.instance.game.outdoorMap.events.addObserver("heat", function(event) {
+    // TODO remove workaround that could take indoor maps and get the real outdoor map
+    this.actor.map.events.addObserver("heat", function(event) {
+        if (_this.actor.behaviour == _this) {
+            // TODO collect events for a period of time and then choose the closest
+            if (event.heat > _this.ignorance) {
+                var nextAction = _this.actor.getNextPlannedAction();
+                if (nextAction && nextAction.name == "patrol") {
+                    _this.actor.findPath(event.node);
+                    _this.actor.addActionToPath(new Action({
+                        name:"fightCrime",
+                        duration:randomInRange(2, 6)
+                    }));
+                    //TODO take heat-causing actors to prison, or take money
+                }
+            }
+        } else {
+            Application.instance.game.outdoorMap.events.removeObserver("heat", this);
+        }
+    });
+    
 }
 
 PoliceBehaviour.inherit(Behaviour, {

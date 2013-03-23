@@ -25,8 +25,8 @@ PopulationGenerator.inherit(Object, {
             }
         });
         
-        this.asignJobs();
         this.addToMap(map);
+        this.asignJobs();
         this.initialRandomRelax();
     },
     

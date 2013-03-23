@@ -59,14 +59,14 @@ Actor.inherit(cc.Node, {
                     this.action.onEnd.call(this);
                 }
                 
-                this.action = this.action.next || null;
+                this.action = null;
             }
         } else if (this.path.length > 0) {
             var node = this.path[0].node;
             var action = this.path[0].action;
             
             if (action) {
-                this.action = action
+                this.action = action;
                 this.path[0].action = null;
             } else if (node) {
                 if (node.map != this.node.map) {
@@ -290,6 +290,9 @@ Actor.inherit(cc.Node, {
     
     set action(action) {
         this._action = action;
+        if (action && action.heat > 0) {
+            this.map.events.fireEvent("heat", {heat:action.heat, node:this.node});
+        }
         this.fireEvent("actionChanged", {action: action});
     },
     
@@ -317,19 +320,26 @@ Actor.inherit(cc.Node, {
         return this.firstName + " " + this.familyName;
     },
     
-    /// returns the name of the active action, or the one of the next planned
-    getActionName: function() {
+    getNextPlannedAction: function() {
         if (this.action) {
-            return this.action.name;
+            return this.action;
         }
-        
+    
         for (var i=0; i < this.path.length; ++i) {
             if (this.path[i].action) {
-                return this.path[i].action.name;
+                return this.path[i].action;
             }
         }
-        
-        return "nothing"
+        return null;
+    },
+    
+    /// returns the name of the active action, or the one of the next planned
+    getActionName: function() {
+        var nextAction = this.getNextPlannedAction();
+        if (nextAction) {
+            return nextAction.name;
+        }
+        return "nothing";
     }
 });
 

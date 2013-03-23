@@ -8,6 +8,7 @@ function Action(args) {
     this.onOtherArrived = args.onOtherArrived || null;
     this.criminal = args.criminal || null;
     this.lock = args.lock || null;
+    this.heat = args.heat || 0; //TODO cause heat either onArrive of others, start or end
     
     if (this.lock) {
         this.lock.action = this;
