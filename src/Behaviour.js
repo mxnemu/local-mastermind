@@ -123,6 +123,7 @@ ThugBehaviour.inherit(Behaviour, {
                 // i'd just like to interject for a moment
                 this.interjectAction(new Action({
                     name:"harass",
+                    heat: 100,
                     duration: 5
                 }));
                 other.insertAction(new Action({
@@ -213,6 +214,51 @@ NeetBehaviour.inherit(Behaviour, {
 function PoliceBehaviour(actor) {
     PoliceBehaviour.superclass.constructor.call(this, actor);
     this.ignorance = actor.socialClass == "lower" ? 30 : 15;
+    
+    var _this = this;
+    // that line...
+    //Application.instance.game.outdoorMap.events.addObserver("heat", function(event) {
+    // TODO remove workaround that could take indoor maps and get the real outdoor map
+    this.actor.map.events.addObserver("heat", function(event) {
+        if (_this.actor.behaviour == _this) {
+            // TODO collect events for a period of time and then choose the closest
+            if (event.heat > _this.ignorance) {
+                var nextAction = _this.actor.getNextPlannedAction();
+                if (nextAction && nextAction.name == "patrol") {
+                    _this.actor.findPath(event.node);
+                    _this.actor.addActionToPath(new Action({
+                        name:"fightCrime",
+                        duration:randomInRange(2, 6),
+                        onStart:function() {
+                            for (var i=0; i < _this.actor.node.actors.length; ++i) {
+                                var other = _this.actor.node.actors[i];
+                                if (other.action && other.action.heat > _this.ignorance) {
+                                    var prison = _this.actor.map.findBuildingOfType("policeStation");
+                                    _this.actor.findPathToNodeTypeInBuilding(prison, "cell");
+                                    _this.actor.addActionToPath(new Action({
+                                        name:"arrestCriminal"
+                                    }));
+                                    
+                                    other.path = _this.actor.path.slice();
+                                    if (other.path.length > 0) {
+                                        other.path.splice(other.path.length-1,1);
+                                    }
+                                    other.addActionToPath(new Action({
+                                        name:"stayInPrison",
+                                        duration: 9000
+                                    }));
+                                }
+                            }
+                        }
+                    }));
+                    //TODO take heat-causing actors to prison, or take money
+                }
+            }
+        } else {
+            Application.instance.game.outdoorMap.events.removeObserver("heat", this);
+        }
+    });
+    
 }
 
 PoliceBehaviour.inherit(Behaviour, {

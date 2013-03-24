@@ -65,7 +65,18 @@ G.defaultTownSettings = {
     },
 
     buildings: [
-    {
+        {
+            label: "Police Station",
+            buildingType: "policeStation",
+            groups: ["police", "government"],
+            sprite: "images/policeStation.png",
+            lowerClassJobs: 2,
+            middleClassJobs: 3,
+            min: 1,
+            max: 1,
+            interior: {}
+        },
+        {
             label: "Factory",
             buildingType: "factory",
             groups: ["workplace"],
@@ -100,18 +111,6 @@ G.defaultTownSettings = {
                 ]
             }
         },
-    
-        {
-            label: "Police Station",
-            buildingType: "policeStation",
-            groups: ["police", "government"],
-            sprite: "images/policeStation.png",
-            lowerClassJobs: 2,
-            middleClassJobs: 3,
-            min: 1,
-            max: 1,
-            interior: {}
-        },    
         {
             label: "Park",
             buildingType: "park",

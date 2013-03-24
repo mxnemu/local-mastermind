@@ -7,6 +7,7 @@ function Map() {
     this.connectionLines = [];
     this.mapConnections = [];
     this.cameraStart = new cc.Point(0,0);
+    this.events = new Observable();
 }
 
 Map.inherit(cc.Layer, {
