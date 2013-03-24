@@ -4,9 +4,9 @@ function Action(args) {
     this.progress = 0;
     this.satiety = args.satiety || -(this.duration/7);
     this.wakefulness = args.wakefulness || -(this.duration/10);
+    this.onStart = args.onStart || null;
     this.onEnd = args.onEnd || null;
     this.onOtherArrived = args.onOtherArrived || null;
-    this.criminal = args.criminal || null;
     this.lock = args.lock || null;
     this.heat = args.heat || 0; //TODO cause heat either onArrive of others, start or end
     
@@ -26,6 +26,7 @@ Action.inherit(Object, {
 });
 
 function Lock(actor, timeoutOffset) {
+    timeoutOffset = timeoutOffset || 10000;
     this.actor = actor;
     this.action = null;
     this.node = null;

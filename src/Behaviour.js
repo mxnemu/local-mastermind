@@ -115,7 +115,6 @@ ThugBehaviour.inherit(Behaviour, {
         this.actor.addActionToPath(new Action({
             name:"lookForVictims", 
             duration:randomInRange(30, 52),
-            heat: 100,
             onOtherArrived: function(other) {
                 if (this.isInSameHousehold(other) || other.role == "thug" || other.role == "policeman") {
                     return; // thugs don't steal from thugs, family or police
@@ -124,6 +123,7 @@ ThugBehaviour.inherit(Behaviour, {
                 // i'd just like to interject for a moment
                 this.interjectAction(new Action({
                     name:"harass",
+                    heat: 100,
                     duration: 5
                 }));
                 other.insertAction(new Action({
@@ -228,7 +228,28 @@ function PoliceBehaviour(actor) {
                     _this.actor.findPath(event.node);
                     _this.actor.addActionToPath(new Action({
                         name:"fightCrime",
-                        duration:randomInRange(2, 6)
+                        duration:randomInRange(2, 6),
+                        onStart:function() {
+                            for (var i=0; i < _this.actor.node.actors.length; ++i) {
+                                var other = _this.actor.node.actors[i];
+                                if (other.action && other.action.heat > _this.ignorance) {
+                                    var prison = _this.actor.map.findBuildingOfType("policeStation");
+                                    _this.actor.findPathToNodeTypeInBuilding(prison, "cell");
+                                    _this.actor.addActionToPath(new Action({
+                                        name:"arrestCriminal"
+                                    }));
+                                    
+                                    other.path = _this.actor.path.slice();
+                                    if (other.path.length > 0) {
+                                        other.path.splice(other.path.length-1,1);
+                                    }
+                                    other.addActionToPath(new Action({
+                                        name:"stayInPrison",
+                                        duration: 9000
+                                    }));
+                                }
+                            }
+                        }
                     }));
                     //TODO take heat-causing actors to prison, or take money
                 }

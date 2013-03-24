@@ -293,6 +293,9 @@ Actor.inherit(cc.Node, {
         if (action && action.heat > 0) {
             this.map.events.fireEvent("heat", {heat:action.heat, node:this.node});
         }
+        if (action && action.onStart) {
+            action.onStart();
+        }
         this.fireEvent("actionChanged", {action: action});
     },
     
