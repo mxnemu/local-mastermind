@@ -245,7 +245,8 @@ function PoliceBehaviour(actor) {
                                     }
                                     other.addActionToPath(new Action({
                                         name:"stayInPrison",
-                                        duration: 9000
+                                        duration: 9000,
+                                        lock: new Lock(other, 150000)
                                     }));
                                 }
                             }
