@@ -32,10 +32,11 @@ DETAILED TODO
 6.3a[ ] Workaround during alpha with seconds of delay per actor
 6.4 [ ] Ui overlay listing heists that start soon
 
-7.  [ ] Police behaviour
-7.1 [ ] fire events on map: attract police with node
+7.  [x] Police behaviour
+7.1 [x] fire events on map: attract police with node
 7.2 [ ] rank priority nodes for the police
 7.3 [x] the police is faster than regular people
+7.4 [x] take actors who perform criminal actions to jail
 
 BIG TIME PLAN TODO
 
