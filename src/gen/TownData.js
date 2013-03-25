@@ -74,7 +74,32 @@ G.defaultTownSettings = {
             middleClassJobs: 3,
             min: 1,
             max: 1,
-            interior: {}
+            interior: {
+                sprite: "images/policeStationInterior.png",
+                nodes: [
+                    // desk + entrance 0-4
+                    {x:1145, y:756, type:"door"},
+                    {x:1145, y:443, connections:[0]},
+                    {x:980, y:443, connections:[1]},
+                    {x:980, y:160, connections:[2]},
+                    {x:1145, y:160, connections:[3], type:"work"},
+                    // green mile 5-8
+                    {x:867, y:443, connections:[2]},
+                    {x:648, y:443, connections:[5]},
+                    {x:435, y:443, connections:[6]},
+                    {x:200, y:443, connections:[7]},
+                    // bottom cells 9-12
+                    {x:867, y:666, connections:[5], type:"cell"},
+                    {x:648, y:666, connections:[6], type:"cell"},
+                    {x:435, y:666, connections:[7], type:"cell"},
+                    {x:200, y:666, connections:[8], type:"cell"},
+                    // top cells 13-16
+                    {x:867, y:200, connections:[5], type:"cell"},
+                    {x:648, y:200, connections:[6], type:"cell"},
+                    {x:435, y:200, connections:[7], type:"cell"},
+                    {x:200, y:200, connections:[8], type:"cell"},
+                ]
+            }
         },
         {
             label: "Factory",
