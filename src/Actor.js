@@ -313,6 +313,7 @@ Actor.inherit(cc.Node, {
              }
         }
         this.path.push({node:null, action:action});
+        this.fireEvent("newPlannedAction", {action:action});
     },
     
     addNodeToPath: function(node) {

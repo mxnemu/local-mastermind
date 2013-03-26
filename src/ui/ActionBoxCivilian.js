@@ -26,13 +26,22 @@ ActionBoxCivilian.inherit(Object, {
         $(".actionBox").append($("<span>Action: </span>"));
         $(".actionBox").append($("<span class='actionDisplay'>"+ this.actor.getActionName() +"</span>"));
         
-        this.onActionChanged = function() {
-            $(".actionBox .actionDisplay").text(_this.actor.getActionName());    
+        this.onActionChanged = function(event) {
+            _this.action = event.action;
+            $(".actionBox .actionDisplay").text(_this.actor.getActionName());
         };
+        this.onNewActionPlanned = function() {
+            if (_this.action == null) {
+                _this.action = event.action;
+                $(".actionBox .actionDisplay").text(_this.actor.getActionName());
+            }
+        }
         this.actor.addObserver("actionChanged", this.onActionChanged);
+        this.actor.addObserver("newPlannedAction", this.onActionChanged);
     },
     
     destroy: function() {
         this.actor.removeObserver("actionChanged", this.onActionChanged);
+        this.actor.removeObserver("newPlannedAction", this.onNewActionPlanned);
     }
 });
