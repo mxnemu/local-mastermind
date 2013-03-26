@@ -109,26 +109,27 @@ G.defaultTownSettings = {
             min: 1,
             max: 3,
             worktime: 24,
-            lowerClassJobs: 15,
-            middleClassJobs: 5,
+            lowerClassJobs: 6,
+            middleClassJobs: 2,
             upperClassJobs: 1,
             interior: {
                 sprite: "images/factoryInterior.png",
                 nodes: [
+                    // entrance 0-3
                     {x:1155, y:540, type:"door"},
                     {x:1155, y:386, connections:[0]},
                     {x:1155, y:320, connections:[1]},
-                    // top lane
+                    // top lane 4-7
                     {x:1155, y:186, connections:[2], type:"work"},
                     {x:960, y:186, connections:[3], type:"work"},
                     {x:750, y:186, connections:[4], type:"work"},
                     {x:550, y:186, connections:[5], type:"work"},
-                    // low lane
+                    // low lane 8-11
                     {x:1155, y:386, connections:[1], type:"work"},
                     {x:960, y:386, connections:[7], type:"work"},
                     {x:750, y:386, connections:[8], type:"work"},
                     {x:550, y:386, connections:[9], type:"work"},
-                    // mid to boss chair
+                    // mid to boss chair 12-15
                     {x:320, y:320, connections:[2]},
                     {x:320, y:220, connections:[11]},
                     {x:150, y:220, connections:[12]},
@@ -187,11 +188,15 @@ G.defaultTownSettings = {
             interior: {
                 sprite: "images/lowerClassHouseInterior.png",
                 nodes: [
+                    // entrance + bathroom 0-2
                     {x:1120, y:1380, type:"door"},
                     {x:1120, y:727, connections:[0]},
                     {x:1120, y:267, connections:[1], type:"bathroom"},
+                    // corridor 3
                     {x:590, y:727, connections:[1]},
+                    // kitchen
                     {x:590, y:490, connections:[3], type:"food"},
+                    // bedroom
                     {x:590, y:1140, connections:[3], type:"sleep"},
                 ]
             }
