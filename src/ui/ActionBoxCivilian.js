@@ -1,6 +1,7 @@
 function ActionBoxCivilian(actor, ui) {
     this.actor = actor;
     this.ui = ui;
+    this.action = null;
 }
 
 ActionBoxCivilian.inherit(Object, {
