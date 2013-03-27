@@ -1,10 +1,5 @@
+LEGEND:
 Using (n,n,n) for (influence gain, suspicion gain, money gain)
-
-Unsorted:
-Action cirminal score: 
-    -police shall ignore ciriminal actions under a certain score
-    -bribes increases the the ignored value
-    -if a policeman takes action, they detain all persons on the node and go to the station where the persons get their suspicousness score incresed and a "inJail" action that can not be interjected
 
 FIXES:
     [ ] cleanup pathfinding functions. Don't overwrite the path in each fun
@@ -37,6 +32,7 @@ DETAILED TODO
 7.2 [ ] rank priority nodes for the police
 7.3 [x] the police is faster than regular people
 7.4 [x] take actors who perform criminal actions to jail
+7.5 [ ] bribes increases the policeman ignorance
 
 BIG TIME PLAN TODO
 
@@ -59,6 +55,9 @@ BIG TIME PLAN TODO
 8.  [ ] hire / threaten nerds to do research for you
 8.1 [ ] secure cellphones (the police will not find you on your henchmen cell phones);
 8.2 [ ] Smokebombs - they are just cool
+
+9.1 [ ] Fullscreen mode
+9.2 [ ] Controll the camera by moving the mouse to the edge of the screen.
 
 NEW BUILDINGS
    Public:

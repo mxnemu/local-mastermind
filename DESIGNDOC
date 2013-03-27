@@ -1,0 +1,67 @@
+ _                 _   __  __           _                      _           _ 
+| | ___   ___ __ _| | |  \/  | __ _ ___| |_ ___ _ __ _ __ ___ (_)_ __   __| |
+| |/ _ \ / __/ _` | | | |\/| |/ _` / __| __/ _ \ '__| '_ ` _ \| | '_ \ / _` |
+| | (_) | (_| (_| | | | |  | | (_| \__ \ ||  __/ |  | | | | | | | | | | (_| |
+|_|\___/ \___\__,_|_| |_|  |_|\__,_|___/\__\___|_|  |_| |_| |_|_|_| |_|\__,_|
+================================================================================
+
+DESCRIPTION OF MAIN ELEMENTS:
+=============================
+You play as a nobody form a small Town who wants to become an evil mastermind.
+In order to build up your criminal organization you have to hire thugs to steal
+form the locals and threaten shopkeepers for protection money.
+
+Your income is required to expand your organization and equip your minions and
+evil hideout lair (mom's basement) with new technologies and dig tunnels
+through in the underground.
+
+Once you start with your criminal actions there are chances that the police will
+track you down on their own, or you get snitched by one of your henchmen.
+
+In case the police finds out about your plans, it will try to infiltrate your
+lair through the main entrance or an optional entrance in the sewer.
+
+When the suspicions agains you are rather minor you can solve the problems by
+bribing a single person with a lot of money, or eliminate the investigation
+team that's on your case.
+
+CONTROLLS AND PLAYER INTERFACES:
+================================
+The player controlls a strategy camera that can go around everywhere and see
+everything.
+The keyboard is used for Hotkeys and not required to play the game.
+Graphical userinterfaces provide menus to hire and manage henchmen.
+Statistics about loyallity and condition of the henchmen are provided in tables.
+When directly selecting a henchman the player can controll it's inventory and
+give direct orders regarding movement by rightclicking close to a node.
+Multiple entities should not be directly controlled by the player, but their AI
+should follow general order (like build this). 
+For some orders (like heists, special harresments or intimidations) the player 
+can select special groups of minions, who shall perform this order.
+
+================================================================================
+ ____  _____ _____  _    ___ _     ____  
+|  _ \| ____|_   _|/ \  |_ _| |   / ___| 
+| | | |  _|   | | / _ \  | || |   \___ \ 
+| |_| | |___  | |/ ___ \ | || |___ ___) |
+|____/|_____| |_/_/   \_\___|_____|____/ 
+
+================================================================================
+
+SIMULATION:
+===========
+Without player interaction the game shall simulate a normal small town with low
+unorganized crime. Workers going to work and home and stuff...
+
+TECHNOLOGY:
+===========
+Neither you, nor your goons are very tech savvy people, but you have to rely on
+technology (like cellphones) and gadgets (like smokebombs) in order to go on a
+successful caper. Your lair also requires protection (like keycard doors)
+and life sustainment (like underground air cleaning).
+In order to research and install advanced technologies you have to either pay
+researchers without morals, or beat up some nerds in the library, until they
+help you.
+Research and production require money and special goods (like chemicals).
+These goods either have to be stolen (from police evidence room, school, lab)
+or bought from the black market.
