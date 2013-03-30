@@ -41,7 +41,15 @@ can select special groups of minions, who shall perform this order.
 
 FIRST MINUTES IN A NEW GAME:
 ============================
-TODO
+The camera starts at the player character in the basement.
+2 Thugs are already hired and also in the basement awaiting orders.
+The player let's them dig out a tunnel and a room. This takes a little.
+In the meanwhile the tutorial leads the camera to the overworld. 
+(The overworld is blocked until the order for the first room was given).
+The player has to hire additional thugs and let them steal money from civilians.
+The player has to send thugs to a shop to steel lowprice products like candy.
+The player has to build a workshop to build batons for thugs.
+
 
 ================================================================================
  ____  _____ _____  _    ___ _     ____  
@@ -69,3 +77,30 @@ help you.
 Research and production require money and special goods (like chemicals).
 These goods either have to be stolen (from police evidence room, school, lab)
 or bought from the black market.
+
+HENCHMEN STATS:
+===============
+AirCondition: The medical condition of a henchmen can be reduced by bad air 
+    underground. Henchmen that have to dig a lot of tunnels and spend
+    time in badly ventilated caves are more likely to collapse, lose
+    fights or die become sick and die.
+
+HENCHMEN SKILLS:
+================
+Henchmen have skills that increase their chances to execute actions correctly.
+Skills improve though using them or getting tutoried by higher skilled henchmen
+Skill list:
+-stealing
+-close combat
+-surprise combat (only 1 attack that may fail; useful for non-bulky thiefs)
+-classic range combat (slingshot, bow, crossbow)
+-gun combat
+    
+POLICE ATTEMPTS ARREST:
+========================
+When a policeman catches a henchman while executing a criminal task the player
+receives gets a popup where that provides the following orders for the henchman:
+- get arrested properly (high risk of snitching if not a zealot or mediocre pay)
+- try to run away (may get away if heat-p.ignorance was low)
+- fight against the police (bad chances, probably gets hurt +snitching)
+
