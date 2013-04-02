@@ -21,9 +21,16 @@ track you down on their own, or you get snitched by one of your henchmen.
 In case the police finds out about your plans, it will try to infiltrate your
 lair through the main entrance or an optional entrance in the sewer.
 
-When the suspicions agains you are rather minor you can solve the problems by
-bribing a single person with a lot of money, or eliminate the investigation
-team that's on your case.
+When the suspicions against you are rather minor, you can resolve them by
+bribing a single person with a lot of money. Otherwise you have to eliminate the
+investigationteam or complete a ruse mission to sidetrack your enemies.
+
+All problems have multiple solutions (mostly violence, stealth, charisma) that
+change the player's stats and come in different difficulties (depending on the
+task) to avoid lockin solutions.
+
+The final goal is to assume control over the townhall and become the new ruler
+of the town.
 
 CONTROLLS AND PLAYER INTERFACES:
 ================================
@@ -49,7 +56,6 @@ In the meanwhile the tutorial leads the camera to the overworld.
 The player has to hire additional thugs and let them steal money from civilians.
 The player has to send thugs to a shop to steel lowprice products like candy.
 The player has to build a workshop to build batons for thugs.
-
 
 ================================================================================
  ____  _____ _____  _    ___ _     ____  
