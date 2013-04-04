@@ -3,6 +3,7 @@ Using (n,n,n) for (influence gain, suspicion gain, money gain)
 
 FIXES:
     [ ] cleanup pathfinding functions. Don't overwrite the path in each fun
+    [ ] avoid weird connections by choosing connectivity via building distance
 
 DETAILED TODO
 1.  [x] Hire button for thugs
