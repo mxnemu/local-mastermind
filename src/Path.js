@@ -26,7 +26,7 @@ Path.inherit(Object, {
     
         // TODO use permissions to check rights to open doors
         if (startNode.map != finishNode.map) {
-            this.toMap(startNode, finishNode.map);
+            this.toMapFromNode(finishNode.map, startNode);
             var lastNode = this.lastNode();
             if (lastNode) {
                 this.steps = this.steps.concat(lastNode.findPath(finishNode));
@@ -36,7 +36,15 @@ Path.inherit(Object, {
         }
     },
     
-    toMap: function(startNode, finishMap) {
+    toMap: function(finishMap) {
+        if (this.actor) {
+            this.toMapFromNode(finishMap, this.actor.node);
+        } else {
+            console.error("trying to find path without actor position set");
+        }
+    },
+    
+    toMapFromNode: function(finishMap, startNode) {
         if (startNode.map != finishMap) {
             var path = [];
             var mapPath = startNode.map.findMapConnectionPath(finishMap);
@@ -122,14 +130,14 @@ Path.inherit(Object, {
     },
     
     /// insert given Step at given index. If index is not provided insert at 0
-    insert: function(index, step) {
+    insert: function(step, index) {
         index = index || 0;
         this.steps.splice(index, 0, step);
     },
     
     nextPlannedAction: function() {
-        if (this.action) {
-            return this.action;
+        if (this.actor.action) {
+            return this.actor.action;
         }
     
         for (var i=0; i < this.steps.length; ++i) {
@@ -147,6 +155,12 @@ Path.inherit(Object, {
             }
         }
         return null;
+    },
+    
+    copy: function(actor) {
+        var c = new Path(actor);
+        c.steps = this.steps.slice();
+        return c;
     }
     
 });

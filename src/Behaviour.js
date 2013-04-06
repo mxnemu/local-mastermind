@@ -80,7 +80,7 @@ ThugBehaviour.inherit(Behaviour, {
         
         // go outside
         if (this.actor.map != Application.instance.game.outdoorMap) {
-            this.actor.path.ToMap(Application.instance.game.outdoorMap);
+            this.actor.path.toMap(Application.instance.game.outdoorMap);
             this.actor.addActionToPath(new Action({name:"goOutside"}))
             return;
         }
@@ -126,7 +126,7 @@ ThugBehaviour.inherit(Behaviour, {
                     heat: 100,
                     duration: 5
                 }));
-                other.insertAction(new Action({
+                other.interjectAction(new Action({
                     name:"gettingHarassed",
                     duration: 5,
                     onEnd: function() {
@@ -223,7 +223,7 @@ function PoliceBehaviour(actor) {
         if (_this.actor.behaviour == _this) {
             // TODO collect events for a period of time and then choose the closest
             if (event.heat > _this.ignorance) {
-                var nextAction = _this.actor.getNextPlannedAction();
+                var nextAction = _this.actor.path.nextPlannedAction();
                 if (nextAction && nextAction.name == "patrol") {
                     _this.actor.path.toNode(event.node);
                     _this.actor.addActionToPath(new Action({
@@ -239,13 +239,13 @@ function PoliceBehaviour(actor) {
                                         name:"arrestCriminal"
                                     }));
                                     
-                                    other.path = _this.actor.path.slice();
-                                    if (other.path.length > 0) {
-                                        other.path.splice(other.path.length-1,1);
+                                    other.path = _this.actor.path.copy(other);
+                                    if (other.path.hasSteps()) {
+                                        other.path.steps.splice(other.path.length-1,1);
                                     }
                                     other.addActionToPath(new Action({
                                         name:"stayInPrison",
-                                        duration: 9000,
+                                        duration: 300,
                                         lock: new Lock(other, 150000)
                                     }));
                                 }

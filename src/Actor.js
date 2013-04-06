@@ -209,7 +209,7 @@ Actor.inherit(cc.Node, {
     /// replace the current action and set the next action to the current
     interjectAction: function(action) {
         this.action = action;
-        this.insertAction(action);
+        this.path.insert(new PathStep(null, action));
     },
     
     get action() {
