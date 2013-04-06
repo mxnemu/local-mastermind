@@ -32,7 +32,7 @@ Path.inherit(Object, {
                 this.steps = this.steps.concat(lastNode.findPath(finishNode));
             }
         } else if (startNode) {
-            this.path = startNode.findPath(finishNode);
+            this.steps = startNode.findPath(finishNode);
         }
     },
     
@@ -48,7 +48,7 @@ Path.inherit(Object, {
                     node = this.exitNode;
                 });
             }
-            this.path = path;
+            this.steps = path;
         }
     },
     
@@ -75,7 +75,7 @@ Path.inherit(Object, {
     findPathAndAppend: function(node) {
         var lastNode = this.lastNode() || actor.node;
         if (node && node != lastNode) {
-            this.path = this.path.concat(lastNode.findPath(node));
+            this.steps = this.steps.concat(lastNode.findPath(node));
         }
     },
     
