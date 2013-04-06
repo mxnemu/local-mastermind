@@ -13,7 +13,7 @@ Behaviour.inherit(Object, {
         // sleep
         if (this.actor.wakefulness < 20) {
             var sleepRequired = 100 - this.actor.wakefulness;
-            this.actor.findPathToNodeTypeInBuilding(this.actor.home, "sleep");
+            this.actor.path.toNodeOfTypeInBuilding(this.actor.home, "sleep");
             this.actor.addActionToPath(new Action({
                 name: "sleep",
                 duration: sleepRequired/2,
@@ -27,12 +27,12 @@ Behaviour.inherit(Object, {
             this.actor.household.plannedResourceAddition = (this.actor.household.maxResources -
                                                             this.actor.household.resources) *
                                                             (100-this.actor.wakefulness);
-            this.actor.findPathToBuildingType("smallStore");
+            this.actor.path.toBuildingOfType("smallStore");
             this.actor.addActionToPath(new Action({
                 name: "shopping",
                 duration: randomInRange(5, 15),
                 onEnd: function() {
-                    _this.actor.findPath(_this.actor.home.interiorNode);
+                    _this.actor.path.toNode(_this.actor.home.interiorNode);
                     _this.actor.addActionToPath(new Action({
                         name: "refillResources",
                         duration: 5,
@@ -80,7 +80,7 @@ ThugBehaviour.inherit(Behaviour, {
         
         // go outside
         if (this.actor.map != Application.instance.game.outdoorMap) {
-            this.actor.findPathToMap(Application.instance.game.outdoorMap);
+            this.actor.path.ToMap(Application.instance.game.outdoorMap);
             this.actor.addActionToPath(new Action({name:"goOutside"}))
             return;
         }
@@ -96,15 +96,15 @@ ThugBehaviour.inherit(Behaviour, {
         
         if (targetBuildingType == "random") {
             //TODO next line node can be null error
-            this.actor.findPath(randomElementInArray(this.actor.map.nodes));
+            this.actor.path.toNode(randomElementInArray(this.actor.map.nodes));
             this.lastAction = targetBuildingType;
         } else if (targetBuildingType && this.actor.map) {
             var building = this.actor.map.findBuildingOfType(targetBuildingType);
             if (building) {
                 if (building.interiorNode && building.isPublic) {
-                    this.actor.findPath(building.interiorNode);    
+                    this.actor.path.toNode(building.interiorNode);    
                 } else {
-                    this.actor.findPath(building.node);
+                    this.actor.path.toNode(building.node);
                 }
                 this.lastAction = targetBuildingType;
             }
@@ -151,13 +151,13 @@ WorkerBehaviour.inherit(Behaviour, {
         
         // go outside
         if (this.actor.map != Application.instance.game.outdoorMap) {
-            this.actor.findPathToMap(Application.instance.game.outdoorMap);
+            this.actor.path.toMap(Application.instance.game.outdoorMap);
             this.actor.addActionToPath(new Action({name:"goOutside"}))
             return;
         }
         
         if (this.actor.job) {
-            this.actor.findPathToNodeTypeInBuilding(this.actor.job, "work");
+            this.actor.path.toNodeOfTypeInBuilding(this.actor.job, "work");
             this.actor.addActionToPath(new Action({
                 name:"work",
                 duration:this.actor.job.worktime,
@@ -182,7 +182,7 @@ NeetBehaviour.inherit(Behaviour, {
         
         // go outside
         if (this.actor.map != Application.instance.game.outdoorMap) {
-            this.actor.findPathToMap(Application.instance.game.outdoorMap);
+            this.actor.path.toMap(Application.instance.game.outdoorMap);
             this.actor.addActionToPath(new Action({name:"goOutside"}))
             return;
         }
@@ -199,7 +199,7 @@ NeetBehaviour.inherit(Behaviour, {
         if (targetBuildingType && this.actor.map) {
             var building = this.actor.map.findBuildingOfType(targetBuildingType);
             if (building) {
-                this.actor.findPath(building.interiorNode || building.node);
+                this.actor.path.toNode(building.interiorNode || building.node);
                 this.lastAction = targetBuildingType;
             }
         }
@@ -225,7 +225,7 @@ function PoliceBehaviour(actor) {
             if (event.heat > _this.ignorance) {
                 var nextAction = _this.actor.getNextPlannedAction();
                 if (nextAction && nextAction.name == "patrol") {
-                    _this.actor.findPath(event.node);
+                    _this.actor.path.toNode(event.node);
                     _this.actor.addActionToPath(new Action({
                         name:"fightCrime",
                         duration:randomInRange(2, 6),
@@ -234,7 +234,7 @@ function PoliceBehaviour(actor) {
                                 var other = _this.actor.node.actors[i];
                                 if (other.action && other.action.heat > _this.ignorance) {
                                     var prison = _this.actor.map.findBuildingOfType("policeStation");
-                                    _this.actor.findPathToNodeTypeInBuilding(prison, "cell");
+                                    _this.actor.path.toNodeOfTypeInBuilding(prison, "cell");
                                     _this.actor.addActionToPath(new Action({
                                         name:"arrestCriminal"
                                     }));
@@ -270,14 +270,14 @@ PoliceBehaviour.inherit(Behaviour, {
         
         // go outside
         if (this.actor.map != Application.instance.game.outdoorMap) {
-            this.actor.findPathToMap(Application.instance.game.outdoorMap);
+            this.actor.path.toMap(Application.instance.game.outdoorMap);
             this.actor.addActionToPath(new Action({name:"goOutside"}))
             return;
         }
         
         // TODO check suspicious heat from map
         if (this.actor.map) {
-            this.actor.findPath(randomElementInArray(this.actor.map.nodes));
+            this.actor.path.toNode(randomElementInArray(this.actor.map.nodes));
             
             this.actor.addActionToPath(new Action({
                 name:"patrol",
