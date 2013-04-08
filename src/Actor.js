@@ -13,7 +13,7 @@ function Actor(node, spriteName, household) {
     this.role = "neet";
     this.job = null;
 
-    this.path = [];
+    this.path = new Path(this);
     this.speed = 1.5;
     this._action = null;
     this.actionHistory = [];
@@ -61,13 +61,14 @@ Actor.inherit(cc.Node, {
                 
                 this.action = null;
             }
-        } else if (this.path.length > 0) {
-            var node = this.path[0].node;
-            var action = this.path[0].action;
+        } else if (this.path.hasSteps()) {
+            var pathStep = this.path.first();
+            var node = pathStep.node;
+            var action = pathStep.action;
             
             if (action) {
                 this.action = action;
-                this.path[0].action = null;
+                pathStep.action = null;
             } else if (node) {
                 if (node.map != this.node.map) {
                     this.setAtNode(node);
@@ -94,10 +95,10 @@ Actor.inherit(cc.Node, {
                     yDistance < this.speed*2) {
                     
                     this.setAtNode(node);
-                    this.path.splice(0,1);
+                    this.path.popFirst();
                     this.arriveOnNode(node);
                     
-                    if (this.path.length == 0) {
+                    if (this.path.hasSteps()) {
                         this.arriveOnFinalDestination();
                     }
                 } else {
@@ -114,7 +115,7 @@ Actor.inherit(cc.Node, {
                     }
                 }
             } else {
-                this.path.splice(0,1);
+                this.path.popFirst();
             } 
         } else {
             if (this.behaviour) {
@@ -152,15 +153,6 @@ Actor.inherit(cc.Node, {
          // fallback for old code support TODO remove and make readonly
          console.warn("should not set map on actor. This has no effect.");
         this._map = map;
-    },
-    
-    get lastPathNode() {
-        for (var i=this.path.length-1; i >= 0; --i) {
-            if (this.path[i].node) {
-                return this.path[i].node;
-            }
-        }
-        return null;
     },
     
     otherActorArrivedAtNode: function(other) {
@@ -214,74 +206,10 @@ Actor.inherit(cc.Node, {
         this.node.addActor(this);
     },
     
-    findPath: function(finishNode) {
-        if (!this.node || !finishNode) {
-            console.error("trying to find path from/to undefined location");
-            return;
-        }
-        this.findPathFromStartToEnd(this.node, finishNode);
-    },
-    
-    findPathFromStartToEnd: function(startNode, finishNode) {
-        if (startNode.map != finishNode.map) {
-            this.findPathFromNodeToMap(startNode, finishNode.map);
-            this.path = this.path.concat(this.lastPathNode.findPath(finishNode));
-        } else if (startNode) {
-            this.path = startNode.findPath(finishNode);
-        }
-    },
-    
-    findPathToMap: function(finishMap) {
-        this.findPathFromNodeToMap(this.node, finishMap);
-    },
-    
-    findPathFromNodeToMap: function(startNode, finishMap) {
-        if (startNode.map != finishMap) {
-            var path = [];
-            var mapPath = startNode.map.findMapConnectionPath(finishMap);
-            var node = startNode;
-            if (mapPath) {
-                $.each(mapPath, function() {
-                    path = path.concat(node.findPath(this.entranceNode));
-                    path.push({node:this.exitNode});
-                    node = this.exitNode;
-                });
-            }
-            this.path = path;
-        }
-    },
-    
-    findPathAndAppend: function(node) {
-        var lastNode = this.node;
-        if (this.path.length > 0) {
-            lastNode = this.path[this.path.length-1].node;
-        }
-        if (node && node != lastNode) {
-            this.path = this.path.concat(lastNode.findPath(node));
-        }
-    },
-    
-    findPathToBuildingType: function(buildingType) {
-        var building = this.map.findClosestBuildingOfType(buildingType, this.node);
-        //var building = this.map.findBuildingOfType(buildingType);
-        if (building) {
-            this.findPath(building.node);
-        }
-    },
-    
-    findPathToNodeTypeInBuilding: function(building, type) {
-        if (building) {
-            this.findPath(building.node);
-            this.addNodeToPath(building.interiorNode); 
-            var node = building.interiorMap.findClosestFreeNodeOfType(building.interiorNode, type);
-            this.findPathAndAppend(node);
-        }
-    },
-    
     /// replace the current action and set the next action to the current
     interjectAction: function(action) {
         this.action = action;
-        this.insertAction(action);
+        this.path.insert(new PathStep(null, action));
     },
     
     get action() {
@@ -299,47 +227,25 @@ Actor.inherit(cc.Node, {
         this.fireEvent("actionChanged", {action: action});
     },
     
-    /// insert given action at given index. If index is not provided insert at 0
-    insertAction: function(action, index) {
-        index = index || 0;
-        this.path.splice(index, 0, {node:null, action:action});
-    },
-    
     addActionToPath: function(action) {
         if (action.lock) {
-             var lastNode = this.lastPathNode || this.node;
+             var lastNode = this.path.lastNode() || this.node;
              if (!lastNode.lock || lastNode.lock.isDestroyed) {
                 lastNode.lock = action.lock;
              }
         }
-        this.path.push({node:null, action:action});
+        this.path.addAction(action);
         this.fireEvent("newPlannedAction", {action:action});
     },
     
-    addNodeToPath: function(node) {
-        this.path.push({node:node});
-    },
     
     getFullName: function() {
         return this.firstName + " " + this.familyName;
     },
     
-    getNextPlannedAction: function() {
-        if (this.action) {
-            return this.action;
-        }
-    
-        for (var i=0; i < this.path.length; ++i) {
-            if (this.path[i].action) {
-                return this.path[i].action;
-            }
-        }
-        return null;
-    },
-    
     /// returns the name of the active action, or the one of the next planned
     getActionName: function() {
-        var nextAction = this.getNextPlannedAction();
+        var nextAction = this.path.nextPlannedAction();
         if (nextAction) {
             return nextAction.name;
         }

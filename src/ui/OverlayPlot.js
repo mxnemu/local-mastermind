@@ -40,7 +40,7 @@ OverlayPlot.inherit(Object, {
                 // lazy assumption that the checkbox is element 0
                 if (this.children[0].checked) {
                     var actor = $(this).data("actor");
-                    actor.findPath(_this.building.node);
+                    actor.path.toNode(_this.building.node);
                     actor.addActionToPath(new Action({name:"plottingAction"}))
                 }
             });

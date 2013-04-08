@@ -131,7 +131,7 @@ Node.inherit(cc.Node, {
                 path.push(current);
                 var l = current.last;
                 while (l) {
-                    path.push({node: l.node});
+                    path.push(new PathStep(l.node));
                     l = l.last;
                 }
                 path.reverse();
