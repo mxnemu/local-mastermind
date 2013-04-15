@@ -59,6 +59,11 @@ BIG TIME PLAN TODO
 9.1 [ ] Fullscreen mode
 9.2 [ ] Controll the camera by moving the mouse to the edge of the screen.
 
+10.0[ ] Add a building where the player has basebuliding rights
+10.1[ ] Allow buying items and placing them inside this building
+10.2[ ] Check collisions with paths and prohibit placement / search ways around
+10.3[ ] Allow the player to set new paths
+
 NEW BUILDINGS
    Public:
    [ ] Hotel
@@ -75,6 +80,7 @@ OPTIONAL COOL FEATURES
    [ ] Newspaper generation. Make a newspaper like in Sim city 2000
        that reports recent events and hints to upcoming oppurtiunities
    [ ] unique Event Quests that show based on player actions and playstyle.
+   [ ] highlight the path of the currently selected unit   
 
 DONE
 1. [x] write town generator
