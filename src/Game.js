@@ -27,10 +27,18 @@ Game.inherit(Observable, {
         this.setMap(map);
         */
 
-        this.setMap(new TownGenerator().create());
+        this.player = new Player();
+        this.player.hq = new Building();
+        this.player.hq.restore({
+            label: "Secret HQ",
+            buildingType: "hq",
+            groups: ["player"],
+            sprite: "images/moldyShackHq.png",
+            interior: {}
+        });
+        this.setMap(new TownGenerator(this.player).create());
         this.outdoorMap = this.map;
         this.camera = new Camera(cc.Director.sharedDirector.winSize, this);
-        this.player = new Player();
         this.ui = new Ui(this);
         
         if (this.map.buildings.length > 0) {
