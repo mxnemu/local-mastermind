@@ -20,7 +20,86 @@
 
     <body>
         <h1>Create Character</h1>
-        <label><input type="radio" name="hq"/><img src="images/moldyShackHq.png"/>moldy shack</label>
-        <label><input type="radio" name="hq"/>mom's basement<img src="images/homeHq.png"/></label>
+        <div class="main">
+            <div class="screen archtype">
+                <h3>Archtype</h3>
+                <label>
+                    <input type="radio" name="archtype"/>
+                    <div class="bulidingInfo">
+                        <img src="images/person.png"/>
+                        <br/>
+                        <center>Vanilla Villain</center>
+                        <center>Your everyday badguy</center>
+                        <pre>
+Just like ehh meh dunno
+                        </pre>
+                    </div>
+                </label>
+                <label>
+                    <input type="radio" name="archtype"/>
+                    <div class="bulidingInfo">
+                        <img src="images/person.png"/>
+                        <br/>
+                        <center>Mad Scientist</center>
+                        <pre>
+You're mad.
+Mad because nobody wanted to sponsor your studies about organic-matter-eradication-lasers.
+Mad because your university didn't want to provide free nuclear waste for your Human mutagen project.
+Mad becasue the only human test subjects you can sample are unhealthy crack addicted bums.
+Your answer is straight: If this world does not bend to your genious, you have to make it bend.
+Become a criminal mastermind and fullfil your dreams of ethicly questionable research and possebly dangerous experiments.
+                        </pre>
+                    </div>
+                </label>
+            </div>
+            <div class="screen building">
+                <h3>Start HQ (Headquarters)</h3>
+                <label>
+                    <input type="radio" name="hq"/>
+                    <div class="bulidingInfo">
+                        <img src="images/moldyShackHq.png"/>
+                        <br/>
+                        <center>moldy shack</center>
+                    </div>
+                </label>
+                <label>
+                    <input type="radio" name="hq"/>
+                    <div class="bulidingInfo">
+                        <img src="images/homeHq.png"/>
+                        <center>mom's basement</center>
+                    </div>
+                </label>
+            </div>
+            <div class="screen personalInfo">
+                <label>Prefix:<input value="Prof.Dr.Dr.Prof."/></label><br/>
+                <label>Frist name:<input value="Bernd"></label><br/>
+                <label>Last name:<input value="van und zu Brotig"></label><br/>
+                <label>Honorific Title:<input value="Imperator of Worlds"></label>
+            </div>
+            
+            <div class="steplist">
+                <ol>
+                    <li>Archtype</li>
+                    <!-- <li>Personal Histroy</li> Other steps already tell this--> 
+                    <li>HQ (Head Quarter)</li>
+                    <li>Name and personal bio</li>
+                </ol>
+            </div>
+            <div class="summary">
+                <span class="personalTitleText"></span>
+                <span class="firstNameText"></span>
+                <span class="lastNameText"></span>
+                <span class="honorificTitleText"></span>
+                <br/>
+                <hr/>
+                <span class="archtypeText"> lives in
+                <span class="hqText">
+                <br/>
+                <label>bio:
+                <br/>
+                <textarea disabled="true" type="textArea" class="personalBioText">Poetic-and-touching-textual-recollection-of-prior-memories-the-character-possesses up in this bitch
+                </textarea>
+            </div>
+        </div>
     </body>
 </html>
