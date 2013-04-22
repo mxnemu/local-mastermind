@@ -16,6 +16,9 @@
         <!-- Utils -->
         <script src="src/Utils.js" defer></script>
         <script src="src/Observable.js" defer></script>
+        
+        <!-- page -->
+        <script src="src/pages/CreatePlayer.js" defer></script>
     </head>
 
     <body>
@@ -24,7 +27,7 @@
             <div class="screen archtype">
                 <h3>Archtype</h3>
                 <label>
-                    <input type="radio" name="archtype"/>
+                    <input type="radio" name="archtype" value="vanillaVillian"/>
                     <div class="bulidingInfo">
                         <img src="images/person.png"/>
                         <br/>
@@ -36,7 +39,7 @@ Just like ehh meh dunno
                     </div>
                 </label>
                 <label>
-                    <input type="radio" name="archtype"/>
+                    <input type="radio" name="archtype" value="madScientist"/>
                     <div class="bulidingInfo">
                         <img src="images/person.png"/>
                         <br/>
@@ -55,7 +58,7 @@ Become a criminal mastermind and fullfil your dreams of ethicly questionable res
             <div class="screen building">
                 <h3>Start HQ (Headquarters)</h3>
                 <label>
-                    <input type="radio" name="hq"/>
+                    <input type="radio" name="hq" value="moldyShack"/>
                     <div class="bulidingInfo">
                         <img src="images/moldyShackHq.png"/>
                         <br/>
@@ -63,7 +66,7 @@ Become a criminal mastermind and fullfil your dreams of ethicly questionable res
                     </div>
                 </label>
                 <label>
-                    <input type="radio" name="hq"/>
+                    <input type="radio" name="hq" value="momsBasement"/>
                     <div class="bulidingInfo">
                         <img src="images/homeHq.png"/>
                         <center>mom's basement</center>
@@ -71,10 +74,10 @@ Become a criminal mastermind and fullfil your dreams of ethicly questionable res
                 </label>
             </div>
             <div class="screen personalInfo">
-                <label>Prefix:<input value="Prof.Dr.Dr.Prof."/></label><br/>
-                <label>Frist name:<input value="Bernd"></label><br/>
-                <label>Last name:<input value="van und zu Brotig"></label><br/>
-                <label>Honorific Title:<input value="Imperator of Worlds"></label>
+                <label>Prefix:<input class="namePrefix" value="Prof.Dr.Dr.Prof."/></label><br/>
+                <label>Frist name:<input class="firstName" value="Bernd"></label><br/>
+                <label>Last name:<input class="lastName" value="van und zu Brotig"></label><br/>
+                <label>Honorific Title:<input class="honorificTitle" value="Imperator of Worlds"></label>
             </div>
             
             <div class="steplist">
@@ -86,14 +89,13 @@ Become a criminal mastermind and fullfil your dreams of ethicly questionable res
                 </ol>
             </div>
             <div class="summary">
-                <span class="personalTitleText"></span>
-                <span class="firstNameText"></span>
-                <span class="lastNameText"></span>
-                <span class="honorificTitleText"></span>
-                <br/>
+                <span class="namePrefixText"></span><br/>
+                <span class="firstNameText"></span><br/>
+                <span class="lastNameText"></span><br/>
+                <span class="honorificTitleText"></span><br/>
                 <hr/>
-                <span class="archtypeText"> lives in
-                <span class="hqText">
+                <span class="archtypeText"></span> lives in
+                <span class="hqText"></span>
                 <br/>
                 <label>bio:
                 <br/>
