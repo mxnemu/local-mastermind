@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Local Mastermind - Create Player</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        
+        <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" title="no title" />
+        <link rel="stylesheet" href="css/ui.css" type="text/css" media="screen" title="no title" />
+        <link rel="stylesheet" href="css/createPlayer.css" type="text/css" media="screen" title="no title" />
+        
+        <!-- Libraries -->
+        <script src="lib/jquery-1.7.2.min.js" defer></script>
+        <script src="lib/cocos2d-beta2.js"></script>
+        <script src="lib/box2d.js" defer></script>
+        
+        <!-- Utils -->
+        <script src="src/Utils.js" defer></script>
+        <script src="src/Observable.js" defer></script>
+        
+        <!-- page -->
+        <script src="src/pages/CreatePlayer.js" defer></script>
+    </head>
+
+    <body>
+        <h1>Create Character</h1>
+        <div class="main">
+            <div class="screen archtype">
+                <h3>Archtype</h3>
+                <label>
+                    <input type="radio" name="archtype" value="vanillaVillian"/>
+                    <div class="bulidingInfo">
+                        <img src="images/person.png"/>
+                        <br/>
+                        <center>Vanilla Villain</center>
+                        <center>Your everyday badguy</center>
+                        <pre>
+Just like ehh meh dunno
+                        </pre>
+                    </div>
+                </label>
+                <label>
+                    <input type="radio" name="archtype" value="madScientist"/>
+                    <div class="bulidingInfo">
+                        <img src="images/person.png"/>
+                        <br/>
+                        <center>Mad Scientist</center>
+                        <pre>
+You're mad.
+Mad because nobody wanted to sponsor your studies about organic-matter-eradication-lasers.
+Mad because your university didn't provide you with free nuclear waste for your Human Mutagenesis project.
+Mad because the only human test subjects you can sample are unhealthy crack addicted bums.
+Your answer is straight: If this world does not bend to your genius, you have to make it bend.
+Become a criminal mastermind and fullfil your dreams of ethicly questionable research and possebly dangerous experiments.
+                        </pre>
+                    </div>
+                </label>
+            </div>
+            <div class="screen building">
+                <h3>Start HQ (Headquarters)</h3>
+                <label>
+                    <input type="radio" name="hq" value="moldyShack"/>
+                    <div class="bulidingInfo">
+                        <img src="images/moldyShackHq.png"/>
+                        <br/>
+                        <center>moldy shack</center>
+                    </div>
+                </label>
+                <label>
+                    <input type="radio" name="hq" value="momsBasement"/>
+                    <div class="bulidingInfo">
+                        <img src="images/homeHq.png"/>
+                        <center>mom's basement</center>
+                    </div>
+                </label>
+            </div>
+            <div class="screen personalInfo">
+                <label>Prefix:<input class="namePrefix" value="Prof.Dr.Dr.Prof."/></label><br/>
+                <label>Frist name:<input class="firstName" value="Bernd"></label><br/>
+                <label>Last name:<input class="lastName" value="van und zu Brotig"></label><br/>
+                <label>Honorific Title:<input class="honorificTitle" value="Imperator of Worlds"></label>
+            </div>
+            
+            <div class="steplist">
+                <ol>
+                    <li>Archtype</li>
+                    <!-- <li>Personal Histroy</li> Other steps already tell this--> 
+                    <li>HQ (Head Quarter)</li>
+                    <li>Name and personal bio</li>
+                </ol>
+            </div>
+            <div class="summary">
+                <span class="namePrefixText"></span><br/>
+                <span class="firstNameText"></span><br/>
+                <span class="lastNameText"></span><br/>
+                <span class="honorificTitleText"></span><br/>
+                <hr/>
+                <span class="archtypeText"></span> lives in
+                <span class="hqText"></span>
+                <br/>
+                <label>bio:
+                <br/>
+                <textarea disabled="true" type="textArea" class="personalBioText">Poetic-and-touching-textual-recollection-of-prior-memories-the-character-possesses up in this bitch
+                </textarea>
+            </div>
+        </div>
+    </body>
+</html>

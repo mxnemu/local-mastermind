@@ -1,0 +1,25 @@
+.bulidingInfo {
+    display:inline-block;
+}
+
+.main {
+    position:relative;
+    width: 50%;
+}
+
+.steplist, .summary {
+    position: absolute;
+    border-radius: 9px;
+    padding: 4px;
+    background: #444;
+}
+
+.steplist {
+    top:0px;
+    right:0px;
+}
+
+.summary {
+    bottom:0px;
+    right:0px;
+}

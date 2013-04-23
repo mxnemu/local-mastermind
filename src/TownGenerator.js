@@ -1,6 +1,7 @@
-function TownGenerator() {
+function TownGenerator(player) {
     this.buildings = [];
     this.data = G.defaultTownSettings;
+    this.player = player;
 }
 
 TownGenerator.inherit(Object, {
@@ -44,9 +45,9 @@ TownGenerator.inherit(Object, {
                 var building = new Building();
                 building.restore(this);
                 _this.buildings.push(building);
-                _this.addLogisticsOfBuilding(building);
             }
         });
+        this.buildings.push(this.player.hq);
     },
     
     positionBuildings: function(buildGrid, buildGridWidth, buildGridHeight) {
