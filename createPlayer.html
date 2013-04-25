@@ -28,7 +28,7 @@
                 <h3>Archtype</h3>
                 <label>
                     <input type="radio" name="archtype" value="vanillaVillian"/>
-                    <div class="bulidingInfo">
+                    <div class="archtypeInfo">
                         <img src="images/person.png"/>
                         <br/>
                         <center>Vanilla Villain</center>
@@ -40,22 +40,22 @@ Just like ehh meh dunno
                 </label>
                 <label>
                     <input type="radio" name="archtype" value="madScientist"/>
-                    <div class="bulidingInfo">
+                    <div class="archtypeInfo">
                         <img src="images/person.png"/>
                         <br/>
                         <center>Mad Scientist</center>
-                        <pre>
-You're mad.
-Mad because nobody wanted to sponsor your studies about organic-matter-eradication-lasers.
-Mad because your university didn't provide you with free nuclear waste for your Human Mutagenesis project.
-Mad because the only human test subjects you can sample are unhealthy crack addicted bums.
-Your answer is straight: If this world does not bend to your genius, you have to make it bend.
-Become a criminal mastermind and fullfil your dreams of ethicly questionable research and possebly dangerous experiments.
-                        </pre>
+                        <span class="description">
+                            You're mad.<br/>
+                            Mad because nobody wanted to sponsor your studies about organic-matter-eradication-lasers.<br/>
+                            Mad because your university didn't provide you with free nuclear waste for your Human Mutagenesis project.<br/>
+                            Mad because the only human test subjects you can sample are unhealthy crack addicted bums.<br/>
+                            Your answer is straight: If this world does not bend to your genius, you have to make it bend.<br/>
+                            Become a criminal mastermind and fullfil your dreams of ethicly questionable research and possebly dangerous experiments.<br/>
+                        </span>
                     </div>
                 </label>
             </div>
-            <div class="screen building">
+            <div class="screen building" style="display:none;">
                 <h3>Start HQ (Headquarters)</h3>
                 <label>
                     <input type="radio" name="hq" value="moldyShack"/>
@@ -73,11 +73,16 @@ Become a criminal mastermind and fullfil your dreams of ethicly questionable res
                     </div>
                 </label>
             </div>
-            <div class="screen personalInfo">
+            <div class="screen personalInfo" style="display:none;">
                 <label>Prefix:<input class="namePrefix" value="Prof.Dr.Dr.Prof."/></label><br/>
                 <label>Frist name:<input class="firstName" value="Bernd"></label><br/>
                 <label>Last name:<input class="lastName" value="van und zu Brotig"></label><br/>
                 <label>Honorific Title:<input class="honorificTitle" value="Imperator of Worlds"></label>
+            </div>
+            
+            <div class="footer">
+                <input class="previousPageButton" type="button" value="previous"/>
+                <input class="nextPageButton" type="button" value="next"/>
             </div>
             
             <div class="steplist">
