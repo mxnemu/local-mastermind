@@ -57,4 +57,17 @@ $(function() {
         honorificTitle = event.target.value;
         $(".honorificTitleText").text(honorificTitle);
     });
+    
+    $(".startGameButton").click(function() {
+        var json = {
+            namePrefix: namePrefix,
+            firstName: firstName,
+            lastName: lastName,
+            honorificTitle: honorificTitle,
+            
+            archtype: archtype,
+            hq: hq,
+        };
+        window.location = "index.html#newGame:" + JSON.stringify(json);
+    });
 });
