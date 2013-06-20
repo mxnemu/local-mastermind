@@ -59,6 +59,13 @@ $(function() {
     });
     
     $(".startGameButton").click(function() {
+        $("input").trigger("input");
+        if (!archtype) {
+            $("input[type=radio][name=archtype]:first").trigger("change");
+        }
+        if (!hq) {
+            $("input[type=radio][name=hq]:first").trigger("change");
+        }
         var json = {
             namePrefix: namePrefix,
             firstName: firstName,
