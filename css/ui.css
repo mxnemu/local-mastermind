@@ -69,9 +69,13 @@
 
 .overlayList {
     position:absolute;
-    top: 0px;
-    width: 495px;
-    height: 492px;
+    top: 5px;
+    width: -webkit-calc(100% - 303px);
+    width: -moz-calc(100% - 303px);
+    width: -calc(100% - 303px);
+    height: -webkit-calc(100% - 130px); /* random number */
+    height: -moz-calc(100% - 130px);
+    height: -calc(100% - 130px);
     left: 108px;
     background-color: #333;
     border: 5px solid #222;
