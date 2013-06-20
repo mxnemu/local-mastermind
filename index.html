@@ -58,34 +58,39 @@
 
     <body>
         <!--<img src="img/header.png" style="display:block"/> -->
-        <div id="cocos2d-demo">
-        
-        </div>
-        
-        <div class="villianPortrait uiOverlay">
-            <img src=""/>
-        </div>
-        
-        <div class="statisticsBar uiOverlay">
-            <div class="moneyBox">
-                <span>$</span><span class="moneyDisplay">0</span>
+        <div id="game">
+            <div id="cocos2d-demo"></div>
+            
+            <div class="uiContainer">
+                <div class="villianPortrait uiOverlay">
+                    <img src=""/>
+                </div>
+                
+                <div class="statisticsBar uiOverlay">
+                    <div class="moneyBox">
+                        <span>$</span><span class="moneyDisplay">0</span>
+                    </div>
+                    
+                    <div class="suspicionBox">
+                        <img src="images/policeIcon.png" />
+                        <span class="suspicionDisplay"></span>
+                    </div>
+                    
+                    <input class="leaveBuildingButton" style="display:none;" type="button" value="Leave building"></input>
+                    <br/>
+                    <input class="showHenchmenButton" style="display:none;" type="button" value="henchmen"></input>
+                </div>
+                
+                <div class="actionBox uiOverlay">
+                </div>
+                
+                <div style="display:none;" class="overlayList uiOverlay">
+                    <div class="titlebar">
+                        <img class="closeButton" src="images/uiCloseButton.png" title="suspicion" />
+                    </div>
+                    <ol class="content"></ol>
+                </div>
             </div>
-            <div class="suspicionBox">
-                <img src="images/policeIcon.png" /><span class="suspicionDisplay"></span>
-            </div>
-            <input class="leaveBuildingButton" style="display:none;" type="button" value="Leave building"></input>
-            <br/>
-            <input class="showHenchmenButton" style="display:none;" type="button" value="henchmen"></input>
-        </div>
-        
-        <div class="actionBox uiOverlay">
-        </div>
-        
-        <div style="display:none;" class="overlayList uiOverlay">
-            <div class="titlebar">
-                <img class="closeButton" src="images/uiCloseButton.png" title="suspicion" />
-            </div>
-            <ol class="content"></ol>
         </div>
         
         <div style="display:none;" class="tutorialBox">

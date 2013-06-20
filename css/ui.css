@@ -1,6 +1,6 @@
 .villianPortrait {
     position:absolute;
-    top:492px;
+    bottom:0px;
     left:0px;
     /* 
      -webkit-transform: translate: (492px,0px)
@@ -23,7 +23,7 @@
 
 .statisticsBar {
     position:absolute;
-    top:539px;
+    bottom:0px;
     left:108px;
     width: 500px;
     height: 50px;
@@ -35,7 +35,7 @@
 
 .actionBox {
     position:absolute;
-    top:492px;
+    bottom:0px;
     left:612px;
     width: 181px;
     height: 100px;
