@@ -25,7 +25,9 @@
     position:absolute;
     bottom:0px;
     left:108px;
-    width: 500px;
+    width: -webkit-calc(100% - 303px);
+    width: -moz-calc(100% - 303px);
+    width: -calc(100% - 303px);
     height: 50px;
     background-color: #333;
     border-top: 5px solid #222;
@@ -36,7 +38,7 @@
 .actionBox {
     position:absolute;
     bottom:0px;
-    left:612px;
+    right:0px;
     width: 181px;
     height: 100px;
     background-color: #333;
