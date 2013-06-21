@@ -18,6 +18,7 @@ $(function() {
             cocosElement.innerHTML = "";
             director.attachInView(cocosElement);
             Application.instance.bindCanvasEvents();
+            Application.instance.game.camera.size = director.winSize;
         }, 200);
     });
 });
