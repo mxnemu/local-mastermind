@@ -17,6 +17,7 @@ $(function() {
             var cocosElement = document.getElementById('cocos2d-demo');
             cocosElement.innerHTML = "";
             director.attachInView(cocosElement);
+            Application.instance.bindCanvasEvents();
         }, 200);
     });
 });
