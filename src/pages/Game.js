@@ -12,10 +12,7 @@ $(function() {
         function resizeCanvas() {
             var director = cc.Director.sharedDirector;
             var cocosElement = document.getElementById('cocos2d-demo');
-            cocosElement.innerHTML = "";
-            director.attachInView(cocosElement);
-            Application.instance.game.camera.size = director.winSize;
-            Application.instance.bindCanvasEvents();
+            director.resize(element.clientWidth, element.clientHeight);
         }
         
         function leaveFullScreen() {
