@@ -164,6 +164,34 @@ Application.inherit(cc.Layer, {
             this.onPhysicsUpdatedCallbacks.splice(0, 1);
         }
         
+    },
+    
+    bindCanvasEvents: function() {
+        var self = this;
+        // Disable rightclick
+        $("canvas").bind("contextmenu", function(e) {
+            e.preventDefault();
+        });
+
+        $("canvas").bind('dragstart', function(){
+            return false; 
+        });
+        
+        $('canvas').bind('mousewheel', function(event, delta) {
+            event.preventDefault();
+            self.mouseWheel(event.originalEvent);
+            return false;
+        });
+        
+        // firefox mousewheel event translation workaround
+        $('canvas').get(0).addEventListener("DOMMouseScroll", function(event) {
+            event.preventDefault();
+            // swap to chrome wheel
+            event.wheelDelta = 120*(event.detail > 0 ? -1 : 1);
+            console.log("ff scroll"+event.wheelDelta);
+            self.mouseWheel(event);
+            return false;
+        }, false);
     }
 })
 
@@ -175,15 +203,6 @@ $(function() {
     director.backgroundColor = "#FFF"
     director.attachInView(document.getElementById('cocos2d-demo'))
     director.displayFPS = true
-    
-    // Disable rightclick
-    $("canvas").bind("contextmenu", function(e) {
-        e.preventDefault();
-    });
-    
-    $("canvas").bind('dragstart', function(){
-        return false; 
-    });
     
     $(".uiOverlay").bind("contextmenu", function(e) {
         e.preventDefault();
@@ -265,21 +284,7 @@ $(function() {
         app.createExampleGame();
         app.scheduleUpdate();
         
-        $('canvas').bind('mousewheel', function(event, delta) {
-            event.preventDefault();
-            app.mouseWheel(event.originalEvent);
-            return false;
-        });
-        
-        // firefox mousewheel event translation workaround
-        $('canvas').get(0).addEventListener("DOMMouseScroll", function(event) {
-            event.preventDefault();
-            // swap to chrome wheel
-            event.wheelDelta = 120*(event.detail > 0 ? -1 : 1);
-            console.log("ff scroll"+event.wheelDelta);
-            app.mouseWheel(event);
-            return false;
-        }, false);
+        app.bindCanvasEvents();
 
         director.replaceScene(scene)
     });

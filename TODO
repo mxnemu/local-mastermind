@@ -3,6 +3,7 @@ Using (n,n,n) for (influence gain, suspicion gain, money gain)
 
 FIXES:
     [ ] avoid weird connections by choosing connectivity via building distance
+    - fix hotkeys for fullscreen
 
 DETAILED TODO
 1.  [x] Hire button for thugs
@@ -56,7 +57,7 @@ BIG TIME PLAN TODO
 8.1 [ ] secure cellphones (the police will not find you on your henchmen cell phones);
 8.2 [ ] Smokebombs - they are just cool
 
-9.1 [ ] Fullscreen mode
+9.1 [w] Fullscreen mode
 9.2 [ ] Controll the camera by moving the mouse to the edge of the screen.
 
 10.0[ ] Add a building where the player has basebuliding rights

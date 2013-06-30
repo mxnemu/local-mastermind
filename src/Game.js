@@ -26,16 +26,26 @@ Game.inherit(Observable, {
         actor.path = nodes[3].findPath(nodes[2]);
         this.setMap(map);
         */
-
+        // TODO does not work with options like #noSound
+        var newGameJson;
+        if (window.location.hash.match("#newGame:")) {
+            var hash = window.location.hash;
+            var rawJson = hash.substring("#newGame:".length, hash.length);
+            newGameJson = JSON.parse(rawJson);
+            console.log(newGameJson);
+        }
+        
+        newGameJson = newGameJson || {
+            archtype: "madScientist",
+            firstName: "Bernd",
+            honorificTitle: "Imperator of Worlds",
+            hq: "moldyShack",
+            lastName: "van und zu Brotig",
+            namePrefix: "Prof.Dr.Dr.Prof."
+        };
+        
         this.player = new Player();
-        this.player.hq = new Building();
-        this.player.hq.restore({
-            label: "Secret HQ",
-            buildingType: "hq",
-            groups: ["player"],
-            sprite: "images/moldyShackHq.png",
-            interior: {}
-        });
+        this.player.createFromJson(newGameJson);
         this.setMap(new TownGenerator(this.player).create());
         this.outdoorMap = this.map;
         this.camera = new Camera(cc.Director.sharedDirector.winSize, this);
@@ -54,6 +64,7 @@ Game.inherit(Observable, {
         }
         var oldMap = this.map; // store for event
         this.map = map;
+        map.contentSize = cc.Director.sharedDirector.winSize;
         this.map.restCamera();
         this.root.addChild(this.map);
         this.fireEvent("changeMap", {newMap: map, oldMap: oldMap});

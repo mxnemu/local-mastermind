@@ -29,5 +29,18 @@ Player.inherit(Observable, {
         actor.badge = new cc.Sprite({file:"images/badge.png"});
         $(".showHenchmenButton").show("slow");
         this.fireEvent("hire", {actor:actor});
+    },
+    
+    createFromJson: function(data) {
+        this.hq = new Building();
+        this.hq.restore(G.defaultHqs[data.hq]);
+        
+        this.namePrefix = data.namePrefix;
+        this.firstName = data.firstName;
+        this.lastName = data.lastName;
+        this.honorificTitle = data.honorificTitle;
+        
+        // TODO add attributes for archtype
+        this.archtype = data.archtype;
     }
 });
