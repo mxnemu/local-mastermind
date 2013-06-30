@@ -3,10 +3,21 @@
 $(function() {
     $(".fullscreenButton").click(function() {
         var element = document.getElementById("game");
-        var reqFscr = element.webkitRequestFullScreen ||
-                      element.mozRequestFullScreen ||
+        var reqFscr = element.mozRequestFullScreen ||
                       element.requestFullScreen || 
-                      function() {};
+                      null;
+                      
+        if (reqFscr == null) {
+            // webkit workaround
+            if (element.webkitRequestFullScreen) {
+                reqFscr = function() {
+                    element.webkitRequestFullScreen(element.ALLOW_KEYBOARD_INPUT);
+                }
+            } else {
+                reqFscr = function() {}; // just don't crash
+            }
+        }
+                      
         reqFscr.call(element);
         
         function resizeCanvas() {
