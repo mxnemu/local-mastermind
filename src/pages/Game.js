@@ -14,6 +14,7 @@ $(function() {
             var cocosElement = document.getElementById('cocos2d-demo');
             director.resize(element.clientWidth, element.clientHeight);
             Application.instance.game.camera.size = director.winSize; 
+            Application.instance.game.map.contentSize = director.winSize;
         }
         
         function leaveFullScreen() {

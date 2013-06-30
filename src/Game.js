@@ -64,6 +64,7 @@ Game.inherit(Observable, {
         }
         var oldMap = this.map; // store for event
         this.map = map;
+        map.contentSize = cc.Director.sharedDirector.winSize;
         this.map.restCamera();
         this.root.addChild(this.map);
         this.fireEvent("changeMap", {newMap: map, oldMap: oldMap});
