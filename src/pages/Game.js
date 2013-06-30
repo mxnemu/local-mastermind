@@ -13,6 +13,7 @@ $(function() {
             var director = cc.Director.sharedDirector;
             var cocosElement = document.getElementById('cocos2d-demo');
             director.resize(element.clientWidth, element.clientHeight);
+            Application.instance.game.camera.size = director.winSize; 
         }
         
         function leaveFullScreen() {
