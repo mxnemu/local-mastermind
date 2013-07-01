@@ -30,9 +30,24 @@ Node.inherit(cc.Node, {
     },
     
     addConnection: function(connection) {
-        if (-1 == $.inArray(connection, this.connections)) {
+        if (connection != this && 
+            -1 == $.inArray(connection, this.connections)) {
+
             this.connections.push(connection);
             connection.connections.push(this);
+        }
+    },
+    
+    removeConnection: function(connection, onBothSides) {
+        if (connection) {
+            var index = $.inArray(connection, this.connections);
+            if (index != -1) {
+                onBothSides = onBothSides == undefined ? true : onBothSides;
+                this.connections.splice(index, 1);
+                if (onBothSides) {
+                    connection.removeConnection(this, false);
+                }
+            }
         }
     },
     
@@ -172,37 +187,31 @@ ConnectionLine.inherit(cc.Node, {
         context.stroke();       
     },
     
-    collidesWithLine: function(other) {
-        var t1, t2, o1, o2, r;
-        if (this.nodeA.x + this.nodeA.y < this.nodeB.x + this.nodeB.y) {
-            t1 = this.nodeA.position;
-            t2 = this.nodeB;
-        } else {
-            t1 = this.nodeB;
-            t2 = this.nodeA;
+    crossingPosition: function(other) {
+        var yIncrementThis = (this.nodeB.position.y - this.nodeA.position.y) /
+                             (this.nodeB.position.x - this.nodeA.position.x);
+        var yIncrementOther = (other.nodeB.position.y - other.nodeA.position.y) /
+                              (other.nodeB.position.x - other.nodeA.position.x); 
+        
+        if (yIncrementThis == yIncrementOther) {
+            return null;
         }
         
-        if (other.nodeA.x + other.nodeA.y < other.nodeB.x + other.nodeB.y) {
-            o1 = other.nodeA;
-            o2 = other.nodeB;
-        } else {
-            o1 = other.nodeB;
-            o2 = other.nodeA;
+        var yOriginThis = this.nodeA.position.y - (yIncrementThis * this.nodeA.position.x);
+        var yOriginOther = other.nodeA.position.y - (yIncrementOther * other.nodeA.position.x);
+        
+        var x = (yOriginThis - yOriginOther) /
+                (yIncrementOther - yIncrementThis);
+        
+        var ret = {
+            x: x,
+            y: (yIncrementThis * x) + yOriginThis
+        };
+        
+        // TODO improve calc for vl
+        if (isFinite(ret.x) && isFinite(ret.y)) {
+            return ret;
         }
-        
-        // (x1*y2 - y1*x2)*(x3-x4)-(x1-x2)*(x3*y4 -y3*x4) / (x1-x2)*(y3-y4)-(y1-y2)*(x3-x4)
-        // or just
-        // (x1-x2)*(y3-y4) - (y1-y2)*(x3-x4) == 0 means paralell, 
-        // but that also accounts collisons outside of the line length
-        
-        r = new cc.Point(0,0);
-        r.x = (t1.x*t2.y - t1.y*t2.x)*(o1.x-o2.x)-(t1.x-t2.x)*(o1.x*o2.y -o1.y*o2.x) / (t1.x-t1.x)*(o1.y-o2.y)-(t1.y-t2.y)*(o1.x-o2.x);
-        r.y = (t1.x*t2.y - t1.y*t2.x)*(o1.y-o2.y)-(t1.y-t2.y)*(o1.x*o2.y -o1.y*o2.x) / (t1.x-t1.x)*(o1.y-o2.y)-(t1.y-t2.y)*(o1.x-o2.x);
-        
-        // does not work, because no proper sorting, but I'm too lazy for that right now.
-        return r.x > t1.x && r.x < t2.x &&
-               r.x > o1.x && r.x < o2.x &&
-               r.y > t1.y && r.y < t2.y &&
-               r.y > o1.y && r.y < o2.y;
+        return null;
     }
 })

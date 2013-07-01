@@ -28,6 +28,7 @@ TownGenerator.inherit(Object, {
         this.connectBuildingsViaGrid(buildGrid, buildGridWidth, buildGridHeight);
         map.setNodes(this.nodes);
         
+        this.createCrossingNodes(map);
         
         var populationGenerator = new PopulationGenerator(this.data, this.buildings);
 
@@ -249,6 +250,83 @@ TownGenerator.inherit(Object, {
                 ++pos;
             }
         }
+    },
+    
+    createCrossingNodes: function(map) {
+        var lastConnection = null;
+        for (var i=0; i < map.connectionLines.length; ++i) {
+            var connection = map.connectionLines[i];
+            
+            if (!lastConnection) {
+                lastConnection = connection;
+                continue;
+            }
+            
+            var crossing = {
+                position: connection.crossingPosition(lastConnection)
+            };
+            if (crossing.position) {
+                var alignNodes = [
+                    connection.nodeA,
+                    connection.nodeB,
+                    lastConnection.nodeA,
+                    lastConnection.nodeB
+                ];
+                
+                // try to move a close node to the crossing position
+                var repositioned = false;
+                for (var j=0; j < alignNodes.length; ++j) {
+                    var n = alignNodes[j];
+                    var distance = n.absoluteDistance(crossing);
+                    var sum = Math.abs(distance.x) + Math.abs(distance.y);
+                    if (sum < 100) {
+                        repositioned = true;
+                        
+                        if (sum == 0) {
+                            break;
+                        }
+                        
+                        // remove old connnections
+                        connection.nodeA.removeConnection(lastConnection.nodeA);
+                        connection.nodeA.removeConnection(lastConnection.nodeB);
+                        connection.nodeB.removeConnection(lastConnection.nodeA);
+                        connection.nodeB.removeConnection(lastConnection.nodeB);
+                        connection.nodeA.removeConnection(connection.nodeB);
+                        lastConnection.nodeA.removeConnection(lastConnection.nodeA);
+                        // add new ones with n as crossing
+                        connection.nodeA.addConnection(n);
+                        connection.nodeB.addConnection(n);
+                        lastConnection.nodeA.addConnection(n);
+                        lastConnection.nodeB.addConnection(n);
+                        
+                        n.position = crossing.position;
+                        console.log("relocation of node");
+                        break; // TODO remove too short connections
+                    }
+                }
+                
+                // create a new node if the old once couldn't be moved
+                if (!repositioned) {
+                    var crossingNode = new Node(
+                        crossing.position.x,
+                        crossing.position.y,
+                        alignNodes
+                    );
+                    
+                    var lastN = null;
+                    for (var j=0; j < alignNodes.length; ++j) {
+                        var n = alignNodes[j];
+                        n.removeConnection(lastN);
+                        lastN = n;
+                    }
+                    
+                    this.nodes.push(crossingNode);
+                    console.log("crossing created", crossing.position);
+                }
+            }
+            lastConnection = connection;
+        }
+        map.setNodes(this.nodes); // TODO useless overhead
     },
     
     addToMap: function(map) {

@@ -48,7 +48,20 @@ Map.inherit(cc.Layer, {
         }
     },
     
+    removeAllNodes: function() {
+        for (var i=0; i < this.nodes.length; ++i) {
+            this.removeChild(this.nodes[i]);
+        }
+        this.nodes = [];
+        
+        for (var i=0; i < this.connectionLines.length; ++i) {
+            this.removeChild(this.connectionLines[i]);
+        }
+        this.connectionLines = [];
+    },
+    
     setNodes: function(nodes) {
+        this.removeAllNodes();
         this.nodes = nodes;
         var _this = this;
         

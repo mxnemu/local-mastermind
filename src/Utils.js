@@ -43,6 +43,28 @@ if (!window.assert) {
     }
 }
 
+function lineCrossingPosition(a, b) {
+    var yIncrementA = (a.nodeB.position.y - a.nodeA.position.y) /
+                      (a.nodeB.position.x - a.nodeA.position.x);
+    var yIncrementB = (b.nodeB.position.y - b.nodeA.position.y) /
+                      (b.nodeB.position.x - b.nodeA.position.x); 
+    
+    if (yIncrementA == yIncrementB) {
+        return null;
+    }
+    
+    var yOriginA = a.nodeA.y - (yIncrementA * a.nodeA.x);
+    var yOriginB = a.nodeA.y - (yIncrementA * a.nodeA.x);
+    
+    var x = (yIncrementA - yIncrementB) /
+            (yIncrementB - yIncrementA);
+    return {
+        x: x,
+        y: (yIncrementA * x) + yOriginA
+    };
+}
+    
+
 function randomBoolean() {
     return Math.random() > 0.5;
 }
