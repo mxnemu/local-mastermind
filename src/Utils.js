@@ -43,7 +43,7 @@ if (!window.assert) {
     }
 }
 
-function lineCrossingPosition(a, b) {
+function lineCrossingPosition(a, b, onGivenDistanceCheck) {
     var yIncrementA = (a.nodeB.position.y - a.nodeA.position.y) /
                       (a.nodeB.position.x - a.nodeA.position.x);
     var yIncrementB = (b.nodeB.position.y - b.nodeA.position.y) /
@@ -54,14 +54,35 @@ function lineCrossingPosition(a, b) {
     }
     
     var yOriginA = a.nodeA.y - (yIncrementA * a.nodeA.x);
-    var yOriginB = a.nodeA.y - (yIncrementA * a.nodeA.x);
+    var yOriginB = b.nodeA.y - (yIncrementA * b.nodeA.x);
     
     var x = (yIncrementA - yIncrementB) /
             (yIncrementB - yIncrementA);
-    return {
+
+    var ret = {
         x: x,
         y: (yIncrementA * x) + yOriginA
     };
+    
+    // TODO improve calc for vl
+    if (!isFinite(ret.x) || !isFinite(ret.y)) {
+        return null;
+    }
+    
+    // FAILED DOSN'T CHECK IF SHIT'S ON LINE GOTTA SLEEP TO DO THIZ SHIT
+    if (onGivenDistanceCheck || onGivenDistanceCheck == undefined) {
+        var smallestAy = a.nodeA.position.y < a.nodeB.position.y ? a.nodeA.position.y : a.nodeB.position.y
+        var smallestBy = b.nodeA.position.y < b.nodeB.position.y ? b.nodeA.position.y : b.nodeB.position.y
+        var biggestAy = a.nodeA.position.y > a.nodeB.position.y ? a.nodeA.position.y : a.nodeB.position.y
+        var biggestBy = b.nodeA.position.y > b.nodeB.position.y ? b.nodeA.position.y : b.nodeB.position.y;
+        
+        if ((ret.y < smallestAy && ret.y < smallestBy) ||
+            (ret.y > biggestBy && ret.y > biggestBy)) {
+            return null;
+        }
+    }
+    
+    return ret;
 }
     
 

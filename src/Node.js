@@ -188,30 +188,7 @@ ConnectionLine.inherit(cc.Node, {
     },
     
     crossingPosition: function(other) {
-        var yIncrementThis = (this.nodeB.position.y - this.nodeA.position.y) /
-                             (this.nodeB.position.x - this.nodeA.position.x);
-        var yIncrementOther = (other.nodeB.position.y - other.nodeA.position.y) /
-                              (other.nodeB.position.x - other.nodeA.position.x); 
-        
-        if (yIncrementThis == yIncrementOther) {
-            return null;
-        }
-        
-        var yOriginThis = this.nodeA.position.y - (yIncrementThis * this.nodeA.position.x);
-        var yOriginOther = other.nodeA.position.y - (yIncrementOther * other.nodeA.position.x);
-        
-        var x = (yOriginThis - yOriginOther) /
-                (yIncrementOther - yIncrementThis);
-        
-        var ret = {
-            x: x,
-            y: (yIncrementThis * x) + yOriginThis
-        };
-        
-        // TODO improve calc for vl
-        if (isFinite(ret.x) && isFinite(ret.y)) {
-            return ret;
-        }
-        return null;
+        var crossing = lineCrossingPosition(this, other);
+        return crossing;
     }
 })
