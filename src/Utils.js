@@ -76,8 +76,8 @@ function lineCrossingPosition(a, b, onGivenDistanceCheck) {
         var biggestAy = a.nodeA.position.y > a.nodeB.position.y ? a.nodeA.position.y : a.nodeB.position.y
         var biggestBy = b.nodeA.position.y > b.nodeB.position.y ? b.nodeA.position.y : b.nodeB.position.y;
         
-        if ((ret.y < smallestAy && ret.y < smallestBy) ||
-            (ret.y > biggestAy && ret.y > biggestBy)) {
+        if ((ret.y > smallestAy && ret.y < biggestAy) ||
+            (ret.y > smallestBy && ret.y < biggestBy)) {
             return null;
         }
     }
