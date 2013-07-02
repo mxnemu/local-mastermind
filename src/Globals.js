@@ -8,3 +8,4 @@ window.G.doubleClickTime = 300;
 
 window.G.connectionLineZ = -1;
 window.G.interiorZ = -2;
+window.G.zoomToMouse = true;

@@ -81,6 +81,7 @@ Application.inherit(cc.Layer, {
     },
     
     mouseWheel: function(event) {
+        event.locationInCanvas = new cc.Point(event.clientX, cc.Director.sharedDirector.canvas.clientHeight - event.clientY);
         this.game.mouseWheel(event);
     },
     
