@@ -73,12 +73,25 @@ Camera.inherit(Observable, {
         this.fireEvent("zoom", {delta: scaleDelta});
         var newScale = this.game.map.scale + scaleDelta;
         if (newScale > 0 && newScale < 3) {
-            var center = this.mouseToCamera(new cc.Point(this.size.width/2, this.size.height/2));
-            this.game.map.scale = newScale;
-            if (!this.trackedEntity) {
-                this.centerAt(center); // scale at center is fuggan amazing
-            } else {
+            var center = this.mouseToCamera(new cc.Point(this.size.width/2,
+                                                         this.size.height/2));
+            var zoomPoint = this.mouseToCamera(event.locationInCanvas);
+            var distanceToCenter = cc.ccpSub(zoomPoint, center);
+            
+            if (this.trackedEntity) {
                 this.centerAt(this.trackedEntity.position);
+                this.game.map.scale = newScale;
+                return;
+            }
+            
+            this.centerAt(center);
+            this.game.map.scale = newScale;
+        
+            if (G.zoomToMouse) {
+                var newCenter = this.mouseToCamera(new cc.Point(this.size.width/2,
+                                                                this.size.height/2));
+                var newMousePos = this.mouseToCamera(event.locationInCanvas);
+                this.centerAt(cc.ccpAdd(zoomPoint, cc.ccpSub(newCenter, newMousePos)));
             }
         }
     },

@@ -73,8 +73,8 @@ Tutorial.inherit(Object, {
         var _this = this;
         this.setProgress(2);
         $(".tutorialBox .content").get(0).innerHTML =
-            "To build your empire, you need henchman. <br/>" +
-            "This city is full of thugs, who fit perfect for this task. <br/>" +
+            "To construct your empire, you need henchman. <br/>" +
+            "This city is full of thugs, who fit perfectly for this task. <br/>" +
             "You can easily identify them by their baseballcaps."
         ;
         $(".tutorialBox .continueCondition").text(
@@ -94,7 +94,7 @@ Tutorial.inherit(Object, {
     var _this = this;
         this.setProgress(2);
         $(".tutorialBox .content").get(0).innerHTML =
-            "Click on the hire button in the bottom right<br/>" +
+            "Click on the <b>hire</b> button in the <b> bottom right</b> " +
             "to recruit your first servant."
         ;
         $(".tutorialBox .continueCondition").text(
