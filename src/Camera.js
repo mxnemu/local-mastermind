@@ -46,11 +46,17 @@ Camera.inherit(Observable, {
         
         // + or , to zoom in 107
         if (Input.instance.keysDown[107] || Input.instance.keysDown[188]) {
-            this.scaleByDelta(40);
+            this.scaleByDelta(40, {
+                locationInCanvas: new cc.Point(this.size.width/2,
+                                               this.size.height/2)
+            });
         }
         // - or . to zoom out 189 also on numpad
         if (Input.instance.keysDown[189] || Input.instance.keysDown[190] || Input.instance.keysDown[190]) {
-            this.scaleByDelta(-40);
+            this.scaleByDelta(-40, {
+                locationInCanvas: new cc.Point(this.size.width/2,
+                                               this.size.height/2)
+            });
             
         }
         
