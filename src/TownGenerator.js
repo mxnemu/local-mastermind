@@ -206,6 +206,49 @@ TownGenerator.inherit(Object, {
             return null;
         }
         
+        function connectClosestBulidingNodes(buildingA, buildingB) {
+            /*
+            if (buildingA.position.x > buildingB.position.x) {
+                if (buildingA.nodel.absoluteDistance(buildinB.nodel) <
+                    buildingA.noder.absoluteDistance(buildinB.noder)) {
+                    
+                    buildingA.nodel.addConnection(buildingB.noder);                    
+                }
+            } else {
+                buildingA.noder.addConnection(buildingB.nodel);
+            }
+            */
+            
+            function pointAbsSum(p) {
+                return Math.abs(p.x) + Math.abs(p.y);
+            }
+            
+            var distances = [
+                {
+                    d: pointAbsSum(buildingA.nodel.absoluteDistance(buildingB.nodel)),
+                    nodes: [buildingA.nodel, buildingB.nodel]
+                },
+                {
+                    d: pointAbsSum(buildingA.nodel.absoluteDistance(buildingB.noder)),
+                    nodes: [buildingA.nodel, buildingB.noder]
+                },
+                {
+                    d: pointAbsSum(buildingA.noder.absoluteDistance(buildingB.nodel)),
+                    nodes: [buildingA.noder, buildingB.nodel]
+                },
+                {
+                    d: pointAbsSum(buildingA.noder.absoluteDistance(buildingB.noder)),
+                    nodes: [buildingA.noder, buildingB.noder]
+                }
+            ];
+            
+            distances.sort(function(a, b) {
+                return a.d < b.d ? -1 : 1;
+            });
+            
+            distances[0].nodes[0].addConnection(distances[0].nodes[1]);
+        }
+        
         pos = 0;
         for (var y=0; y < buildGridHeight; ++y) {
             for (var x=0; x < buildGridWidth; ++x) {
@@ -225,25 +268,25 @@ TownGenerator.inherit(Object, {
                     // connect left
                     var b = getNextBuildingInRow(pos, -1);
                     if (b && !alreadyConnected(b)) {
-                        building.nodel.addConnection(b.noder);
+                        connectClosestBulidingNodes(building, b);
                     }
                     
                     // connect right
                     b = getNextBuildingInRow(pos, 1);
                     if (b && !alreadyConnected(b)) {
-                        building.noder.addConnection(b.nodel);
+                        connectClosestBulidingNodes(building, b);
                     }
                     
                     // connect above
                     b = getNextBuildingInColumn(pos, 1);
                     if (b && !alreadyConnected(b)) {
-                        building.nodel.addConnection(b.nodel);
+                        connectClosestBulidingNodes(building, b);
                     }
                     
                     // connect under
                     b = getNextBuildingInColumn(pos, -1);
                     if (b && !alreadyConnected(b)) {
-                        building.noder.addConnection(b.noder);
+                        connectClosestBulidingNodes(building, b);
                     }
                 }
                 ++pos;
