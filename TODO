@@ -3,7 +3,6 @@ Using (n,n,n) for (influence gain, suspicion gain, money gain)
 
 FIXES:
     [ ] avoid weird connections by choosing connectivity via building distance
-    - fix hotkeys for fullscreen
 
 DETAILED TODO
 1.  [x] Hire button for thugs
