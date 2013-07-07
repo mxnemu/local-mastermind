@@ -58,6 +58,9 @@ Actor.inherit(cc.Node, {
                 if (this.action.onEnd) {
                     this.action.onEnd.call(this);
                 }
+                if (this.action.onStop) {
+                    this.action.onStop.call(this);
+                }
                 
                 this.action = null;
             }

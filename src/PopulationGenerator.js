@@ -150,7 +150,8 @@ PopulationGenerator.inherit(Object, {
         actor.portrait = "images/policeman.png";
         actor.addChild(actor.sprite);
         actor.behaviour = new PoliceBehaviour(actor);
-        actor.speed = 2;
+        actor.patrolSpeed = 2;
+        actor.speed = actor.patrolSpeed;
     },
     
     // avoid duplicate family names and duplicate first names in 1 household

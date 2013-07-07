@@ -235,7 +235,7 @@ function PoliceBehaviour(actor) {
             _this.actor.path.toNode(event.node);
             _this.actor.addActionToPath(new Action({
                 name:"fightCrime",
-                duration:randomInRange(2, 6),
+                duration:1,
                 onStart:function() {
                     for (var i=0; i < _this.actor.node.actors.length; ++i) {
                         var other = _this.actor.node.actors[i];
@@ -243,8 +243,12 @@ function PoliceBehaviour(actor) {
                             var prison = _this.actor.map.findBuildingOfType("policeStation");
                             _this.actor.path.toNodeOfTypeInBuilding(prison, "cell");
                             _this.actor.addActionToPath(new Action({
-                                name:"arrestCriminal"
+                                name:"arrestCriminal",
+                                onStop: function() {
+                                    _this.actor.speed = _this.actor.patrolSpeed;
+                                }
                             }));
+                            _this.actor.speed = other.speed;
                             
                             other.path = _this.actor.path.copy(other);
                             if (other.path.hasSteps()) {
