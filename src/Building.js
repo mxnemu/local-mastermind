@@ -86,7 +86,7 @@ Building.inherit(cc.Node, {
             } else if (actor.socialClass == "upper") {
                this.upperClassWorkers.push(actor);
             }
-            actor.job = this;
+            actor.job = new Job(actor, this);
             return true;
         }
         return false;

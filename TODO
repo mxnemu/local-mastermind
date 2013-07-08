@@ -52,7 +52,7 @@ BIG TIME PLAN TODO
 7.  [x] maps inside buildings
 7.1 [x] block a node for other actors while using it. Actors search free nodes.
 7.2 [ ] different workerType nodes (work-upper, work-lower, work-middle)
-7.3 [ ] Job class to manage worker jobs. Example: cleaner (moves around builing)
+7.3 [x] Job class to manage worker jobs. Example: cleaner (moves around builing)
 8.  [ ] hire / threaten nerds to do research for you
 8.1 [ ] secure cellphones (the police will not find you on your henchmen cell phones);
 8.2 [ ] Smokebombs - they are just cool

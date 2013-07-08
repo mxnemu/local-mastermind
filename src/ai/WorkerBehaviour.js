@@ -13,13 +13,7 @@ WorkerBehaviour.inherit(Behaviour, {
         }
         
         if (this.actor.job) {
-            this.actor.path.toNodeOfTypeInBuilding(this.actor.job, "work");
-            this.actor.addActionToPath(new Action({
-                name:"work",
-                duration:this.actor.job.worktime,
-                wakefulness: -(this.actor.job.worktime*2),
-                lock: new Lock(this.actor, 150000)
-            }));
+            this.actor.job.findNewAction();
         }
     }
 });
