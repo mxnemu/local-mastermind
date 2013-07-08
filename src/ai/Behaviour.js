@@ -59,6 +59,15 @@ Behaviour.inherit(Object, {
         return false;
     },
     
+    goOutside: function() {
+        if (this.actor.map != Application.instance.game.outdoorMap) {
+            this.actor.path.toMap(Application.instance.game.outdoorMap);
+            this.actor.addActionToPath(new Action({name:"goOutside"}))
+            return true;
+        }
+        return false;
+    },
+    
     reset: function() {
     
     }

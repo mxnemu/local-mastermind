@@ -12,10 +12,7 @@ ThugBehaviour.inherit(Behaviour, {
     
         var _this = this;
         
-        // go outside
-        if (this.actor.map != Application.instance.game.outdoorMap) {
-            this.actor.path.toMap(Application.instance.game.outdoorMap);
-            this.actor.addActionToPath(new Action({name:"goOutside"}))
+        if (this.goOutside()) {
             return;
         }
         
