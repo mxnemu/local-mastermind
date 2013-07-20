@@ -39,7 +39,7 @@ Game.inherit(Observable, {
             archtype: "madScientist",
             firstName: "Bernd",
             honorificTitle: "Imperator of Worlds",
-            hq: "moldyShack",
+            hq: "momsBasement",
             lastName: "van und zu Brotig",
             namePrefix: "Prof.Dr.Dr.Prof."
         };

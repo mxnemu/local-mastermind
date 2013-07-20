@@ -253,6 +253,7 @@ $(function() {
     registerResource("images/policeStationInterior.png", "image/png");
     registerResource("images/factoryInterior.png", "image/png");
     
+    registerResource("images/momsBasementHqInterior.png", "image/png");
 
     // misc
     registerResource("images/house.png", "image/png");
