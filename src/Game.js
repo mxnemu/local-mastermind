@@ -7,25 +7,6 @@ function Game(root) {
 Game.inherit(Observable, {
 
     init: function() {
-        // test game
-        /*
-        var map = new Map();
-        var nodes = new Array();
-        nodes.push(new Node( 100, 100));
-        nodes.push(new Node( 400, 100, [nodes[0]]));
-        nodes.push(new Node( 700, 100, [nodes[1]]));
-        nodes.push(new Node( 400, 400, [nodes[1]]));
-        map.setNodes(nodes);
-        
-        var sprite = new cc.Sprite({file: "images/house.png"});
-        sprite.position = new cc.Point(100, 200);
-        map.addSprite(sprite);
-        
-        var actor = new Actor(nodes[3]);
-        map.addActor(actor);
-        actor.path = nodes[3].findPath(nodes[2]);
-        this.setMap(map);
-        */
         // TODO does not work with options like #noSound
         var newGameJson;
         if (window.location.hash.match("#newGame:")) {
@@ -52,10 +33,9 @@ Game.inherit(Observable, {
         this.ui = new Ui(this);
         
         if (this.map.buildings.length > 0) {
-            this.camera.trackedEntity = this.map.buildings[0];
+            this.camera.jumpToMap(this.player.hq.interiorMap,
+                                  this.player.hq.interiorNode);
         }
-    
-        //this.camera.trackedEntity = actor;
     },
     
     setMap: function(map) {
