@@ -85,8 +85,8 @@ Camera.inherit(Observable, {
             var distanceToCenter = cc.ccpSub(zoomPoint, center);
             
             if (this.trackedEntity) {
-                this.centerAt(this.trackedEntity.position);
                 this.game.map.scale = newScale;
+                this.centerAt(this.trackedEntity.position);
                 return;
             }
             
