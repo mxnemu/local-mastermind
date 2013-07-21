@@ -215,65 +215,7 @@ $(function() {
     
     preventArrowKeyScrolling();
     
-    // I modified lib/cocos2d-beta2.js to make this work
-    // this function does not work with the official release!
-    function registerResource(path, mimetype, alias) {
-        alias = alias || path;
-        cc.jah.resources[alias] = {data: path, mimetype: mimetype, remote:true};
-        director.preloader().addToQueue(path);
-    };
-    
-    // list your images here
-    // they will be loaded with the loadingscreen before your game starts
-    
-    // actors
-    registerResource("images/policeman.png", "image/png");
-    registerResource("images/person.png", "image/png");
-    registerResource("images/thug.png", "image/png");
-    registerResource("images/neet.png", "image/png");
-    registerResource("images/worker.png", "image/png");
-    
-    // bulidings
-    registerResource("images/lowerClassHouse.png", "image/png");
-    registerResource("images/middleClassHouse.png", "image/png");
-    registerResource("images/upperClassHouse.png", "image/png");
-    
-    registerResource("images/moldyShackHq.png", "image/png");
-    registerResource("images/momsBasementHq.png", "image/png");
-    
-    registerResource("images/policeStation.png", "image/png");
-    registerResource("images/park.png", "image/png");
-    registerResource("images/townhall.png", "image/png");
-    registerResource("images/library.png", "image/png");
-    registerResource("images/smallStore.png", "image/png");
-    registerResource("images/office.png", "image/png");
-    registerResource("images/factory.png", "image/png");
-    
-    // interiors
-    registerResource("images/lowerClassHouseInterior.png", "image/png");
-    registerResource("images/policeStationInterior.png", "image/png");
-    registerResource("images/factoryInterior.png", "image/png");
-    
-    registerResource("images/momsBasementHqInterior.png", "image/png");
-
-    // misc
-    registerResource("images/house.png", "image/png");
-    registerResource("images/badge.png", "image/png"); // the debug sprite
-    
-    
-    
-    function registerAudio(name) {
-        Audiomanager.instance.load({ 
-            "ogg": "audio/"+name+".ogg",
-            "aac": "audio/conversions/"+name+".aac",
-            "wav": "audio/conversions/"+name+".wav",
-            
-        }, name); 
-    }
-    // preload audio files
-    // TODO integrate audio loading into the preloader
-    //registerAudio("blub");
-    registerAudio("village-tired");
+    Resources.instance.load();
     Audiomanager.instance.playMusic("village-tired");
     
     // Wait for the director to finish preloading our assets
