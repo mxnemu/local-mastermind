@@ -35,6 +35,8 @@ function Actor(node, spriteName, household) {
     
     this.addChild(this.sprite);
     this.contentSize = new cc.Size(this.sprite.contentSize.width, this.sprite.contentSize.height)
+    
+    this.zOrder = G.actorZ;
 }
 
 Actor.inherit(cc.Node, {
