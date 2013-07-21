@@ -24,7 +24,7 @@ function Building(spriteName, map, node) {
         this.contentSize = new cc.Size(this.sprite.contentSize.width,
                                    this.sprite.contentSize.height);
     }
-    this.zOrder = G.buildingZ
+    this.zOrder = G.buildingZ;
 }
 
 Building.inherit(cc.Node, {
