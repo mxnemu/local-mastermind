@@ -10,7 +10,7 @@ G.defaultHqs = {
         label: "Secret HQ",
         buildingType: "hq",
         groups: ["player"],
-        sprite: "images/middleClassHouse.png",
+        sprite: "images/momsBasementHq.png",
         interior: {
             sprite: "images/momsBasementHqInterior.png",
             nodes: [
