@@ -27,6 +27,10 @@ Audiomanager.inherit(Object, {
     },
     
     playMusic: function(alias) {
+        if (!this.audios[alias]) {
+            console.warn("can not play unloaded track: ", alias);
+            return;
+        }
         if (this.music) {
             this.music.stop();
         }
