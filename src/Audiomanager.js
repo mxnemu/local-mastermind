@@ -23,6 +23,10 @@ Audiomanager.inherit(Object, {
     audios:[],
     
     play: function(alias) {
+        if (!this.audios[alias]) {
+            console.warn("can not play unloaded track: ", alias);
+            return;
+        }
         this.audios[alias].play();
     },
     
