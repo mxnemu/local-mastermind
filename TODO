@@ -3,7 +3,7 @@ Using (n,n,n) for (influence gain, suspicion gain, money gain)
 
 FIXES:
     [ ] avoid weird connections by choosing connectivity via building distance
-    [ ] when multiple policeman arrest 1 criminal multiple cells are locked
+    [ ] delete all locks when deleting a path
 
 DETAILED TODO
 1.  [x] Hire button for thugs

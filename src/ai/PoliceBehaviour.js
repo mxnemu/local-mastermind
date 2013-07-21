@@ -37,9 +37,14 @@ function PoliceBehaviour(actor) {
                             }));
                             _this.actor.speed = other.speed;
                             
+                            var othersNextAction = other.path.nextPlannedAction();
+                            if (othersNextAction && othersNextAction.name == "stayInPrison") {
+                                return;
+                            } // don't overwrite arrests (would lock more stuff)
+                            
                             other.path = _this.actor.path.copy(other);
                             if (other.path.hasSteps()) {
-                                other.path.steps.splice(other.path.length-1,1);
+                                other.path.steps.splice(other.path.steps.length-1, 1);
                             }
                             other.addActionToPath(new Action({
                                 name:"stayInPrison",
