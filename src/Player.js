@@ -42,5 +42,21 @@ Player.inherit(Observable, {
         
         // TODO add attributes for archtype
         this.archtype = data.archtype;
+        
+        this.createActor(data);
+    },
+    
+    createActor: function(data) {
+        data = data || {};
+        
+        var household = new Household(this.hq);
+        var actor = new Actor(household.home.node, "images/neet.png", household);
+        actor.role = "mastermind";
+        actor.socialClass = data.socialClass || "middle";
+        actor.behaviour = new PlayerBehaviour(actor);
+        actor.firstName = data.firstName;
+        actor.lastName = data.lastName;
+
+        this.actor = actor;
     }
 });

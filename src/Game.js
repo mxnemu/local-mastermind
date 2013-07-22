@@ -36,6 +36,7 @@ Game.inherit(Observable, {
             this.camera.jumpToMap(this.player.hq.interiorMap,
                                   this.player.hq.interiorNode);
         }
+        //this.camera.trackedEntity = this.player.actor;
     },
     
     setMap: function(map) {

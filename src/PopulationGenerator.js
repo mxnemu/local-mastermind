@@ -1,7 +1,7 @@
-function PopulationGenerator(data, buildings) {
+function PopulationGenerator(data, buildings, player) {
     this.buildings = buildings;
     this.data = data;
-    
+    this.player = player;
 }
 
 PopulationGenerator.inherit(Object, {
@@ -71,6 +71,9 @@ PopulationGenerator.inherit(Object, {
                 map.addActor(this);
             });
         });
+        this.player.actor.setAtNode(this.player.actor.home.node);
+        map.addActor(this.player.actor);
+        
     },
     
     initialRandomRelax: function() {
@@ -79,6 +82,7 @@ PopulationGenerator.inherit(Object, {
                 this.addActionToPath(new Action({name: "relax", duration: randomInRange(0,10)}));
             });
         });
+        this.player.actor.addActionToPath(new Action({name: "relax", duration: randomInRange(0,10)}));
     },
     
     createUpperClassHousehold: function(home) {
