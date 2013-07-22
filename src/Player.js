@@ -37,7 +37,7 @@ Player.inherit(Observable, {
         
         this.namePrefix = data.namePrefix;
         this.firstName = data.firstName;
-        this.lastName = data.lastName;
+        this.familyName = data.lastName;
         this.honorificTitle = data.honorificTitle;
         
         // TODO add attributes for archtype
@@ -55,7 +55,7 @@ Player.inherit(Observable, {
         actor.socialClass = data.socialClass || "middle";
         actor.behaviour = new PlayerBehaviour(actor);
         actor.firstName = data.firstName;
-        actor.lastName = data.lastName;
+        actor.familyName = data.lastName;
 
         this.actor = actor;
     }
