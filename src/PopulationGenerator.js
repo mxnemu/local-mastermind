@@ -71,7 +71,7 @@ PopulationGenerator.inherit(Object, {
                 map.addActor(this);
             });
         });
-        this.player.actor.setAtNode(this.player.actor.home.node);
+        this.player.actor.setAtNode(this.player.actor.home.interiorNode);
         map.addActor(this.player.actor);
         
     },
