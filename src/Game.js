@@ -31,6 +31,7 @@ Game.inherit(Observable, {
         this.outdoorMap = this.map;
         this.camera = new Camera(cc.Director.sharedDirector.winSize, this);
         this.ui = new Ui(this);
+        this.calendar = new GameCalendar();
         
         if (this.map.buildings.length > 0) {
             this.camera.jumpToMap(this.player.hq.interiorMap,
@@ -54,6 +55,7 @@ Game.inherit(Observable, {
     update: function(dt) {
         this.outdoorMap.update(dt);
         this.camera.update(dt);
+        this.calendar.update(dt);
     },
     
     mouseDragged: function(event) {
