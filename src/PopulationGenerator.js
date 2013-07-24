@@ -72,8 +72,6 @@ PopulationGenerator.inherit(Object, {
             });
         });
         this.player.actor.setAtNode(this.player.actor.home.interiorNode);
-        map.addActor(this.player.actor);
-        
     },
     
     initialRandomRelax: function() {
