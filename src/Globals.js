@@ -1,6 +1,7 @@
 window.G = {}
 window.G.debug = window.location.hash.match(/#debug/) ? true : false;
 window.G.noSound = window.location.hash.match(/#noSound/) ? true : false;
+window.G.noMusic = window.location.hash.match(/#music/) ? false : true;
 
 window.G.leftMouseButtonIndex = 1;
 window.G.rightMouseButtonIndex = 3;

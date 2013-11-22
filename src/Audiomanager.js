@@ -17,17 +17,39 @@ function Audiomanager() {
             console.log(format + " not supported");
         }
     }
+
+    this.soundVolume = G.noSound ? 0 : 0.65;
+    this.musicVolume = G.noMusic ? 0 : 0.65;
 }
 
 Audiomanager.inherit(Object, {
     audios:[],
+
+    setSoundVolume: function(volume) {
+	this.soundVolume = volume;
+	for (var key in this.audios) {
+	    var item = this.audios[key];
+	    if (item != this.music) {
+		item.volume = volume;
+	    }
+	}
+    },
+
+    setMusicVolume: function(volume) {
+	this.musicVolume = volume;
+	this.music.volume = volume;
+    },
     
     play: function(alias) {
-        if (!this.audios[alias]) {
+	var item = this.audios[alias];
+        if (!item) {
             console.warn("can not play unloaded track: ", alias);
             return;
         }
-        this.audios[alias].play();
+        if (!G.noSound) {
+	    item.volume = 0.65;
+	}
+	item.play();
     },
     
     playMusic: function(alias) {
@@ -44,9 +66,7 @@ Audiomanager.inherit(Object, {
         }, false);
         this.audios[alias].play();
         this.music = this.audios[alias];
-        if (!G.noSound) {
-            this.music.volume = 0.65;
-        }
+        this.music.volume = this.musicVolume;
     },
     
     // provide urls like this: {"ogg": "audio/sound.ogg", "wav": "audio/conversions/sound.ogg"}
@@ -61,9 +81,7 @@ Audiomanager.inherit(Object, {
                 this.audios[alias] = new Audio(urls[format]);
                 this.audios[alias].load();
                 console.log("loaded " + alias + " as " + format);
-                if (G.noSound) {
-                    this.audios[alias].volume = 0;
-                }
+                this.audios[alias].volume = this.soundVolume;
                 break;
             }
         }
