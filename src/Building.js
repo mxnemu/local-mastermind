@@ -1,7 +1,6 @@
 function Building(spriteName, map, node) {
     Building.superclass.constructor.call(this);
     this.node = new Node();
-    this.map = null;
     this.label = 0;
     this.buildingType = "none";
     
@@ -28,6 +27,10 @@ function Building(spriteName, map, node) {
 }
 
 Building.inherit(cc.Node, {
+
+    get map() {
+	return this.node.map;
+    },
 
     get node() {
         return this._node;

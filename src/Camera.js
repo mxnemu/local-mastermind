@@ -69,7 +69,7 @@ Camera.inherit(Observable, {
 
 	// q reset to hq
 	if (Input.instance.keysDown[81]) {
-	    this.trackedEntity = this.game.player.hq.node;
+	    this.trackedEntity = this.game.player.hq;
 	}
 
         if (moveDelta.x != 0 || moveDelta.y != 0) {
