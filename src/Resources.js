@@ -51,6 +51,7 @@ Resources.prototype.load = function() {
     this.registerResource("images/lowerClassHouseInterior.png", "image/png");
     this.registerResource("images/policeStationInterior.png", "image/png");
     this.registerResource("images/factoryInterior.png", "image/png");
+    this.registerResource("images/shopInterior.png", "image/png");
     
     this.registerResource("images/momsBasementHqInterior.png", "image/png");
 

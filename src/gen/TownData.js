@@ -225,7 +225,12 @@ G.defaultTownSettings = {
             lowerClassJobs: 2,
             middleClassJobs: 1,
             upperClassJobs: 0,
-            interior: {}
+            interior: {
+                sprite: "images/shopInterior.png",
+		nodes: [
+		    {x:400, y:780, type:"door"}
+		]
+	    }
         },
         {
             label: "Office",
