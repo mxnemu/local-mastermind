@@ -36,7 +36,7 @@ Behaviour.inherit(Object, {
                 name: "shopping",
                 duration: randomInRange(5, 15),
                 onEnd: function() {
-                    _this.actor.path.toNode(_this.actor.home.interiorNode);
+		    _this.actor.path.toNodeOfTypeInBuilding(_this.actor.home, "food");
                     _this.actor.addActionToPath(new Action({
                         name: "refillResources",
                         duration: 5,
