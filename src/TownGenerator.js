@@ -29,7 +29,11 @@ TownGenerator.inherit(Object, {
         map.setNodes(this.nodes);
         
         
-        var populationGenerator = new PopulationGenerator(this.data, this.buildings);
+        var populationGenerator = new PopulationGenerator(
+            this.data,
+            this.buildings,
+            this.player
+        );
 
 
         populationGenerator.create(map);        

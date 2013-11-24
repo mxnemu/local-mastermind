@@ -1,7 +1,6 @@
 function Building(spriteName, map, node) {
     Building.superclass.constructor.call(this);
     this.node = new Node();
-    this.map = null;
     this.label = 0;
     this.buildingType = "none";
     
@@ -24,9 +23,14 @@ function Building(spriteName, map, node) {
         this.contentSize = new cc.Size(this.sprite.contentSize.width,
                                    this.sprite.contentSize.height);
     }
+    this.zOrder = G.buildingZ;
 }
 
 Building.inherit(cc.Node, {
+
+    get map() {
+	return this.node.map;
+    },
 
     get node() {
         return this._node;
@@ -86,7 +90,7 @@ Building.inherit(cc.Node, {
             } else if (actor.socialClass == "upper") {
                this.upperClassWorkers.push(actor);
             }
-            actor.job = this;
+            actor.job = new Job(actor, this);
             return true;
         }
         return false;

@@ -1,7 +1,7 @@
-function PopulationGenerator(data, buildings) {
+function PopulationGenerator(data, buildings, player) {
     this.buildings = buildings;
     this.data = data;
-    
+    this.player = player;
 }
 
 PopulationGenerator.inherit(Object, {
@@ -71,6 +71,7 @@ PopulationGenerator.inherit(Object, {
                 map.addActor(this);
             });
         });
+        this.player.actor.setAtNode(this.player.actor.home.interiorNode);
     },
     
     initialRandomRelax: function() {
@@ -79,6 +80,7 @@ PopulationGenerator.inherit(Object, {
                 this.addActionToPath(new Action({name: "relax", duration: randomInRange(0,10)}));
             });
         });
+        this.player.actor.addActionToPath(new Action({name: "relax", duration: randomInRange(0,10)}));
     },
     
     createUpperClassHousehold: function(home) {
@@ -150,7 +152,8 @@ PopulationGenerator.inherit(Object, {
         actor.portrait = "images/policeman.png";
         actor.addChild(actor.sprite);
         actor.behaviour = new PoliceBehaviour(actor);
-        actor.speed = 2;
+        actor.patrolSpeed = 2;
+        actor.speed = actor.patrolSpeed;
     },
     
     // avoid duplicate family names and duplicate first names in 1 household

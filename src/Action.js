@@ -5,7 +5,8 @@ function Action(args) {
     this.satiety = args.satiety || -(this.duration/7);
     this.wakefulness = args.wakefulness || -(this.duration/10);
     this.onStart = args.onStart || null;
-    this.onEnd = args.onEnd || null;
+    this.onEnd = args.onEnd || null; // called when action ends normally
+    this.onStop = args.onStop || null; // TODO 100% this will be called, when action stops being in queue or active
     this.onOtherArrived = args.onOtherArrived || null;
     this.lock = args.lock || null;
     this.heat = args.heat || 0; //TODO cause heat either onArrive of others, start or end

@@ -29,6 +29,7 @@ Map.inherit(cc.Layer, {
     addBuilding: function(building) {
         this.buildings.push(building);
         this.addChild(building);
+        //building.zOrder = building.position.y;
     },
     
     removeActor: function(actor) {
@@ -41,6 +42,7 @@ Map.inherit(cc.Layer, {
     
     update: function(dt) {
         for (var i=0; i < this.actors.length; ++i) {
+            //this.actors[i].zOrder = this.actors[i].position.y;
             this.actors[i].update(dt);
         }
         for (var i=0; i < this.buildings.length; ++i) {

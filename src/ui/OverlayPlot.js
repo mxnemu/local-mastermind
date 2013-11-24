@@ -36,13 +36,17 @@ OverlayPlot.inherit(Object, {
         parent.append("<br/>");
         
         var orderButton = $("<input type='button' value='Order'></input>");
+        
         orderButton.click(function() {
             list.children().each(function() {
                 // lazy assumption that the checkbox is element 0
                 if (this.children[0].checked) {
                     var actor = $(this).data("actor");
-                    actor.path.toNode(_this.building.node);
-                    actor.addActionToPath(new Action({name:"plottingAction"}))
+                    Orders.command(
+                        actionBox.value,
+                        actor,
+                        _this.building.node
+                    );
                 }
             });
             _this.destroy();

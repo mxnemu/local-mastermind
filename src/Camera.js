@@ -67,6 +67,11 @@ Camera.inherit(Observable, {
             this.trackedEntity = null;
         }
 
+	// q reset to hq
+	if (Input.instance.keysDown[81]) {
+	    this.trackedEntity = this.game.player.hq;
+	}
+
         if (moveDelta.x != 0 || moveDelta.y != 0) {
             this.fireEvent("move", {delta: moveDelta});
             this.game.map.position.x += moveDelta.x; 
@@ -85,8 +90,8 @@ Camera.inherit(Observable, {
             var distanceToCenter = cc.ccpSub(zoomPoint, center);
             
             if (this.trackedEntity) {
-                this.centerAt(this.trackedEntity.position);
                 this.game.map.scale = newScale;
+                this.centerAt(this.trackedEntity.position);
                 return;
             }
             
