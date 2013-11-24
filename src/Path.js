@@ -62,7 +62,7 @@ Path.inherit(Object, {
     
     // TODO cross map
     toBuildingOfType: function(buildingType) {
-        var building = this.map.findClosestBuildingOfType(buildingType, this.node);
+        var building = this.actor.map.findClosestBuildingOfType(buildingType, this.actor.node);
         //var building = this.map.findBuildingOfType(buildingType);
         if (building) {
             this.toNode(building.node);
