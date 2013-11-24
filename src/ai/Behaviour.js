@@ -27,7 +27,11 @@ Behaviour.inherit(Object, {
             this.actor.household.plannedResourceAddition = (this.actor.household.maxResources -
                                                             this.actor.household.resources) *
                                                             (100-this.actor.wakefulness);
-            this.actor.path.toBuildingOfType("smallStore");
+            var shop = this.actor.path.toBuildingOfType("smallStore");
+	    if (!shop) {
+		return false;
+	    }
+	    this.actor.path.toNodeOfTypeInBuilding(shop, "buy");
             this.actor.addActionToPath(new Action({
                 name: "shopping",
                 duration: randomInRange(5, 15),
