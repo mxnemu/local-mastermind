@@ -32,6 +32,7 @@ Behaviour.inherit(Object, {
                 return false;
             }
             this.actor.path.toNodeOfTypeInBuilding(shop, "buy");
+            this.actor.path.toNodeOfTypeInBuilding(shop, "checkout");
             this.actor.addActionToPath(new Action({
                 name: "shopping",
                 duration: randomInRange(5, 15),

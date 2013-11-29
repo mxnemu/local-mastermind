@@ -230,12 +230,12 @@ G.defaultTownSettings = {
 		nodes: [
 		    {x:400, y:780, type:"door"},
 		    // block 1 (1-3)
-		    {x:400, y:80, connections:[0], type:"buy"},
+		    {x:400, y:80, connections:[0], type:"checkout"},
 		    {x:250, y:780, connections:[0], type:"buy"},
 		    {x:250, y:80, connections:[1,2], type:"buy"},
 		    // block 2 (4-5)
 		    {x:100, y:80, connections:[3], type:"buy"},
-		    {x:100, y:780, connections:[2,4], type:"buy"},
+		    {x:100, y:780, connections:[2,4], type:"work"},
 		]
 	    }
         },
