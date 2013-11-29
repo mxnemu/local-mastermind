@@ -28,15 +28,15 @@ Behaviour.inherit(Object, {
                                                             this.actor.household.resources) *
                                                             (100-this.actor.wakefulness);
             var shop = this.actor.path.toBuildingOfType("smallStore");
-	    if (!shop) {
-		return false;
-	    }
-	    this.actor.path.toNodeOfTypeInBuilding(shop, "buy");
+            if (!shop) {
+                return false;
+            }
+            this.actor.path.toNodeOfTypeInBuilding(shop, "buy");
             this.actor.addActionToPath(new Action({
                 name: "shopping",
                 duration: randomInRange(5, 15),
                 onEnd: function() {
-		    _this.actor.path.toNodeOfTypeInBuilding(_this.actor.home, "food");
+                    _this.actor.path.toNodeOfTypeInBuilding(_this.actor.home, "food");
                     _this.actor.addActionToPath(new Action({
                         name: "refillResources",
                         duration: 5,
