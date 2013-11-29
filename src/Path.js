@@ -66,16 +66,16 @@ Path.inherit(Object, {
         //var building = this.map.findBuildingOfType(buildingType);
         if (building) {
             this.toNode(building.node);
-	    return building;
+            return building;
         }
     },
     
     // TODO use real distance and not guessed directLineDistance
     toNodeOfTypeInBuilding: function(building, type) {
         if (building) {
-	    if (this.lastNode() != building.node) {
-		this.toNode(building.node);
-	    }
+            if (this.lastNode() != building.node) {
+                this.toNode(building.node);
+            }
             this.addNode(building.interiorNode); 
             var node = building.interiorMap.findClosestFreeNodeOfType(building.interiorNode, type);
             this.findPathAndAppend(node); // TODO remove
